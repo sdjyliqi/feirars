@@ -1,0 +1,1 @@
+xorm reverse mysql "test:windtest@tcp(localhost:3306)/abcd?charset=utf8mb4" templates/goxorm
