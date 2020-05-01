@@ -3,7 +3,6 @@ package utils
 import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/xorm"
-	"github.com/golang/glog"
 	"sync"
 )
 
@@ -13,12 +12,11 @@ var msqlEngine *xorm.Engine
 func InitMySQL(addr string, showSQL bool) (*xorm.Engine, error) {
 	var err error
 	mysqlOnce.Do(func() {
-		glog.V(4).Infof("[init] Initialize mysql client for addr is %s, ShowSQL is %v", addr, showSQL)
 		msqlEngine, err = xorm.NewEngine("mysql", addr)
 		msqlEngine.ShowSQL(showSQL)
 
 		if err != nil {
-			glog.Errorf("[init] Initialize mysql client for addr %s failed,err:%+v,please check the config.", addr)
+			//glog.Errorf("[init] Initialize mysql client for addr %s failed,err:%+v,please check the config.", addr)
 		}
 	})
 	return msqlEngine, err
