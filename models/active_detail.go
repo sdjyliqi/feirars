@@ -2,6 +2,7 @@ package models
 
 import (
 	"github.com/go-xorm/xorm"
+	"github.com/golang/glog"
 	"time"
 )
 
