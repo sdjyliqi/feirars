@@ -1,7 +1,6 @@
 package handle
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
 	"net/http"
@@ -18,22 +17,16 @@ type PingbackArgs struct {
 func HandlePingbak(c *gin.Context) {
 	header := c.Request.Header
 	glog.Info(header)
-	var requestArgs PingbackArgs
-	err := c.ShouldBind(&requestArgs)
-	fmt.Println(err, requestArgs)
-	//evType := c.DefaultQuery("type", "install")
-	//strPageID := c.DefaultQuery("page", "1")
-	//strPageCount := c.DefaultQuery("pcount", "20")
-	//pageID, errPageID := strconv.Atoi(strPageID)
-	//pageCount, errpageCount := strconv.Atoi(strPageCount)
-	if err != nil {
+	var reqArgs PingbackArgs
+	err := c.ShouldBind(&reqArgs)
+	if err != nil || reqArgs.PageID <= 0 || reqArgs.PageCount <= 0 || reqArgs.TimeEnd <= 0 {
 		c.JSON(http.StatusOK, gin.H{"code": 400, "msg": "参数错误"})
 		return
 	}
-	switch requestArgs.ModuleName {
+	switch reqArgs.ModuleName {
 	case "install":
 		cols := PingbackCenter.GetInstallDetailCols()
-		items, count, err := PingbackCenter.GetInstallDetailItems(requestArgs.PageID, requestArgs.PageCount)
+		items, count, err := PingbackCenter.GetInstallDetailItems(reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -42,7 +35,7 @@ func HandlePingbak(c *gin.Context) {
 		return
 	case "uninstall":
 		cols := PingbackCenter.GetUninstallDetailCols()
-		items, count, err := PingbackCenter.GetUninstallDetailItems(requestArgs.PageID, requestArgs.PageCount)
+		items, count, err := PingbackCenter.GetUninstallDetailItems(reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -52,17 +45,16 @@ func HandlePingbak(c *gin.Context) {
 
 	case "active":
 		cols := PingbackCenter.GetActiveDetailCols()
-		items, count, err := PingbackCenter.GetActiveDetailItems(requestArgs.PageID, requestArgs.PageCount)
+		items, count, err := PingbackCenter.GetActiveDetailItems(reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
 		}
 		c.JSON(http.StatusOK, gin.H{"code": 0, "cols": cols, "items": items, "total": count})
 		return
-
 	case "news":
 		cols := PingbackCenter.GetNewsDetailCols()
-		items, count, err := PingbackCenter.GetNewsDetailItems(requestArgs.PageID, requestArgs.PageCount)
+		items, count, err := PingbackCenter.GetNewsDetailItems(reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -72,7 +64,7 @@ func HandlePingbak(c *gin.Context) {
 
 	case "preserve":
 		cols := PingbackCenter.GetPreserveDetailCols()
-		items, count, err := PingbackCenter.GetPreserveDetailItems(requestArgs.PageID, requestArgs.PageCount)
+		items, count, err := PingbackCenter.GetPreserveDetailItems(reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -81,7 +73,7 @@ func HandlePingbak(c *gin.Context) {
 		return
 	case "feirar":
 		cols := PingbackCenter.GetFeirarDetailCols()
-		items, count, err := PingbackCenter.GetFeirarDetailItems(requestArgs.PageID, requestArgs.PageCount)
+		items, count, err := PingbackCenter.GetFeirarDetailItems(reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -90,13 +82,4 @@ func HandlePingbak(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"code": 400, "msg": "type参数错误"})
-}
-
-func HandlePingbakInstall(c *gin.Context, pageID, pageCount int) {
-	cols := PingbackCenter.GetInstallDetailCols()
-	items, count, err := PingbackCenter.GetInstallDetailItems(pageID, pageCount)
-	if err != nil {
-		c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
-	}
-	c.JSON(http.StatusOK, gin.H{"code": 0, "cols": cols, "items": items, "total": count})
 }
