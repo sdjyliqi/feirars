@@ -9,8 +9,9 @@ import (
 
 //Test_InitMysql ...测试mysql初始化功能
 func Test_InitMysql(t *testing.T) {
-	_, err := TestMysql.Exec("show tables")
+	tables, err := TestMysql.Exec("show tables")
 	assert.Nil(t, err)
+	t.Log(tables)
 }
 
 //Test_InitRedis  ...测试redis初始化功能

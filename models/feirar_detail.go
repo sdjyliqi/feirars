@@ -1,8 +1,10 @@
 package models
 
 import (
+	"fmt"
 	"github.com/go-xorm/xorm"
 	"github.com/golang/glog"
+	"github.com/sdjyliqi/feirars/utils"
 	"time"
 )
 
@@ -22,16 +24,26 @@ func (t FeirarDetail) TableName() string {
 }
 type FeirarDetailWeb struct {
 	Id         int       `json:"id" `
-	EventDay   time.Time `json:"event_day" `
+	EventDay   string `json:"event_day" `
 	Channel    string    `json:"channel" `
 	EventKey   string    `json:"event_key"`
-	Pv         int       `json:"pv" `
-	Uv         int       `json:"uv" `
-	LastUpdate time.Time `json:"last_update"`
+	Pv         string       `json:"pv" `
+	Uv         string       `json:"uv" `
+	LastUpdate string `json:"last_update"`
 	Detail     string    `json:"detail"`
 }
 
-
+func (t FeirarDetail) CovertWebItem(item *FeirarDetail) FeirarDetailWeb {
+	webItem := FeirarDetailWeb{
+		EventDay:   item.EventDay.Format(utils.DayTime),
+		Channel: item.Channel,
+		EventKey: item.EventKey,
+		Pv:         fmt.Sprintf("%d",item.Pv),
+		Uv:         fmt.Sprintf("%d",item.Uv),
+		LastUpdate: item.LastUpdate.Format(utils.FullTime),
+	}
+	return webItem
+}
 func (t FeirarDetail) Cols() []map[string]string {
 	var cols []map[string]string
 	col_event_day := map[string]string{
@@ -70,14 +82,20 @@ func (t FeirarDetail) Cols() []map[string]string {
 	return cols
 }
 
-func (t FeirarDetail) GetItemsByPage(client *xorm.Engine, pageCount,pageID int) ([]*FeirarDetail, error) {
+func (t FeirarDetail) GetItemsByPage(client *xorm.Engine, pageID,pageCount int) ([]*FeirarDetail,int64, error) {
 	var items []*FeirarDetail
+	 item := FeirarDetail{}
 	err := client.Desc("event_day").Limit(pageCount,pageCount*(pageID-1)).Find(&items)
 	if err != nil {
 		glog.Errorf("[mysql]Get the items for from table %s failed,err:%+v", t.TableName(), err)
-		return nil, err
+		return nil, 0,err
 	}
-	return items, nil
+	cnt,err := client.Count(item)
+	if err != nil {
+		glog.Errorf("[mysql]Get the count of items for from table %s failed,err:%+v", t.TableName(), err)
+		return nil,0, err
+	}
+	return items,cnt, nil
 }
 
 

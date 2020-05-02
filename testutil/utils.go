@@ -22,12 +22,12 @@ func init() {
 		TestCfg = conf.DefaultConfig
 
 		//初始化一下mysql
-		utils.InitMySQL(TestCfg.DBMysql, true)
+		TestMysql,_ =utils.InitMySQL(TestCfg.DBMysql, true)
 		TestMysql = utils.GetMysqlClient()
-
+		TestMysql.ShowSQL(true)
 		//初始化一下redis
-		utils.InitRedisClients(TestCfg.DBRedis)
-		TestRedis = utils.GetRedisClient()
+		//utils.InitRedisClients(TestCfg.DBRedis)
+		//TestRedis = utils.GetRedisClient()
 
 	})
 }

@@ -1,8 +1,10 @@
 package models
 
 import (
+	"fmt"
 	"github.com/go-xorm/xorm"
 	"github.com/golang/glog"
+	"github.com/sdjyliqi/feirars/utils"
 	"time"
 )
 
@@ -23,11 +25,21 @@ type ActiveDetailWeb struct {
 	Pv         string `json:"pv"`
 	Uv         string `json:"uv"`
 	LastUpdate string `json:"last_update" `
-	Detail     string `json:"detail"`
 }
 
 func (t ActiveDetail) TableName() string {
 	return "active_detail"
+}
+
+func (t ActiveDetail) CovertWebItem(item *ActiveDetail) ActiveDetailWeb {
+	webItem := ActiveDetailWeb{
+		EventDay:   item.EventDay.Format(utils.DayTime),
+		ActiveMode: item.ActiveMode,
+		Pv:         fmt.Sprintf("%d",item.Pv),
+		Uv:         fmt.Sprintf("%d",item.Uv),
+		LastUpdate: item.LastUpdate.Format(utils.FullTime),
+	}
+	return webItem
 }
 
 //Cols ...用户web显示使用
@@ -61,12 +73,18 @@ func (t ActiveDetail) Cols() []map[string]string {
 	return cols
 }
 
-func (t ActiveDetail) GetItemsByPage(client *xorm.Engine, pageCount,pageID int) ([]*ActiveDetail, error) {
+func (t ActiveDetail) GetItemsByPage(client *xorm.Engine, pageID,pageCount int) ([]*ActiveDetail,int64, error) {
 	var items []*ActiveDetail
+	 item :=&ActiveDetail{}
 	err := client.Desc("event_day").Limit(pageCount,pageCount*(pageID-1)).Find(&items)
 	if err != nil {
 		glog.Errorf("[mysql]Get the items for from table %s failed,err:%+v", t.TableName(), err)
-		return nil, err
+		return nil,0, err
 	}
-	return items, nil
+	cnt,err := client.Count(item)
+	if err != nil {
+		glog.Errorf("[mysql]Get the count of items for from table %s failed,err:%+v", t.TableName(), err)
+		return nil,0, err
+	}
+	return items,cnt, nil
 }
