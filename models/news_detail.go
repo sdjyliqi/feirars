@@ -1,6 +1,8 @@
 package models
 
 import (
+	"fmt"
+	"github.com/sdjyliqi/feirars/utils"
 	"time"
 )
 
@@ -16,20 +18,31 @@ type NewsDetail struct {
 }
 
 type NewsDetailWeb struct {
-	Id         int       `json:"id" `
+	Id         int    `json:"id" `
 	EventDay   string `json:"event_day" `
-	Channel    string    `json:"channel" `
-	EventType  string    `json:"event_type" `
-	Pv         string       `json:"pv" `
-	Uv         string       `json:"uv" `
+	Channel    string `json:"channel" `
+	EventType  string `json:"event_type" `
+	Pv         string `json:"pv" `
+	Uv         string `json:"uv" `
 	LastUpdate string `json:"last_update" `
-	Detail     string    `json:"detail"`
+	Detail     string `json:"detail"`
 }
 
 func (t NewsDetail) TableName() string {
 	return "news_detail"
 }
 
+func (t NewsDetail) CovertWebItem(item *NewsDetail) NewsDetailWeb {
+	webItem := NewsDetailWeb{
+		EventDay:   item.EventDay.Format(utils.DayTime),
+		Channel:    item.Channel,
+		EventType:  item.EventType,
+		Pv:         fmt.Sprintf("%d", item.Pv),
+		Uv:         fmt.Sprintf("%d", item.Uv),
+		LastUpdate: item.LastUpdate.Format(utils.FullTime),
+	}
+	return webItem
+}
 
 //Cols ...用户web显示使用
 func (t NewsDetail) Cols() []map[string]string {

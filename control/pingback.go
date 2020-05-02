@@ -8,24 +8,24 @@ import (
 )
 
 type PingbackCenter interface {
-	GetActiveDetailItems(pageID,pageCount int) ([]models.ActiveDetailWeb,int64,error)    //按照页面获取统计激活方式数据
-	GetFeirarDetailItems(pageID,pageCount int) ([]models.FeirarDetailWeb,int64,error)    //按照页面获取统计激活方式数据
+	GetActiveDetailItems(pageID, pageCount int) ([]models.ActiveDetailWeb, int64, error)   //按照页面获取统计激活方式数据
+	GetFeirarDetailItems(pageID, pageCount int) ([]models.FeirarDetailWeb, int64, error)   //按照页面获取统计激活方式数据
+	GetInstallDetailItems(pageID, pageCount int) ([]models.InstallDetailWeb, int64, error) //按照安装统计数据
 }
 
 type pingbackCenter struct {
-	db    *xorm.Engine
-	cfg   *conf.BITConfig
-	activeDetail models.ActiveDetail
-	feirarDetail models.FeirarDetail
-	installDetail models.InstallDetail
+	db              *xorm.Engine
+	cfg             *conf.BITConfig
+	activeDetail    models.ActiveDetail
+	feirarDetail    models.FeirarDetail
+	installDetail   models.InstallDetail
 	uninstallDetail models.UninstallDetail
-	newsDetail models.NewsDetail
-	preserveDetail models.PreserveDetail
-	
+	newsDetail      models.NewsDetail
+	preserveDetail  models.PreserveDetail
 }
 
 func CreatePingbackCenter(cfg *conf.BITConfig) PingbackCenter {
-	 utils.InitMySQL(cfg.DBMysql, false)
+	utils.InitMySQL(cfg.DBMysql, false)
 	return &pingbackCenter{
 		db:              utils.GetMysqlClient(),
 		cfg:             cfg,

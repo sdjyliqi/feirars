@@ -1,8 +1,10 @@
 package models
 
 import (
+	"fmt"
 	"github.com/go-xorm/xorm"
 	"github.com/golang/glog"
+	"github.com/sdjyliqi/feirars/utils"
 	"time"
 )
 
@@ -28,6 +30,17 @@ type InstallDetailWeb struct {
 
 func (t InstallDetail) TableName() string {
 	return "install_detail"
+}
+
+func (t InstallDetail) CovertWebItem(item *InstallDetail) InstallDetailWeb {
+	webItem := InstallDetailWeb{
+		EventDay:   item.EventDay.Format(utils.DayTime),
+		Channel:    item.Channel,
+		Pv:         fmt.Sprintf("%d", item.Pv),
+		Uv:         fmt.Sprintf("%d", item.Uv),
+		LastUpdate: item.LastUpdate.Format(utils.FullTime),
+	}
+	return webItem
 }
 
 //Cols ...用户web显示使用
@@ -60,12 +73,19 @@ func (t InstallDetail) Cols() []map[string]string {
 	cols = append(cols, col_last_update)
 	return cols
 }
-func (t InstallDetail) GetItemsByPage(client *xorm.Engine, pageCount,pageID int) ([]*InstallDetail, error) {
+
+func (t InstallDetail) GetItemsByPage(client *xorm.Engine, pageID, pageCount int) ([]*InstallDetail, int64, error) {
 	var items []*InstallDetail
-	err := client.Desc("event_day").Limit(pageCount,pageCount*(pageID-1)).Find(&items)
+	item := &InstallDetail{}
+	err := client.Desc("event_day").Limit(pageCount, pageCount*(pageID-1)).Find(&items)
 	if err != nil {
 		glog.Errorf("[mysql]Get the items for from table %s failed,err:%+v", t.TableName(), err)
-		return nil, err
+		return nil, 0, err
 	}
-	return items, nil
+	cnt, err := client.Count(item)
+	if err != nil {
+		glog.Errorf("[mysql]Get the count of items for from table %s failed,err:%+v", t.TableName(), err)
+		return nil, 0, err
+	}
+	return items, cnt, nil
 }
