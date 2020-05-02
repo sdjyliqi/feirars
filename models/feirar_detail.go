@@ -22,24 +22,25 @@ type FeirarDetail struct {
 func (t FeirarDetail) TableName() string {
 	return "feirar_detail"
 }
+
 type FeirarDetailWeb struct {
-	Id         int       `json:"id" `
+	Id         int    `json:"id" `
 	EventDay   string `json:"event_day" `
-	Channel    string    `json:"channel" `
-	EventKey   string    `json:"event_key"`
-	Pv         string       `json:"pv" `
-	Uv         string       `json:"uv" `
+	Channel    string `json:"channel" `
+	EventKey   string `json:"event_key"`
+	Pv         string `json:"pv" `
+	Uv         string `json:"uv" `
 	LastUpdate string `json:"last_update"`
-	Detail     string    `json:"detail"`
+	Detail     string `json:"detail"`
 }
 
 func (t FeirarDetail) CovertWebItem(item *FeirarDetail) FeirarDetailWeb {
 	webItem := FeirarDetailWeb{
 		EventDay:   item.EventDay.Format(utils.DayTime),
-		Channel: item.Channel,
-		EventKey: item.EventKey,
-		Pv:         fmt.Sprintf("%d",item.Pv),
-		Uv:         fmt.Sprintf("%d",item.Uv),
+		Channel:    item.Channel,
+		EventKey:   item.EventKey,
+		Pv:         fmt.Sprintf("%d", item.Pv),
+		Uv:         fmt.Sprintf("%d", item.Uv),
 		LastUpdate: item.LastUpdate.Format(utils.FullTime),
 	}
 	return webItem
@@ -62,7 +63,6 @@ func (t FeirarDetail) Cols() []map[string]string {
 	}
 	cols = append(cols, col_event_key)
 
-
 	cols = append(cols, col_active_mode)
 	col_pv := map[string]string{
 		"name": "pv",
@@ -82,20 +82,18 @@ func (t FeirarDetail) Cols() []map[string]string {
 	return cols
 }
 
-func (t FeirarDetail) GetItemsByPage(client *xorm.Engine, pageID,pageCount int) ([]*FeirarDetail,int64, error) {
+func (t FeirarDetail) GetItemsByPage(client *xorm.Engine, pageID, pageCount int, tsStart, tsEnd int64) ([]*FeirarDetail, int64, error) {
 	var items []*FeirarDetail
-	 item := FeirarDetail{}
-	err := client.Desc("event_day").Limit(pageCount,pageCount*(pageID-1)).Find(&items)
+	item := FeirarDetail{}
+	err := client.Desc("event_day").Limit(pageCount, pageCount*(pageID-1)).Find(&items)
 	if err != nil {
 		glog.Errorf("[mysql]Get the items for from table %s failed,err:%+v", t.TableName(), err)
-		return nil, 0,err
+		return nil, 0, err
 	}
-	cnt,err := client.Count(item)
+	cnt, err := client.Count(item)
 	if err != nil {
 		glog.Errorf("[mysql]Get the count of items for from table %s failed,err:%+v", t.TableName(), err)
-		return nil,0, err
+		return nil, 0, err
 	}
-	return items,cnt, nil
+	return items, cnt, nil
 }
-
-

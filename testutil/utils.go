@@ -22,7 +22,7 @@ func init() {
 		TestCfg = conf.DefaultConfig
 
 		//初始化一下mysql
-		TestMysql,_ =utils.InitMySQL(TestCfg.DBMysql, true)
+		TestMysql, _ = utils.InitMySQL(TestCfg.DBMysql, true)
 		TestMysql = utils.GetMysqlClient()
 		TestMysql.ShowSQL(true)
 		//初始化一下redis

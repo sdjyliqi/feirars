@@ -74,7 +74,7 @@ func (t InstallDetail) Cols() []map[string]string {
 	return cols
 }
 
-func (t InstallDetail) GetItemsByPage(client *xorm.Engine, pageID, pageCount int) ([]*InstallDetail, int64, error) {
+func (t InstallDetail) GetItemsByPage(client *xorm.Engine, pageID, pageCount int, tsStart, tsEnd int64) ([]*InstallDetail, int64, error) {
 	var items []*InstallDetail
 	item := &InstallDetail{}
 	err := client.Desc("event_day").Limit(pageCount, pageCount*(pageID-1)).Find(&items)

@@ -35,8 +35,8 @@ func (t ActiveDetail) CovertWebItem(item *ActiveDetail) ActiveDetailWeb {
 	webItem := ActiveDetailWeb{
 		EventDay:   item.EventDay.Format(utils.DayTime),
 		ActiveMode: item.ActiveMode,
-		Pv:         fmt.Sprintf("%d",item.Pv),
-		Uv:         fmt.Sprintf("%d",item.Uv),
+		Pv:         fmt.Sprintf("%d", item.Pv),
+		Uv:         fmt.Sprintf("%d", item.Uv),
 		LastUpdate: item.LastUpdate.Format(utils.FullTime),
 	}
 	return webItem
@@ -73,18 +73,18 @@ func (t ActiveDetail) Cols() []map[string]string {
 	return cols
 }
 
-func (t ActiveDetail) GetItemsByPage(client *xorm.Engine, pageID,pageCount int) ([]*ActiveDetail,int64, error) {
+func (t ActiveDetail) GetItemsByPage(client *xorm.Engine, pageID, pageCount int, tsStart, tsEnd int64) ([]*ActiveDetail, int64, error) {
 	var items []*ActiveDetail
-	 item :=&ActiveDetail{}
-	err := client.Desc("event_day").Limit(pageCount,pageCount*(pageID-1)).Find(&items)
+	item := &ActiveDetail{}
+	err := client.Desc("event_day").Limit(pageCount, pageCount*(pageID-1)).Find(&items)
 	if err != nil {
 		glog.Errorf("[mysql]Get the items for from table %s failed,err:%+v", t.TableName(), err)
-		return nil,0, err
+		return nil, 0, err
 	}
-	cnt,err := client.Count(item)
+	cnt, err := client.Count(item)
 	if err != nil {
 		glog.Errorf("[mysql]Get the count of items for from table %s failed,err:%+v", t.TableName(), err)
-		return nil,0, err
+		return nil, 0, err
 	}
-	return items,cnt, nil
+	return items, cnt, nil
 }
