@@ -1,6 +1,8 @@
 package models
 
 import (
+	"github.com/go-xorm/xorm"
+	"github.com/golang/glog"
 	"time"
 )
 
@@ -57,4 +59,13 @@ func (t InstallDetail) Cols() []map[string]string {
 	}
 	cols = append(cols, col_last_update)
 	return cols
+}
+func (t InstallDetail) GetItemsByPage(client *xorm.Engine, pageCount,pageID int) ([]*InstallDetail, error) {
+	var items []*InstallDetail
+	err := client.Desc("event_day").Limit(pageCount,pageCount*(pageID-1)).Find(&items)
+	if err != nil {
+		glog.Errorf("[mysql]Get the items for from table %s failed,err:%+v", t.TableName(), err)
+		return nil, err
+	}
+	return items, nil
 }
