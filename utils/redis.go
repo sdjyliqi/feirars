@@ -1,13 +1,13 @@
 package utils
 
 import (
+	"github.com/golang/glog"
 	"net/url"
 	"regexp"
 	"strconv"
 	"sync"
 
 	"github.com/go-redis/redis"
-	"github.com/golang/glog"
 )
 
 var redisOnce sync.Once
@@ -26,7 +26,7 @@ func parseRedisAddr(addr string) (host string, password string, db int) {
 		db = int(db64)
 		password, _ = u.User.Password()
 	}
-	//glog.V(4).Infof("parse redis URI. addr = %s, host = %s, db = %d", safeRedisAddr(addr), host, db)
+	glog.V(4).Infof("parse redis URI. addr = %s, host = %s, db = %d", safeRedisAddr(addr), host, db)
 	return
 }
 
