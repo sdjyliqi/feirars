@@ -139,12 +139,17 @@ func (t PreserveDetail) Cols() []map[string]string {
 func (t PreserveDetail) GetItemsByPage(client *xorm.Engine, pageID, pageCount int, tsStart, tsEnd int64) ([]*PreserveDetail, int64, error) {
 	var items []*PreserveDetail
 	item := &PreserveDetail{}
-	err := client.Desc("event_time").Limit(pageCount, pageCount*(pageID-1)).Find(&items)
+	timeTS, timeTE := utils.ConvertToTime(tsStart), utils.ConvertToTime(tsEnd)
+	err := client.
+		Where("event_time>=?", timeTS).And("event_time<=?", timeTE).
+		Desc("event_time").
+		Limit(pageCount, pageCount*(pageID-1)).
+		Find(&items)
 	if err != nil {
 		glog.Errorf("[mysql]Get the items for from table %s failed,err:%+v", t.TableName(), err)
 		return nil, 0, err
 	}
-	cnt, err := client.Count(item)
+	cnt, err := client.Where("event_time>=?", timeTS).And("event_time<=?", timeTE).Count(item)
 	if err != nil {
 		glog.Errorf("[mysql]Get the count of items for from table %s failed,err:%+v", t.TableName(), err)
 		return nil, 0, err

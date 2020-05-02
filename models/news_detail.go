@@ -87,12 +87,17 @@ func (t NewsDetail) Cols() []map[string]string {
 func (t NewsDetail) GetItemsByPage(client *xorm.Engine, pageID, pageCount int, tsStart, tsEnd int64) ([]*NewsDetail, int64, error) {
 	var items []*NewsDetail
 	item := &NewsDetail{}
-	err := client.Desc("event_day").Limit(pageCount, pageCount*(pageID-1)).Find(&items)
+	timeTS, timeTE := utils.ConvertToTime(tsStart), utils.ConvertToTime(tsEnd)
+	err := client.
+		Where("event_day>=?", timeTS).And("event_day<=?", timeTE).
+		Desc("event_day").
+		Limit(pageCount, pageCount*(pageID-1)).
+		Find(&items)
 	if err != nil {
 		glog.Errorf("[mysql]Get the items for from table %s failed,err:%+v", t.TableName(), err)
 		return nil, 0, err
 	}
-	cnt, err := client.Count(item)
+	cnt, err := client.Where("event_day>=?", timeTS).And("event_day<=?", timeTE).Count(item)
 	if err != nil {
 		glog.Errorf("[mysql]Get the count of items for from table %s failed,err:%+v", t.TableName(), err)
 		return nil, 0, err
