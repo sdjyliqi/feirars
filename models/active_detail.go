@@ -2,6 +2,7 @@ package models
 
 import (
 	"github.com/go-xorm/xorm"
+	"github.com/golang/glog"
 	"time"
 )
 
@@ -64,7 +65,7 @@ func (t ActiveDetail) GetItemsByPage(client *xorm.Engine, pageCount,pageID int) 
 	var items []*ActiveDetail
 	err := client.Desc("event_day").Limit(pageCount,pageCount*(pageID-1)).Find(&items)
 	if err != nil {
-		//glog.Errorf("[mysql]Get the items for from table %s failed,err:%+v", t.TableName(), err)
+		glog.Errorf("[mysql]Get the items for from table %s failed,err:%+v", t.TableName(), err)
 		return nil, err
 	}
 	return items, nil
