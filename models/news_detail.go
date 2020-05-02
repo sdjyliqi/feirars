@@ -2,6 +2,8 @@ package models
 
 import (
 	"fmt"
+	"github.com/go-xorm/xorm"
+	"github.com/golang/glog"
 	"github.com/sdjyliqi/feirars/utils"
 	"time"
 )
@@ -80,4 +82,20 @@ func (t NewsDetail) Cols() []map[string]string {
 	}
 	cols = append(cols, col_last_update)
 	return cols
+}
+
+func (t NewsDetail) GetItemsByPage(client *xorm.Engine, pageID, pageCount int) ([]*NewsDetail, int64, error) {
+	var items []*NewsDetail
+	item := &NewsDetail{}
+	err := client.Desc("event_day").Limit(pageCount, pageCount*(pageID-1)).Find(&items)
+	if err != nil {
+		glog.Errorf("[mysql]Get the items for from table %s failed,err:%+v", t.TableName(), err)
+		return nil, 0, err
+	}
+	cnt, err := client.Count(item)
+	if err != nil {
+		glog.Errorf("[mysql]Get the count of items for from table %s failed,err:%+v", t.TableName(), err)
+		return nil, 0, err
+	}
+	return items, cnt, nil
 }

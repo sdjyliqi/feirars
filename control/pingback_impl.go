@@ -45,3 +45,44 @@ func (pc *pingbackCenter) GetInstallDetailItems(pageID, pageCount int) ([]models
 	}
 	return webItems, count, nil
 }
+
+func (pc *pingbackCenter) GetUninstallDetailItems(pageID, pageCount int) ([]models.UninstallDetailWeb, int64, error) {
+	items, count, err := pc.uninstallDetail.GetItemsByPage(pc.db, pageID, pageCount)
+	if err != nil {
+		return nil, 0, nil
+	}
+	webItems := make([]models.UninstallDetailWeb, 0, len(items))
+	for _, v := range items {
+		wItem := pc.uninstallDetail.CovertWebItem(v)
+		webItems = append(webItems, wItem)
+	}
+	return webItems, count, nil
+}
+
+//GetNewsDetailItems ...获取客户端咨询弹窗相关接口
+func (pc *pingbackCenter) GetNewsDetailItems(pageID, pageCount int) ([]models.NewsDetailWeb, int64, error) {
+	items, count, err := pc.newsDetail.GetItemsByPage(pc.db, pageID, pageCount)
+	if err != nil {
+		return nil, 0, nil
+	}
+	webItems := make([]models.NewsDetailWeb, 0, len(items))
+	for _, v := range items {
+		wItem := pc.newsDetail.CovertWebItem(v)
+		webItems = append(webItems, wItem)
+	}
+	return webItems, count, nil
+}
+
+//GetPreserveDetailItems ...获取留存统计相关数据
+func (pc *pingbackCenter) GetPreserveDetailItems(pageID, pageCount int) ([]models.PreserveDetailWeb, int64, error) {
+	items, count, err := pc.preserveDetail.GetItemsByPage(pc.db, pageID, pageCount)
+	if err != nil {
+		return nil, 0, nil
+	}
+	webItems := make([]models.PreserveDetailWeb, 0, len(items))
+	for _, v := range items {
+		wItem := pc.preserveDetail.CovertWebItem(v)
+		webItems = append(webItems, wItem)
+	}
+	return webItems, count, nil
+}

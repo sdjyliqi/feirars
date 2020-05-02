@@ -8,9 +8,12 @@ import (
 )
 
 type PingbackCenter interface {
-	GetActiveDetailItems(pageID, pageCount int) ([]models.ActiveDetailWeb, int64, error)   //按照页面获取统计激活方式数据
-	GetFeirarDetailItems(pageID, pageCount int) ([]models.FeirarDetailWeb, int64, error)   //按照页面获取统计激活方式数据
-	GetInstallDetailItems(pageID, pageCount int) ([]models.InstallDetailWeb, int64, error) //按照安装统计数据
+	GetActiveDetailItems(pageID, pageCount int) ([]models.ActiveDetailWeb, int64, error)       //获取客户的激活方式统计数据
+	GetFeirarDetailItems(pageID, pageCount int) ([]models.FeirarDetailWeb, int64, error)       //获取feirar请求统计数据
+	GetInstallDetailItems(pageID, pageCount int) ([]models.InstallDetailWeb, int64, error)     //获取安装统计数据
+	GetUninstallDetailItems(pageID, pageCount int) ([]models.UninstallDetailWeb, int64, error) //获取卸载统计数据
+	GetNewsDetailItems(pageID, pageCount int) ([]models.NewsDetailWeb, int64, error)           //获取客户端弹窗统计数据
+	GetPreserveDetailItems(pageID, pageCount int) ([]models.PreserveDetailWeb, int64, error)   //获取留存统计数据
 }
 
 type pingbackCenter struct {

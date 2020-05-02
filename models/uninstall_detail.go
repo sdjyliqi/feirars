@@ -1,6 +1,10 @@
 package models
 
 import (
+	"fmt"
+	"github.com/go-xorm/xorm"
+	"github.com/golang/glog"
+	"github.com/sdjyliqi/feirars/utils"
 	"time"
 )
 
@@ -15,19 +19,29 @@ type UninstallDetail struct {
 }
 
 type UninstallDetailWeb struct {
-	Id         string       `json:"id" `
+	Id         string `json:"id" `
 	EventDay   string `json:"event_day" `
-	Channel    string    `json:"channel" `
-	Pv         string       `json:"pv" `
-	Uv         string       `json:"uv" `
+	Channel    string `json:"channel" `
+	Pv         string `json:"pv" `
+	Uv         string `json:"uv" `
 	LastUpdate string `json:"last_update" `
-	Detail     string    `json:"detail" `
+	Detail     string `json:"detail" `
 }
 
 func (t UninstallDetail) TableName() string {
 	return "uninstall_detail"
 }
 
+func (t UninstallDetail) CovertWebItem(item *UninstallDetail) UninstallDetailWeb {
+	webItem := UninstallDetailWeb{
+		EventDay:   item.EventDay.Format(utils.DayTime),
+		Channel:    item.Channel,
+		Pv:         fmt.Sprintf("%d", item.Pv),
+		Uv:         fmt.Sprintf("%d", item.Uv),
+		LastUpdate: item.LastUpdate.Format(utils.FullTime),
+	}
+	return webItem
+}
 
 //Cols ...用户web显示使用
 func (t UninstallDetail) Cols() []map[string]string {
@@ -60,4 +74,20 @@ func (t UninstallDetail) Cols() []map[string]string {
 	}
 	cols = append(cols, col_last_update)
 	return cols
+}
+
+func (t UninstallDetail) GetItemsByPage(client *xorm.Engine, pageID, pageCount int) ([]*UninstallDetail, int64, error) {
+	var items []*UninstallDetail
+	item := &UninstallDetail{}
+	err := client.Desc("event_day").Limit(pageCount, pageCount*(pageID-1)).Find(&items)
+	if err != nil {
+		glog.Errorf("[mysql]Get the items for from table %s failed,err:%+v", t.TableName(), err)
+		return nil, 0, err
+	}
+	cnt, err := client.Count(item)
+	if err != nil {
+		glog.Errorf("[mysql]Get the count of items for from table %s failed,err:%+v", t.TableName(), err)
+		return nil, 0, err
+	}
+	return items, cnt, nil
 }

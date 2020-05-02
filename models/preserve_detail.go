@@ -1,6 +1,10 @@
 package models
 
 import (
+	"fmt"
+	"github.com/go-xorm/xorm"
+	"github.com/golang/glog"
+	"github.com/sdjyliqi/feirars/utils"
 	"time"
 )
 
@@ -20,22 +24,40 @@ type PreserveDetail struct {
 	LastUpdate time.Time `json:"last_update" xorm:"DATETIME"`
 }
 type PreserveDetailWeb struct {
-	Id         string       `json:"id" `
+	Id         string `json:"id" `
 	EventTime  string `json:"event_time" `
-	Uv         string       `json:"uv" `
-	NewUv      string       `json:"new_uv" `
-	Day1Active string       `json:"day1_active"`
-	Day2Active string       `json:"day2_active" `
-	Day3Active string       `json:"day3_active" `
-	Day4Active string       `json:"day4_active"`
-	Day5Active string       `json:"day5_active" `
-	Day6Active string       `json:"day6_active"`
-	WeekActive string       `json:"week_active" `
-	Detail     string    `json:"detail" `
+	Uv         string `json:"uv" `
+	NewUv      string `json:"new_uv" `
+	Day1Active string `json:"day1_active"`
+	Day2Active string `json:"day2_active" `
+	Day3Active string `json:"day3_active" `
+	Day4Active string `json:"day4_active"`
+	Day5Active string `json:"day5_active" `
+	Day6Active string `json:"day6_active"`
+	WeekActive string `json:"week_active" `
+	Detail     string `json:"detail" `
 	LastUpdate string `json:"last_update" `
 }
+
 func (t PreserveDetail) TableName() string {
 	return "preserve_detail"
+}
+
+func (t PreserveDetail) CovertWebItem(item *PreserveDetail) PreserveDetailWeb {
+	webItem := PreserveDetailWeb{
+		EventTime:  item.EventTime.Format(utils.DayTime),
+		Uv:         fmt.Sprintf("%d", item.Uv),
+		NewUv:      fmt.Sprintf("%d", item.NewUv),
+		Day1Active: fmt.Sprintf("%d", item.Day1Active),
+		Day2Active: fmt.Sprintf("%d", item.Day2Active),
+		Day3Active: fmt.Sprintf("%d", item.Day3Active),
+		Day4Active: fmt.Sprintf("%d", item.Day4Active),
+		Day5Active: fmt.Sprintf("%d", item.Day5Active),
+		Day6Active: fmt.Sprintf("%d", item.Day6Active),
+		WeekActive: fmt.Sprintf("%d", item.WeekActive),
+		LastUpdate: item.LastUpdate.Format(utils.FullTime),
+	}
+	return webItem
 }
 
 //Cols ...用户web显示使用
@@ -112,4 +134,20 @@ func (t PreserveDetail) Cols() []map[string]string {
 	}
 	cols = append(cols, col_last_update)
 	return cols
+}
+
+func (t PreserveDetail) GetItemsByPage(client *xorm.Engine, pageID, pageCount int) ([]*PreserveDetail, int64, error) {
+	var items []*PreserveDetail
+	item := &PreserveDetail{}
+	err := client.Desc("event_time").Limit(pageCount, pageCount*(pageID-1)).Find(&items)
+	if err != nil {
+		glog.Errorf("[mysql]Get the items for from table %s failed,err:%+v", t.TableName(), err)
+		return nil, 0, err
+	}
+	cnt, err := client.Count(item)
+	if err != nil {
+		glog.Errorf("[mysql]Get the count of items for from table %s failed,err:%+v", t.TableName(), err)
+		return nil, 0, err
+	}
+	return items, cnt, nil
 }
