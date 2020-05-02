@@ -18,6 +18,10 @@ func (pc *pingbackCenter) GetActiveDetailItems(pageID, pageCount int) ([]models.
 	return webTtems, count, nil
 }
 
+func (pc *pingbackCenter) GetActiveDetailCols() []map[string]string {
+	return pc.activeDetail.Cols()
+}
+
 //GetFeirarDetailItems ...获取feirar 接口统计数据
 func (pc *pingbackCenter) GetFeirarDetailItems(pageID, pageCount int) ([]models.FeirarDetailWeb, int64, error) {
 	items, count, err := pc.feirarDetail.GetItemsByPage(pc.db, pageID, pageCount)
@@ -30,6 +34,11 @@ func (pc *pingbackCenter) GetFeirarDetailItems(pageID, pageCount int) ([]models.
 		webTtems = append(webTtems, wItem)
 	}
 	return webTtems, count, nil
+}
+
+//GetFeirarDetailCols ...前端显示的表头
+func (pc *pingbackCenter) GetFeirarDetailCols() []map[string]string {
+	return pc.feirarDetail.Cols()
 }
 
 //获取安装统计数据
@@ -46,6 +55,11 @@ func (pc *pingbackCenter) GetInstallDetailItems(pageID, pageCount int) ([]models
 	return webItems, count, nil
 }
 
+//GetFeirarDetailCols ...前端显示的表头
+func (pc *pingbackCenter) GetInstallDetailCols() []map[string]string {
+	return pc.installDetail.Cols()
+}
+
 func (pc *pingbackCenter) GetUninstallDetailItems(pageID, pageCount int) ([]models.UninstallDetailWeb, int64, error) {
 	items, count, err := pc.uninstallDetail.GetItemsByPage(pc.db, pageID, pageCount)
 	if err != nil {
@@ -57,6 +71,11 @@ func (pc *pingbackCenter) GetUninstallDetailItems(pageID, pageCount int) ([]mode
 		webItems = append(webItems, wItem)
 	}
 	return webItems, count, nil
+}
+
+//GetUninstallDetailCols ...前端显示的表头
+func (pc *pingbackCenter) GetUninstallDetailCols() []map[string]string {
+	return pc.uninstallDetail.Cols()
 }
 
 //GetNewsDetailItems ...获取客户端咨询弹窗相关接口
@@ -73,6 +92,11 @@ func (pc *pingbackCenter) GetNewsDetailItems(pageID, pageCount int) ([]models.Ne
 	return webItems, count, nil
 }
 
+//GetNewsDetailCols ...前端显示的表头
+func (pc *pingbackCenter) GetNewsDetailCols() []map[string]string {
+	return pc.newsDetail.Cols()
+}
+
 //GetPreserveDetailItems ...获取留存统计相关数据
 func (pc *pingbackCenter) GetPreserveDetailItems(pageID, pageCount int) ([]models.PreserveDetailWeb, int64, error) {
 	items, count, err := pc.preserveDetail.GetItemsByPage(pc.db, pageID, pageCount)
@@ -85,4 +109,9 @@ func (pc *pingbackCenter) GetPreserveDetailItems(pageID, pageCount int) ([]model
 		webItems = append(webItems, wItem)
 	}
 	return webItems, count, nil
+}
+
+//GetPreserveDetailCols ...前端显示的表头
+func (pc *pingbackCenter) GetPreserveDetailCols() []map[string]string {
+	return pc.preserveDetail.Cols()
 }
