@@ -1,17 +1,18 @@
 package control
 
-//
-////todo 调用models层的函数，进程进行相关操作
-//func (uc *userCenter) Login(userID, passport string) error {
-//	return nil
-//}
-//
-////todo 调用models层的函数，进程进行相关操作
-//func (uc *userCenter) Register(userID, passport string) error {
-//	return nil
-//}
-//
-////todo 调用models层的函数，进程进行相关操作
-//func (uc *userCenter) Logout(userID string) error {
-//	return nil
-//}
+import "errors"
+
+func (uc *userCenter) Login(userID, passport string) error {
+	isValid, err := uc.UserBasic.ChkPassportValid(uc.db, userID, passport)
+	if err != nil {
+		return err
+	}
+	if !isValid {
+		return errors.New("passport-invalid")
+	}
+	return nil
+}
+
+func (uc *userCenter) Logout(userID string) error {
+	return nil
+}

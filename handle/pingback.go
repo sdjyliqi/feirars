@@ -6,6 +6,7 @@ import (
 	"net/http"
 )
 
+//PingbackArgs ...pingback统计体
 type PingbackArgs struct {
 	ModuleName string `json:"type" form:"type" binding:"required"`
 	PageID     int    `json:"page" form:"page" binding:"required"`

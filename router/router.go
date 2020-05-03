@@ -13,11 +13,7 @@ func InitRouter(r *gin.Engine) {
 	GroupV1 := r.Group("/admin")
 	{
 		GroupV1.GET("/pingback", handle.HandlePingbak)
+		GroupV1.GET("/login", handle.UCLogin)
 	}
-	//// message相关接口
-	//GroupV2 := r.Group("/message", middleware.RequestIDMiddleware())
-	//{
-	//	GroupV2.GET("/hi", handle.UCLogin)
-	//	GroupV2.GET("hello", handle.UCLogin)
-	//}
+
 }

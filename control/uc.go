@@ -1,21 +1,28 @@
 package control
 
-//
-//type UserCenter interface {
-//	Login(userID, passport string) error    //用户登录
-//	Register(userID, passport string) error //用户注册
-//	Logout(userID string) error             //用户登录
-//}
-//
-//type userCenter struct {
-//	db    *xorm.Engine
-//	cfg   *conf.BITConfig
-//}
-//
-//func CreateUserCenter(cfg *conf.BITConfig) UserCenter {
-//	utils.InitMySQL(cfg.DBMysql, false)
-//	return &userCenter{
-//		db:    utils.GetMysqlClient(),
-//		cfg:   cfg,
-//	}
-//}
+import (
+	"github.com/go-xorm/xorm"
+	"github.com/sdjyliqi/feirars/conf"
+	"github.com/sdjyliqi/feirars/models"
+	"github.com/sdjyliqi/feirars/utils"
+)
+
+type UserCenter interface {
+	Login(userID, passport string) error //用户登录
+	Logout(userID string) error          //用户登录
+}
+
+type userCenter struct {
+	db        *xorm.Engine
+	cfg       *conf.BITConfig
+	UserBasic models.UserBasic
+}
+
+func CreateUserCenter(cfg *conf.BITConfig) UserCenter {
+	utils.InitMySQL(cfg.DBMysql, false)
+	return &userCenter{
+		db:        utils.GetMysqlClient(),
+		cfg:       cfg,
+		UserBasic: models.UserBasic{},
+	}
+}
