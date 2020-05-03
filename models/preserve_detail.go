@@ -140,16 +140,26 @@ func (t PreserveDetail) GetItemsByPage(client *xorm.Engine, chn string, pageID, 
 	var items []*PreserveDetail
 	item := &PreserveDetail{}
 	timeTS, timeTE := utils.ConvertToTime(tsStart), utils.ConvertToTime(tsEnd)
-	err := client.
-		Where("event_time>=?", timeTS).And("event_time<=?", timeTE).
-		Desc("event_time").
+	session := client.Where("event_time>=?", timeTS).And("event_time<=?", timeTE)
+	if chn != "" {
+		chnList := utils.ChannelList(chn)
+		session = session.In("channel", chnList)
+	}
+
+	err := session.Desc("event_time").
 		Limit(pageCount, pageCount*(pageID-1)).
 		Find(&items)
 	if err != nil {
 		glog.Errorf("[mysql]Get the items for from table %s failed,err:%+v", t.TableName(), err)
 		return nil, 0, err
 	}
-	cnt, err := client.Where("event_time>=?", timeTS).And("event_time<=?", timeTE).Count(item)
+	session = client.Where("event_time>=?", timeTS).And("event_time<=?", timeTE)
+	if chn != "" {
+		chnList := utils.ChannelList(chn)
+		session = session.In("channel", chnList)
+	}
+
+	cnt, err := session.Count(item)
 	if err != nil {
 		glog.Errorf("[mysql]Get the count of items for from table %s failed,err:%+v", t.TableName(), err)
 		return nil, 0, err
