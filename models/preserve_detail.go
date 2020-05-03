@@ -65,7 +65,7 @@ func (t PreserveDetail) Cols() []map[string]string {
 	var cols []map[string]string
 	col_event_day := map[string]string{
 		"name": "事件日期",
-		"key":  "event_day",
+		"key":  "event_time",
 	}
 	cols = append(cols, col_event_day)
 	col_uv := map[string]string{
