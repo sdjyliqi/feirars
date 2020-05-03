@@ -10,12 +10,12 @@ func (pc *pingbackCenter) GetActiveDetailItems(chn string, pageID, pageCount int
 	if err != nil {
 		return nil, 0, nil
 	}
-	webTtems := make([]models.ActiveDetailWeb, 0, len(items))
+	webItems := make([]models.ActiveDetailWeb, 0, len(items))
 	for _, v := range items {
 		wItem := pc.activeDetail.CovertWebItem(v)
-		webTtems = append(webTtems, wItem)
+		webItems = append(webItems, wItem)
 	}
-	return webTtems, count, nil
+	return webItems, count, nil
 }
 
 func (pc *pingbackCenter) GetActiveDetailCols() []map[string]string {
@@ -28,12 +28,12 @@ func (pc *pingbackCenter) GetFeirarDetailItems(chn string, pageID, pageCount int
 	if err != nil {
 		return nil, 0, nil
 	}
-	webTtems := make([]models.FeirarDetailWeb, 0, len(items))
+	webItems := make([]models.FeirarDetailWeb, 0, len(items))
 	for _, v := range items {
 		wItem := pc.feirarDetail.CovertWebItem(v)
-		webTtems = append(webTtems, wItem)
+		webItems = append(webItems, wItem)
 	}
-	return webTtems, count, nil
+	return webItems, count, nil
 }
 
 //GetFeirarDetailCols ...前端显示的表头
