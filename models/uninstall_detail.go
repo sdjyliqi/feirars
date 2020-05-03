@@ -76,7 +76,7 @@ func (t UninstallDetail) Cols() []map[string]string {
 	return cols
 }
 
-func (t UninstallDetail) GetItemsByPage(client *xorm.Engine, pageID, pageCount int, tsStart, tsEnd int64) ([]*UninstallDetail, int64, error) {
+func (t UninstallDetail) GetItemsByPage(client *xorm.Engine, chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]*UninstallDetail, int64, error) {
 	var items []*UninstallDetail
 	item := &UninstallDetail{}
 	timeTS, timeTE := utils.ConvertToTime(tsStart), utils.ConvertToTime(tsEnd)

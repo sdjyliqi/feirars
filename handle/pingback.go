@@ -13,6 +13,7 @@ type PingbackArgs struct {
 	PageCount  int    `json:"page" form:"pcount" binding:"required"`
 	TimeStart  int64  `json:"ts" form:"ts" `
 	TimeEnd    int64  `json:"te" form:"te"`
+	Channels   string `json:"chn" form:"chn"`
 }
 
 func HandlePingbak(c *gin.Context) {

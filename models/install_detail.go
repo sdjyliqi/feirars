@@ -74,20 +74,28 @@ func (t InstallDetail) Cols() []map[string]string {
 	return cols
 }
 
-func (t InstallDetail) GetItemsByPage(client *xorm.Engine, pageID, pageCount int, tsStart, tsEnd int64) ([]*InstallDetail, int64, error) {
+func (t InstallDetail) GetItemsByPage(client *xorm.Engine, chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]*InstallDetail, int64, error) {
 	var items []*InstallDetail
 	item := &InstallDetail{}
 	timeTS, timeTE := utils.ConvertToTime(tsStart), utils.ConvertToTime(tsEnd)
-	err := client.
-		Where("event_day>=?", timeTS).And("event_day<=?", timeTE).
-		Desc("event_day").
+	session := client.Where("event_day>=?", timeTS).And("event_day<=?", timeTE)
+	if chn != "" {
+		chnList := utils.ChannelList(chn)
+		session = session.In("channel", chnList)
+	}
+	err := session.Desc("event_day").
 		Limit(pageCount, pageCount*(pageID-1)).
 		Find(&items)
 	if err != nil {
 		glog.Errorf("[mysql]Get the items for from table %s failed,err:%+v", t.TableName(), err)
 		return nil, 0, err
 	}
-	cnt, err := client.Where("event_day>=?", timeTS).And("event_day<=?", timeTE).Count(item)
+	session = client.Where("event_day>=?", timeTS).And("event_day<=?", timeTE)
+	if chn != "" {
+		chnList := utils.ChannelList(chn)
+		session = session.In("channel", chnList)
+	}
+	cnt, err := session.Count(item)
 	if err != nil {
 		glog.Errorf("[mysql]Get the count of items for from table %s failed,err:%+v", t.TableName(), err)
 		return nil, 0, err

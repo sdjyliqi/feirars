@@ -136,7 +136,7 @@ func (t PreserveDetail) Cols() []map[string]string {
 	return cols
 }
 
-func (t PreserveDetail) GetItemsByPage(client *xorm.Engine, pageID, pageCount int, tsStart, tsEnd int64) ([]*PreserveDetail, int64, error) {
+func (t PreserveDetail) GetItemsByPage(client *xorm.Engine, chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]*PreserveDetail, int64, error) {
 	var items []*PreserveDetail
 	item := &PreserveDetail{}
 	timeTS, timeTE := utils.ConvertToTime(tsStart), utils.ConvertToTime(tsEnd)

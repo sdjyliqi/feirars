@@ -84,7 +84,7 @@ func (t NewsDetail) Cols() []map[string]string {
 	return cols
 }
 
-func (t NewsDetail) GetItemsByPage(client *xorm.Engine, pageID, pageCount int, tsStart, tsEnd int64) ([]*NewsDetail, int64, error) {
+func (t NewsDetail) GetItemsByPage(client *xorm.Engine, chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]*NewsDetail, int64, error) {
 	var items []*NewsDetail
 	item := &NewsDetail{}
 	timeTS, timeTE := utils.ConvertToTime(tsStart), utils.ConvertToTime(tsEnd)

@@ -5,8 +5,8 @@ import (
 )
 
 //GetActiveDetailItems ...获取客户的激活方式统计数据
-func (pc *pingbackCenter) GetActiveDetailItems(pageID, pageCount int, tsStart, tsEnd int64) ([]models.ActiveDetailWeb, int64, error) { //按照页面获取统计激活方式数据
-	items, count, err := pc.activeDetail.GetItemsByPage(pc.db, pageID, pageCount, tsStart, tsEnd)
+func (pc *pingbackCenter) GetActiveDetailItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.ActiveDetailWeb, int64, error) { //按照页面获取统计激活方式数据
+	items, count, err := pc.activeDetail.GetItemsByPage(pc.db, chn, pageID, pageCount, tsStart, tsEnd)
 	if err != nil {
 		return nil, 0, nil
 	}
@@ -23,8 +23,8 @@ func (pc *pingbackCenter) GetActiveDetailCols() []map[string]string {
 }
 
 //GetFeirarDetailItems ...获取feirar 接口统计数据
-func (pc *pingbackCenter) GetFeirarDetailItems(pageID, pageCount int, tsStart, tsEnd int64) ([]models.FeirarDetailWeb, int64, error) {
-	items, count, err := pc.feirarDetail.GetItemsByPage(pc.db, pageID, pageCount, tsStart, tsEnd)
+func (pc *pingbackCenter) GetFeirarDetailItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.FeirarDetailWeb, int64, error) {
+	items, count, err := pc.feirarDetail.GetItemsByPage(pc.db, chn, pageID, pageCount, tsStart, tsEnd)
 	if err != nil {
 		return nil, 0, nil
 	}
@@ -42,8 +42,8 @@ func (pc *pingbackCenter) GetFeirarDetailCols() []map[string]string {
 }
 
 //获取安装统计数据
-func (pc *pingbackCenter) GetInstallDetailItems(pageID, pageCount int, tsStart, tsEnd int64) ([]models.InstallDetailWeb, int64, error) {
-	items, count, err := pc.installDetail.GetItemsByPage(pc.db, pageID, pageCount, tsStart, tsEnd)
+func (pc *pingbackCenter) GetInstallDetailItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.InstallDetailWeb, int64, error) {
+	items, count, err := pc.installDetail.GetItemsByPage(pc.db, chn, pageID, pageCount, tsStart, tsEnd)
 	if err != nil {
 		return nil, 0, nil
 	}
@@ -60,8 +60,8 @@ func (pc *pingbackCenter) GetInstallDetailCols() []map[string]string {
 	return pc.installDetail.Cols()
 }
 
-func (pc *pingbackCenter) GetUninstallDetailItems(pageID, pageCount int, tsStart, tsEnd int64) ([]models.UninstallDetailWeb, int64, error) {
-	items, count, err := pc.uninstallDetail.GetItemsByPage(pc.db, pageID, pageCount, tsStart, tsEnd)
+func (pc *pingbackCenter) GetUninstallDetailItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.UninstallDetailWeb, int64, error) {
+	items, count, err := pc.uninstallDetail.GetItemsByPage(pc.db, chn, pageID, pageCount, tsStart, tsEnd)
 	if err != nil {
 		return nil, 0, nil
 	}
@@ -79,8 +79,8 @@ func (pc *pingbackCenter) GetUninstallDetailCols() []map[string]string {
 }
 
 //GetNewsDetailItems ...获取客户端咨询弹窗相关接口
-func (pc *pingbackCenter) GetNewsDetailItems(pageID, pageCount int, tsStart, tsEnd int64) ([]models.NewsDetailWeb, int64, error) {
-	items, count, err := pc.newsDetail.GetItemsByPage(pc.db, pageID, pageCount, tsStart, tsEnd)
+func (pc *pingbackCenter) GetNewsDetailItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.NewsDetailWeb, int64, error) {
+	items, count, err := pc.newsDetail.GetItemsByPage(pc.db, chn, pageID, pageCount, tsStart, tsEnd)
 	if err != nil {
 		return nil, 0, nil
 	}
@@ -98,8 +98,8 @@ func (pc *pingbackCenter) GetNewsDetailCols() []map[string]string {
 }
 
 //GetPreserveDetailItems ...获取留存统计相关数据
-func (pc *pingbackCenter) GetPreserveDetailItems(pageID, pageCount int, tsStart, tsEnd int64) ([]models.PreserveDetailWeb, int64, error) {
-	items, count, err := pc.preserveDetail.GetItemsByPage(pc.db, pageID, pageCount, tsStart, tsEnd)
+func (pc *pingbackCenter) GetPreserveDetailItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.PreserveDetailWeb, int64, error) {
+	items, count, err := pc.preserveDetail.GetItemsByPage(pc.db, chn, pageID, pageCount, tsStart, tsEnd)
 	if err != nil {
 		return nil, 0, nil
 	}
