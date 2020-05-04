@@ -16,8 +16,8 @@ type ChartArgs struct {
 func HandleChart(c *gin.Context) {
 	var reqArgs ChartArgs
 	err := c.ShouldBind(&reqArgs)
-	if err != nil || reqArgs.ModuleName == "" || reqArgs.TimeStart <= 0 || reqArgs.TimeEnd <= 0 {
-		c.JSON(http.StatusOK, gin.H{"code": 400, "msg": "参数错误"})
+	if err != nil || reqArgs.ModuleName == "" || reqArgs.TimeStart < 0 || reqArgs.TimeEnd < 0 {
+		c.JSON(http.StatusOK, gin.H{"code": 400, "msg": "参数错误1111"})
 		return
 	}
 	switch reqArgs.ModuleName {
