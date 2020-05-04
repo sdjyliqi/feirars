@@ -1,13 +1,15 @@
 package conf
 
-// BITConfig ...
-type BITConfig struct {
+// FeirarConfig ...
+type FeirarConfig struct {
 	DBMysql string `yaml:"db_mysql"`
 	DBRedis string `yaml:"db_redis"`
+	IPLOC   string `yaml:"ip_loc"`
 }
 
 // DefaultConfig .
-var DefaultConfig = BITConfig{
+var DefaultConfig = FeirarConfig{
 	DBMysql: "pingback-0001a:Pinback-123987!@tcp(123.57.37.83:3306)/pingback?charset=utf8mb4",
 	DBRedis: "redis://1:@127.0.0.1:6379",
+	IPLOC:   ".\\data\\GeoLite2-City.mmdb",
 }

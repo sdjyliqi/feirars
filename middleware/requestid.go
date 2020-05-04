@@ -8,8 +8,8 @@ import (
 //... RequestIDMiddleware  add request id into header
 func RequestIDMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		uuid := uuid.NewV4()
-		c.Writer.Header().Set("X-Request-Id", uuid.String())
+		uuidReq := uuid.NewV4()
+		c.Writer.Header().Set("X-Request-Id", uuidReq.String())
 		c.Next()
 	}
 }
