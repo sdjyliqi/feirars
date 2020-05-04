@@ -14,6 +14,7 @@ func InitRouter(r *gin.Engine) {
 	{
 		GroupV1.GET("/pingback", handle.HandlePingbak)
 		GroupV1.GET("/login", handle.UCLogin)
+		GroupV1.POST("/login", handle.UCLogin)
 		GroupV1.GET("/chart", handle.HandleChart)
 	}
 
