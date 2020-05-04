@@ -27,7 +27,7 @@ type PingbackCenter interface {
 
 type pingbackCenter struct {
 	db              *xorm.Engine
-	cfg             *conf.BITConfig
+	cfg             *conf.FeirarConfig
 	activeDetail    models.ActiveDetail
 	feirarDetail    models.FeirarDetail
 	installDetail   models.InstallDetail
@@ -36,7 +36,7 @@ type pingbackCenter struct {
 	preserveDetail  models.PreserveDetail
 }
 
-func CreatePingbackCenter(cfg *conf.BITConfig) PingbackCenter {
+func CreatePingbackCenter(cfg *conf.FeirarConfig) PingbackCenter {
 	utils.InitMySQL(cfg.DBMysql, false)
 	return &pingbackCenter{
 		db:              utils.GetMysqlClient(),

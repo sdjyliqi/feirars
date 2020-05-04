@@ -14,11 +14,11 @@ type UserCenter interface {
 
 type userCenter struct {
 	db        *xorm.Engine
-	cfg       *conf.BITConfig
+	cfg       *conf.FeirarConfig
 	UserBasic models.UserBasic
 }
 
-func CreateUserCenter(cfg *conf.BITConfig) UserCenter {
+func CreateUserCenter(cfg *conf.FeirarConfig) UserCenter {
 	utils.InitMySQL(cfg.DBMysql, false)
 	return &userCenter{
 		db:        utils.GetMysqlClient(),
