@@ -28,7 +28,7 @@ func HandlePingbak(c *gin.Context) {
 	switch reqArgs.ModuleName {
 	case "install":
 		cols := PingbackCenter.GetInstallDetailCols()
-		items, count, err := PingbackCenter.GetInstallDetailItems(reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
+		items, count, err := PingbackCenter.GetInstallDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -37,7 +37,7 @@ func HandlePingbak(c *gin.Context) {
 		return
 	case "uninstall":
 		cols := PingbackCenter.GetUninstallDetailCols()
-		items, count, err := PingbackCenter.GetUninstallDetailItems(reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
+		items, count, err := PingbackCenter.GetUninstallDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -47,7 +47,7 @@ func HandlePingbak(c *gin.Context) {
 
 	case "active":
 		cols := PingbackCenter.GetActiveDetailCols()
-		items, count, err := PingbackCenter.GetActiveDetailItems(reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
+		items, count, err := PingbackCenter.GetActiveDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -56,7 +56,7 @@ func HandlePingbak(c *gin.Context) {
 		return
 	case "news":
 		cols := PingbackCenter.GetNewsDetailCols()
-		items, count, err := PingbackCenter.GetNewsDetailItems(reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
+		items, count, err := PingbackCenter.GetNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -66,7 +66,7 @@ func HandlePingbak(c *gin.Context) {
 
 	case "preserve":
 		cols := PingbackCenter.GetPreserveDetailCols()
-		items, count, err := PingbackCenter.GetPreserveDetailItems(reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
+		items, count, err := PingbackCenter.GetPreserveDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -75,7 +75,7 @@ func HandlePingbak(c *gin.Context) {
 		return
 	case "feirar":
 		cols := PingbackCenter.GetFeirarDetailCols()
-		items, count, err := PingbackCenter.GetFeirarDetailItems(reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
+		items, count, err := PingbackCenter.GetFeirarDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return

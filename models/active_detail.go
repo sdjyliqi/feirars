@@ -11,6 +11,7 @@ import (
 type ActiveDetail struct {
 	Id         int       `json:"id" xorm:"not null pk autoincr INT(11)"`
 	EventDay   time.Time `json:"event_day" xorm:"not null comment('事件日期') DATETIME"`
+	Channel    string    `json:"channel" xorm:"VARCHAR(64)"`
 	ActiveMode string    `json:"active_mode" xorm:"VARCHAR(64)"`
 	Pv         int       `json:"pv" xorm:"comment('PV用户数') INT(11)"`
 	Uv         int       `json:"uv" xorm:"comment('UV用户数') INT(11)"`
@@ -21,6 +22,7 @@ type ActiveDetail struct {
 type ActiveDetailWeb struct {
 	Id         string `json:"id"`
 	EventDay   string `json:"event_day"`
+	Channel    string `json:"channel" `
 	ActiveMode string `json:"active_mode" xorm:"VARCHAR(64)"`
 	Pv         string `json:"pv"`
 	Uv         string `json:"uv"`
@@ -34,6 +36,7 @@ func (t ActiveDetail) TableName() string {
 func (t ActiveDetail) CovertWebItem(item *ActiveDetail) ActiveDetailWeb {
 	webItem := ActiveDetailWeb{
 		EventDay:   item.EventDay.Format(utils.DayTime),
+		Channel:    item.Channel,
 		ActiveMode: item.ActiveMode,
 		Pv:         fmt.Sprintf("%d", item.Pv),
 		Uv:         fmt.Sprintf("%d", item.Uv),

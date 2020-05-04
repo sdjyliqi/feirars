@@ -11,7 +11,7 @@ import (
 type NewsDetail struct {
 	Id         int       `json:"id" xorm:"not null pk autoincr INT(11)"`
 	EventDay   time.Time `json:"event_day" xorm:"not null comment('事件日期') DATETIME"`
-	Channel    string    `json:"channel" xorm:"VARCHAR(128)"`
+	Channel    string    `json:"channel" xorm:"VARCHAR(64)"`
 	EventType  string    `json:"event_type" xorm:"VARCHAR(128)"`
 	Pv         int       `json:"pv" xorm:"comment('PV用户数') INT(11)"`
 	Uv         int       `json:"uv" xorm:"comment('UV用户数') INT(11)"`

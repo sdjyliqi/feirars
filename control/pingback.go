@@ -10,8 +10,11 @@ import (
 type PingbackCenter interface {
 	GetActiveDetailItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.ActiveDetailWeb, int64, error) //获取客户的激活方式统计数据
 	GetActiveDetailCols() []map[string]string
+
 	GetFeirarDetailItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.FeirarDetailWeb, int64, error) //获取feirar请求统计数据
 	GetFeirarDetailCols() []map[string]string
+	GetFeirarChart(chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error)
+
 	GetInstallDetailItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.InstallDetailWeb, int64, error) //获取安装统计数据
 	GetInstallDetailCols() []map[string]string
 	GetUninstallDetailItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.UninstallDetailWeb, int64, error) //获取卸载统计数据

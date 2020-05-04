@@ -2,6 +2,7 @@ package control
 
 import (
 	"github.com/sdjyliqi/feirars/models"
+	"github.com/sdjyliqi/feirars/utils"
 )
 
 //GetActiveDetailItems ...获取客户的激活方式统计数据
@@ -39,6 +40,10 @@ func (pc *pingbackCenter) GetFeirarDetailItems(chn string, pageID, pageCount int
 //GetFeirarDetailCols ...前端显示的表头
 func (pc *pingbackCenter) GetFeirarDetailCols() []map[string]string {
 	return pc.feirarDetail.Cols()
+}
+
+func (pc *pingbackCenter) GetFeirarChart(chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error) {
+	return pc.feirarDetail.GetChartItems(pc.db, chn, tsStart, tsEnd)
 }
 
 //获取安装统计数据

@@ -11,6 +11,7 @@ import (
 type PreserveDetail struct {
 	Id         int       `json:"id" xorm:"not null pk autoincr INT(11)"`
 	EventTime  time.Time `json:"event_time" xorm:"not null DATETIME"`
+	Channel    string    `json:"channel" xorm:"VARCHAR(64)"`
 	Uv         int       `json:"uv" xorm:"INT(11)"`
 	NewUv      int       `json:"new_uv" xorm:"INT(11)"`
 	Day1Active int       `json:"day1_active" xorm:"INT(11)"`
@@ -26,6 +27,7 @@ type PreserveDetail struct {
 type PreserveDetailWeb struct {
 	Id         string `json:"id" `
 	EventTime  string `json:"event_time" `
+	Channel    string `json:"channel" `
 	Uv         string `json:"uv" `
 	NewUv      string `json:"new_uv" `
 	Day1Active string `json:"day1_active"`
@@ -46,6 +48,7 @@ func (t PreserveDetail) TableName() string {
 func (t PreserveDetail) CovertWebItem(item *PreserveDetail) PreserveDetailWeb {
 	webItem := PreserveDetailWeb{
 		EventTime:  item.EventTime.Format(utils.DayTime),
+		Channel:    item.Channel,
 		Uv:         fmt.Sprintf("%d", item.Uv),
 		NewUv:      fmt.Sprintf("%d", item.NewUv),
 		Day1Active: fmt.Sprintf("%d", item.Day1Active),
