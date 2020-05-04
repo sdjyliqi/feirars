@@ -47,30 +47,35 @@ func (t InstallDetail) CovertWebItem(item *InstallDetail) InstallDetailWeb {
 func (t InstallDetail) Cols() []map[string]string {
 	var cols []map[string]string
 	col_event_day := map[string]string{
-		"name": "事件日期",
-		"key":  "event_day",
+		"name":  "事件日期",
+		"key":   "event_day",
+		"click": "0",
 	}
 	cols = append(cols, col_event_day)
 
 	col_channel := map[string]string{
-		"name": "渠道名称",
-		"key":  "channel",
+		"name":  "渠道名称",
+		"key":   "channel",
+		"click": "1",
 	}
 	cols = append(cols, col_channel)
 
 	col_pv := map[string]string{
-		"name": "pv",
-		"key":  "pv",
+		"name":  "pv",
+		"key":   "pv",
+		"click": "0",
 	}
 	cols = append(cols, col_pv)
 	col_uv := map[string]string{
-		"name": "uv",
-		"key":  "uv",
+		"name":  "uv",
+		"key":   "uv",
+		"click": "0",
 	}
 	cols = append(cols, col_uv)
 	col_last_update := map[string]string{
-		"name": "更新时间",
-		"key":  "last_update",
+		"name":  "更新时间",
+		"key":   "last_update",
+		"click": "0",
 	}
 	cols = append(cols, col_last_update)
 	return cols

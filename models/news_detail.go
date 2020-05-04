@@ -63,24 +63,30 @@ func (t NewsDetail) Cols() []map[string]string {
 	cols = append(cols, col_client_channel)
 
 	col_event_type := map[string]string{
-		"name": "消息类型",
-		"key":  "event_type",
+		"name":  "消息类型",
+		"key":   "event_type",
+		"click": "0",
 	}
 	cols = append(cols, col_event_type)
 
 	col_pv := map[string]string{
-		"name": "pv",
-		"key":  "pv",
+		"name":  "pv",
+		"key":   "pv",
+		"click": "0",
 	}
 	cols = append(cols, col_pv)
+
 	col_uv := map[string]string{
-		"name": "uv",
-		"key":  "uv",
+		"name":  "uv",
+		"key":   "uv",
+		"click": "0",
 	}
 	cols = append(cols, col_uv)
+
 	col_last_update := map[string]string{
-		"name": "更新时间",
-		"key":  "last_update",
+		"name":  "更新时间",
+		"key":   "last_update",
+		"click": "0",
 	}
 	cols = append(cols, col_last_update)
 	return cols

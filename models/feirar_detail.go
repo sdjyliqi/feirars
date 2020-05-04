@@ -68,13 +68,13 @@ func (t FeirarDetail) Cols() []map[string]string {
 	}
 	cols = append(cols, col_event_key)
 
-	cols = append(cols, col_active_mode)
 	col_pv := map[string]string{
 		"name":  "pv",
 		"key":   "pv",
 		"click": "0",
 	}
 	cols = append(cols, col_pv)
+
 	col_uv := map[string]string{
 		"name":  "uv",
 		"key":   "uv",
