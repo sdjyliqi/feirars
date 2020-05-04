@@ -54,11 +54,13 @@ func (t NewsDetail) Cols() []map[string]string {
 		"key":  "event_day",
 	}
 	cols = append(cols, col_event_day)
-	col_active_mode := map[string]string{
-		"name": "渠道名称",
-		"key":  "channel",
+
+	col_client_channel := map[string]string{
+		"name":  "渠道名称",
+		"key":   "channel",
+		"click": "1",
 	}
-	cols = append(cols, col_active_mode)
+	cols = append(cols, col_client_channel)
 
 	col_event_type := map[string]string{
 		"name": "消息类型",

@@ -51,11 +51,13 @@ func (t InstallDetail) Cols() []map[string]string {
 		"key":  "event_day",
 	}
 	cols = append(cols, col_event_day)
+
 	col_channel := map[string]string{
 		"name": "渠道名称",
 		"key":  "channel",
 	}
 	cols = append(cols, col_channel)
+
 	col_pv := map[string]string{
 		"name": "pv",
 		"key":  "pv",
