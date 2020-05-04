@@ -9,9 +9,8 @@ import (
 )
 
 func main() {
-	flag.Parse() // 1
+	flag.Parse()
 	glog.Flush()
-	glog.Info("This is a Info log") // 2
 	r := gin.Default()
 	r.Use(middleware.RequestIDMiddleware())
 	r.Use(middleware.RequestAddIPLoc())
