@@ -2,6 +2,7 @@ package models
 
 import (
 	"github.com/sdjyliqi/feirars/testutil"
+	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
 )
@@ -13,4 +14,11 @@ func Test_ActiveDetailGetItemsByPage(t *testing.T) {
 	for _, v := range items {
 		t.Log(v.EventDay, v.Pv)
 	}
+}
+
+func Test_ActiveDetailGetAllChannels(t *testing.T) {
+	testActiveDetail := ActiveDetail{}
+	items, err := testActiveDetail.GetAllChannels(testutil.TestMysql)
+	assert.Nil(t, err)
+	t.Log(items, err)
 }

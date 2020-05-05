@@ -11,7 +11,7 @@ import (
 )
 
 var testOnce sync.Once
-var TestCfg conf.BITConfig
+var TestCfg conf.FeirarConfig
 var TestMysql *xorm.Engine
 
 func init() {

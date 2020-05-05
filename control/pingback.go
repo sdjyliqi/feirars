@@ -10,6 +10,7 @@ import (
 type PingbackCenter interface {
 	GetActiveDetailItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.ActiveDetailWeb, int64, error) //获取客户的激活方式统计数据
 	GetActiveDetailCols() []map[string]string
+	GetActiveChart(chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error)
 
 	GetFeirarDetailItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.FeirarDetailWeb, int64, error) //获取feirar请求统计数据
 	GetFeirarDetailCols() []map[string]string

@@ -91,6 +91,20 @@ func (t FeirarDetail) Cols() []map[string]string {
 	return cols
 }
 
+//GetAllChannels ...获取所有渠道
+func (t FeirarDetail) GetAllChannels(client *xorm.Engine) ([]string, error) {
+	var items []*FeirarDetail
+	var channels []string
+	err := client.Distinct("channel").OrderBy("channel").Find(&items)
+	if err != nil {
+		glog.Errorf("[mysql]Get the channel  from table %s failed,err:%+v", t.TableName(), err)
+		return nil, err
+	}
+	for _, v := range items {
+		channels = append(channels, v.Channel)
+	}
+	return channels, nil
+}
 func (t FeirarDetail) GetItemsByPage(client *xorm.Engine, chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]*FeirarDetail, int64, error) {
 	timeTS, timeTE := utils.ConvertToTime(tsStart), utils.ConvertToTime(tsEnd)
 	var items []*FeirarDetail

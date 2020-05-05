@@ -147,6 +147,21 @@ func (t PreserveDetail) Cols() []map[string]string {
 	return cols
 }
 
+//GetAllChannels ...获取所有渠道
+func (t PreserveDetail) GetAllChannels(client *xorm.Engine) ([]string, error) {
+	var items []*PreserveDetail
+	var channels []string
+	err := client.Distinct("channel").OrderBy("channel").Find(&items)
+	if err != nil {
+		glog.Errorf("[mysql]Get the channel  from table %s failed,err:%+v", t.TableName(), err)
+		return nil, err
+	}
+	for _, v := range items {
+		channels = append(channels, v.Channel)
+	}
+	return channels, nil
+}
+
 func (t PreserveDetail) GetItemsByPage(client *xorm.Engine, chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]*PreserveDetail, int64, error) {
 	var items []*PreserveDetail
 	item := &PreserveDetail{}
