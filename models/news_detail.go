@@ -32,7 +32,6 @@ type NewsDetailWeb struct {
 	ClickPv    string `json:"click_pv" `
 	ClickUv    string `json:"click_uv" `
 	LastUpdate string `json:"last_update" `
-	Detail     string `json:"detail"`
 }
 
 func (t NewsDetail) TableName() string {
