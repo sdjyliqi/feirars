@@ -71,6 +71,24 @@ func HandleChannels(c *gin.Context) {
 		}
 		c.JSON(http.StatusOK, gin.H{"code": 0, "items": items})
 		return
+
+	case "feirar-news":
+		items, err := PingbackCenter.GetFeirarNewsChannel()
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "items": items})
+		return
+
+	case "feirar-update":
+		items, err := PingbackCenter.GetFeirarUpdateChannel()
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "items": items})
+		return
 	}
 	c.JSON(http.StatusOK, gin.H{"code": 400, "msg": "type参数错误"})
 }

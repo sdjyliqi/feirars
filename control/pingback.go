@@ -44,7 +44,7 @@ type PingbackCenter interface {
 	GetNewsDetailItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.NewsDetailWeb, int64, error) //获取客户端弹窗统计数据
 	GetNewsDetailCols() []map[string]string
 	GetNewsChannel() ([]string, error)
-
+	GetNewsChart(chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error)
 	//留存相关接口
 	GetPreserveDetailItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.PreserveDetailWeb, int64, error) //获取留存统计数据
 	GetPreserveDetailCols() []map[string]string

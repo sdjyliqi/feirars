@@ -1,6 +1,9 @@
 package control
 
-import "github.com/sdjyliqi/feirars/models"
+import (
+	"github.com/sdjyliqi/feirars/models"
+	"github.com/sdjyliqi/feirars/utils"
+)
 
 //GetNewsDetailItems ...获取客户端咨询弹窗相关接口
 func (pc *pingbackCenter) GetNewsDetailItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.NewsDetailWeb, int64, error) {
@@ -23,4 +26,9 @@ func (pc *pingbackCenter) GetNewsDetailCols() []map[string]string {
 
 func (pc *pingbackCenter) GetNewsChannel() ([]string, error) {
 	return pc.newsDetail.GetAllChannels(pc.db)
+}
+
+//GetNewsChart ...获取渠道弹窗的趋势图数据
+func (pc *pingbackCenter) GetNewsChart(chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error) {
+	return pc.installDetail.GetChartItems(pc.db, chn, tsStart, tsEnd)
 }

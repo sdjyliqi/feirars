@@ -21,6 +21,49 @@ func HandleChart(c *gin.Context) {
 		return
 	}
 	switch reqArgs.ModuleName {
+	case "install":
+		items, err := PingbackCenter.GetInstallChart(reqArgs.Channels, reqArgs.TimeStart, reqArgs.TimeEnd)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "data": items})
+		return
+
+	case "uninstall":
+		items, err := PingbackCenter.GetUninstallChart(reqArgs.Channels, reqArgs.TimeStart, reqArgs.TimeEnd)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "data": items})
+		return
+
+	case "active":
+		items, err := PingbackCenter.GetActiveChart(reqArgs.Channels, reqArgs.TimeStart, reqArgs.TimeEnd)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "data": items})
+		return
+	case "news":
+		items, err := PingbackCenter.GetNewsChart(reqArgs.Channels, reqArgs.TimeStart, reqArgs.TimeEnd)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "data": items})
+		return
+
+	case "preserve":
+		items, err := PingbackCenter.GetPreserveChart(reqArgs.Channels, reqArgs.TimeStart, reqArgs.TimeEnd)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "data": items})
+		return
 
 	case "feirar":
 		items, err := PingbackCenter.GetFeirarChart(reqArgs.Channels, reqArgs.TimeStart, reqArgs.TimeEnd)
@@ -30,6 +73,24 @@ func HandleChart(c *gin.Context) {
 		}
 		c.JSON(http.StatusOK, gin.H{"code": 0, "data": items})
 		return
+	case "feirar-news":
+		items, err := PingbackCenter.GetFeirarNewsChart(reqArgs.Channels, reqArgs.TimeStart, reqArgs.TimeEnd)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "data": items})
+		return
+	case "feirar-update":
+		items, err := PingbackCenter.GetFeirarUpdateChart(reqArgs.Channels, reqArgs.TimeStart, reqArgs.TimeEnd)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "data": items})
+		return
+
 	}
+
 	c.JSON(http.StatusOK, gin.H{"code": 400, "msg": "type参数错误"})
 }
