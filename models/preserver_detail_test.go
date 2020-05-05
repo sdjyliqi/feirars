@@ -21,3 +21,10 @@ func Test_PreserveDetailGetAllChannels(t *testing.T) {
 	assert.Nil(t, err)
 	t.Log(items, err)
 }
+
+func Test_PreserveDetailGetChartItems(t *testing.T) {
+	testActiveDetail := PreserveDetail{}
+	items, err := testActiveDetail.GetChartItems(testutil.TestMysql, "", 0, time.Now().Unix())
+	assert.Nil(t, err)
+	t.Log(items, err)
+}

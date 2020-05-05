@@ -92,7 +92,7 @@ func (t FeirarDetail) Cols() []map[string]string {
 }
 
 //GetAllChannels ...获取所有渠道
-func (t FeirarDetail) GetAllChannels(client *xorm.Engine) ([]string, error) {
+func (t FeirarDetail) GetAllChannels(client *xorm.Engine, api string) ([]string, error) {
 	var items []*FeirarDetail
 	var channels []string
 	err := client.Distinct("channel").OrderBy("channel").Find(&items)
@@ -105,7 +105,7 @@ func (t FeirarDetail) GetAllChannels(client *xorm.Engine) ([]string, error) {
 	}
 	return channels, nil
 }
-func (t FeirarDetail) GetItemsByPage(client *xorm.Engine, chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]*FeirarDetail, int64, error) {
+func (t FeirarDetail) GetItemsByPage(client *xorm.Engine, api, chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]*FeirarDetail, int64, error) {
 	timeTS, timeTE := utils.ConvertToTime(tsStart), utils.ConvertToTime(tsEnd)
 	var items []*FeirarDetail
 	item := FeirarDetail{}
@@ -113,6 +113,9 @@ func (t FeirarDetail) GetItemsByPage(client *xorm.Engine, chn string, pageID, pa
 	if chn != "" {
 		chnList := utils.ChannelList(chn)
 		session = session.In("channel", chnList)
+	}
+	if api != "" {
+		session = session.Where("event_key =?", api)
 	}
 	err := session.Desc("event_day").
 		Limit(pageCount, pageCount*(pageID-1)).
@@ -126,6 +129,9 @@ func (t FeirarDetail) GetItemsByPage(client *xorm.Engine, chn string, pageID, pa
 		chnList := utils.ChannelList(chn)
 		session = session.In("channel", chnList)
 	}
+	if api != "" {
+		session = session.Where("event_key =?", api)
+	}
 	cnt, err := session.Count(item)
 	if err != nil {
 		glog.Errorf("[mysql]Get the count of items for from table %s failed,err:%+v", t.TableName(), err)
@@ -134,7 +140,7 @@ func (t FeirarDetail) GetItemsByPage(client *xorm.Engine, chn string, pageID, pa
 	return items, cnt, nil
 }
 
-func (t FeirarDetail) GetChartItems(client *xorm.Engine, chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error) {
+func (t FeirarDetail) GetChartItems(client *xorm.Engine, api, chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error) {
 	chartXvalue := []string{}
 	chartXDic := map[string]bool{}
 	timeTS, timeTE := utils.ConvertToTime(tsStart), utils.ConvertToTime(tsEnd)
@@ -143,6 +149,9 @@ func (t FeirarDetail) GetChartItems(client *xorm.Engine, chn string, tsStart, ts
 	if chn != "" {
 		chnList := utils.ChannelList(chn)
 		session = session.In("channel", chnList)
+	}
+	if api != "" {
+		session = session.Where("event_key =?", api)
 	}
 	err := session.OrderBy("event_day,channel").
 		Find(&items)

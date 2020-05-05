@@ -22,3 +22,10 @@ func Test_ActiveDetailGetAllChannels(t *testing.T) {
 	assert.Nil(t, err)
 	t.Log(items, err)
 }
+
+func Test_ActiveDetailGetChartItems(t *testing.T) {
+	testActiveDetail := ActiveDetail{}
+	items, err := testActiveDetail.GetChartItems(testutil.TestMysql, "", 0, time.Now().Unix())
+	assert.Nil(t, err)
+	t.Log(items, err)
+}

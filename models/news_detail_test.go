@@ -17,8 +17,15 @@ func Test_NewsDetailGetItemsByPage(t *testing.T) {
 }
 
 func Test_NewsDetailGetAllChannels(t *testing.T) {
-	testActiveDetail := NewsDetail{}
-	items, err := testActiveDetail.GetAllChannels(testutil.TestMysql)
+	testNewsDetail := NewsDetail{}
+	items, err := testNewsDetail.GetAllChannels(testutil.TestMysql)
+	assert.Nil(t, err)
+	t.Log(items, err)
+}
+
+func Test_NewsDetailGetChartItems(t *testing.T) {
+	testNewsDetail := NewsDetail{}
+	items, err := testNewsDetail.GetChartItems(testutil.TestMysql, "", 0, time.Now().Unix())
 	assert.Nil(t, err)
 	t.Log(items, err)
 }

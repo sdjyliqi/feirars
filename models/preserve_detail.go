@@ -5,6 +5,7 @@ import (
 	"github.com/go-xorm/xorm"
 	"github.com/golang/glog"
 	"github.com/sdjyliqi/feirars/utils"
+	"strings"
 	"time"
 )
 
@@ -191,4 +192,89 @@ func (t PreserveDetail) GetItemsByPage(client *xorm.Engine, chn string, pageID, 
 		return nil, 0, err
 	}
 	return items, cnt, nil
+}
+
+func (t PreserveDetail) GetChartItems(client *xorm.Engine, chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error) {
+	chartXvalue := []string{}
+	chartXDic := map[string]bool{}
+	timeTS, timeTE := utils.ConvertToTime(tsStart), utils.ConvertToTime(tsEnd)
+	var items []*PreserveDetail
+	session := client.Where("event_time>=?", timeTS).And("event_time<=?", timeTE)
+	if chn != "" {
+		chnList := utils.ChannelList(chn)
+		session = session.In("channel", chnList)
+	}
+	err := session.OrderBy("event_time,channel").
+		Find(&items)
+	if err != nil {
+		glog.Errorf("[mysql]Get the items for from table %s failed,err:%+v", t.TableName(), err)
+		return nil, err
+	}
+
+	chartUVValue := map[string]utils.ChartLineSeries{}
+	chartNewUVValue := map[string]utils.ChartLineSeries{}
+	for _, v := range items {
+		//时间正序计算x轴的日期
+		xValue := v.EventTime.Format(utils.DayTime)
+		_, ok := chartXDic[xValue]
+		if !ok {
+			chartXDic[xValue] = true
+			chartXvalue = append(chartXvalue, xValue)
+		}
+		//计算UV chart数据
+		idx := fmt.Sprintf("%s%s%s", v.Channel, utils.SepChar, "-")
+		val, ok := chartUVValue[idx]
+		if ok {
+			val.Data = append(val.Data, float64(v.Uv))
+			val.EventTime = append(val.EventTime, xValue)
+			chartUVValue[idx] = val
+		} else {
+			chartUVValue[idx] = utils.ChartLineSeries{
+				Data:      []float64{float64(v.Uv)},
+				EventTime: []string{xValue},
+			}
+		}
+		//计算新增UV chart
+		val, ok = chartNewUVValue[idx]
+		if ok {
+			val.Data = append(val.Data, float64(v.Uv))
+			val.EventTime = append(val.EventTime, xValue)
+			chartNewUVValue[idx] = val
+		} else {
+			chartNewUVValue[idx] = utils.ChartLineSeries{
+				Data:      []float64{float64(v.Uv)},
+				EventTime: []string{xValue},
+			}
+		}
+	}
+
+	var chartYlines []utils.ChartSeriesYValue
+	for k, v := range chartUVValue {
+		infos := strings.Split(k, utils.SepChar)
+		lineTitle := fmt.Sprintf("%s渠道UV趋势图", infos[0])
+		chartYLine := utils.ChartSeriesYValue{
+			Name:      lineTitle,
+			ChartType: "line",
+			Data:      v.Data,
+			EventTime: v.EventTime,
+		}
+		chartYlines = append(chartYlines, chartYLine)
+	}
+	for k, v := range chartNewUVValue {
+		infos := strings.Split(k, utils.SepChar)
+		//chan_
+		lineTitle := fmt.Sprintf("%s渠道新增UV趋势图", infos[0])
+		chartYLine := utils.ChartSeriesYValue{
+			Name:      lineTitle,
+			ChartType: "line",
+			Data:      v.Data,
+			EventTime: v.EventTime,
+		}
+		chartYlines = append(chartYlines, chartYLine)
+	}
+	chartItems := &utils.ChartDetail{
+		XAxis:  chartXvalue,
+		Series: chartYlines,
+	}
+	return utils.ChartItemsMend(chartItems), err
 }
