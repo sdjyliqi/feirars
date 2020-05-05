@@ -237,12 +237,12 @@ func (t PreserveDetail) GetChartItems(client *xorm.Engine, chn string, tsStart, 
 		//计算新增UV chart
 		val, ok = chartNewUVValue[idx]
 		if ok {
-			val.Data = append(val.Data, float64(v.Uv))
+			val.Data = append(val.Data, float64(v.NewUv))
 			val.EventTime = append(val.EventTime, xValue)
 			chartNewUVValue[idx] = val
 		} else {
 			chartNewUVValue[idx] = utils.ChartLineSeries{
-				Data:      []float64{float64(v.Uv)},
+				Data:      []float64{float64(v.NewUv)},
 				EventTime: []string{xValue},
 			}
 		}
@@ -260,6 +260,7 @@ func (t PreserveDetail) GetChartItems(client *xorm.Engine, chn string, tsStart, 
 		}
 		chartYlines = append(chartYlines, chartYLine)
 	}
+
 	for k, v := range chartNewUVValue {
 		infos := strings.Split(k, utils.SepChar)
 		//chan_

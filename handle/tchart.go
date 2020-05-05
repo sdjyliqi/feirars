@@ -91,6 +91,5 @@ func HandleChart(c *gin.Context) {
 		return
 
 	}
-
 	c.JSON(http.StatusOK, gin.H{"code": 400, "msg": "type参数错误"})
 }

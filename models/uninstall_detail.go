@@ -163,12 +163,12 @@ func (t UninstallDetail) GetChartItems(client *xorm.Engine, chn string, tsStart,
 		val, ok = chartUVValue[idx]
 		//pv chart
 		if ok {
-			val.Data = append(val.Data, float64(v.Pv))
+			val.Data = append(val.Data, float64(v.Uv))
 			val.EventTime = append(val.EventTime, xValue)
 			chartUVValue[idx] = val
 		} else {
 			chartUVValue[idx] = utils.ChartLineSeries{
-				Data:      []float64{float64(v.Pv)},
+				Data:      []float64{float64(v.Uv)},
 				EventTime: []string{xValue},
 			}
 		}
