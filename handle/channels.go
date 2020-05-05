@@ -22,7 +22,7 @@ func HandleChannels(c *gin.Context) {
 	}
 	switch reqArgs.ModuleName {
 	case "install":
-		items, err := PingbackCenter.GetActiveChannel()
+		items, err := PingbackCenter.GetInstallChannel()
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -30,7 +30,7 @@ func HandleChannels(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 0, "items": items})
 		return
 	case "uninstall":
-		items, err := PingbackCenter.GetActiveChannel()
+		items, err := PingbackCenter.GetUninstallChannel()
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -47,7 +47,7 @@ func HandleChannels(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 0, "items": items})
 		return
 	case "news":
-		items, err := PingbackCenter.GetActiveChannel()
+		items, err := PingbackCenter.GetNewsChannel()
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -56,7 +56,7 @@ func HandleChannels(c *gin.Context) {
 		return
 
 	case "preserve":
-		items, err := PingbackCenter.GetActiveChannel()
+		items, err := PingbackCenter.GetPreserveChannel()
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -64,7 +64,7 @@ func HandleChannels(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 0, "items": items})
 		return
 	case "feirar":
-		items, err := PingbackCenter.GetActiveChannel()
+		items, err := PingbackCenter.GetFeirarChannel()
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
