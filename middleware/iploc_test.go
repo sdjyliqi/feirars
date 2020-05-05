@@ -8,12 +8,6 @@ import (
 )
 
 func Test_IPLOC(t *testing.T) {
-	//db, err := geoip2.Open("E:\\GoWorker\\src\\github.com\\sdjyliqi\\feirars\\data\\GeoLite2-City.mmdb")
-	//if err != nil {
-	//	log.Fatal(err)
-	//}
-	//defer db.Close()
-	// If you are using strings that may be invalid, check that ip is not nil
 	ip := net.ParseIP("101.29.75.209")
 	record, err := Reader.City(ip)
 	if err != nil {
