@@ -15,17 +15,16 @@ type PreserveDetail struct {
 	Channel          string    `json:"channel" xorm:"VARCHAR(64)"`
 	Uv               int       `json:"uv" xorm:"INT(11)"`
 	NewUv            int       `json:"new_uv" xorm:"INT(11)"`
-	PassedWeekActive int       `json:"week_befer_active" xorm:"INT(11)"`
-
-	Day1Active int       `json:"day1_active" xorm:"INT(11)"`
-	Day2Active int       `json:"day2_active" xorm:"INT(11)"`
-	Day3Active int       `json:"day3_active" xorm:"INT(11)"`
-	Day4Active int       `json:"day4_active" xorm:"INT(11)"`
-	Day5Active int       `json:"day5_active" xorm:"INT(11)"`
-	Day6Active int       `json:"day6_active" xorm:"INT(11)"`
-	WeekActive int       `json:"week_active" xorm:"INT(11)"`
-	Detail     string    `json:"detail" xorm:"TEXT"`
-	LastUpdate time.Time `json:"last_update" xorm:"DATETIME"`
+	PassedWeekActive int       `json:"passed_week_active" xorm:"INT(11)"`
+	Day1Active       int       `json:"day1_active" xorm:"INT(11)"`
+	Day2Active       int       `json:"day2_active" xorm:"INT(11)"`
+	Day3Active       int       `json:"day3_active" xorm:"INT(11)"`
+	Day4Active       int       `json:"day4_active" xorm:"INT(11)"`
+	Day5Active       int       `json:"day5_active" xorm:"INT(11)"`
+	Day6Active       int       `json:"day6_active" xorm:"INT(11)"`
+	WeekActive       int       `json:"week_active" xorm:"INT(11)"`
+	Detail           string    `json:"detail" xorm:"TEXT"`
+	LastUpdate       time.Time `json:"last_update" xorm:"DATETIME"`
 }
 type PreserveDetailWeb struct {
 	Id               string `json:"id" `
