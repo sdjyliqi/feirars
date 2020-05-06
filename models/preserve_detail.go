@@ -10,11 +10,13 @@ import (
 )
 
 type PreserveDetail struct {
-	Id         int       `json:"id" xorm:"not null pk autoincr INT(11)"`
-	EventTime  time.Time `json:"event_time" xorm:"not null DATETIME"`
-	Channel    string    `json:"channel" xorm:"VARCHAR(64)"`
-	Uv         int       `json:"uv" xorm:"INT(11)"`
-	NewUv      int       `json:"new_uv" xorm:"INT(11)"`
+	Id               int       `json:"id" xorm:"not null pk autoincr INT(11)"`
+	EventTime        time.Time `json:"event_time" xorm:"not null DATETIME"`
+	Channel          string    `json:"channel" xorm:"VARCHAR(64)"`
+	Uv               int       `json:"uv" xorm:"INT(11)"`
+	NewUv            int       `json:"new_uv" xorm:"INT(11)"`
+	PassedWeekActive int       `json:"week_befer_active" xorm:"INT(11)"`
+
 	Day1Active int       `json:"day1_active" xorm:"INT(11)"`
 	Day2Active int       `json:"day2_active" xorm:"INT(11)"`
 	Day3Active int       `json:"day3_active" xorm:"INT(11)"`
@@ -26,20 +28,21 @@ type PreserveDetail struct {
 	LastUpdate time.Time `json:"last_update" xorm:"DATETIME"`
 }
 type PreserveDetailWeb struct {
-	Id         string `json:"id" `
-	EventTime  string `json:"event_time" `
-	Channel    string `json:"channel" `
-	Uv         string `json:"uv" `
-	NewUv      string `json:"new_uv" `
-	Day1Active string `json:"day1_active"`
-	Day2Active string `json:"day2_active" `
-	Day3Active string `json:"day3_active" `
-	Day4Active string `json:"day4_active"`
-	Day5Active string `json:"day5_active" `
-	Day6Active string `json:"day6_active"`
-	WeekActive string `json:"week_active" `
-	Detail     string `json:"detail" `
-	LastUpdate string `json:"last_update" `
+	Id               string `json:"id" `
+	EventTime        string `json:"event_time" `
+	Channel          string `json:"channel" `
+	Uv               string `json:"uv" `
+	NewUv            string `json:"new_uv" `
+	PassedWeekActive string `json:"passed_week_active"`
+	Day1Active       string `json:"day1_active"`
+	Day2Active       string `json:"day2_active" `
+	Day3Active       string `json:"day3_active" `
+	Day4Active       string `json:"day4_active"`
+	Day5Active       string `json:"day5_active" `
+	Day6Active       string `json:"day6_active"`
+	WeekActive       string `json:"week_active" `
+	Detail           string `json:"detail" `
+	LastUpdate       string `json:"last_update" `
 }
 
 func (t PreserveDetail) TableName() string {
@@ -48,18 +51,19 @@ func (t PreserveDetail) TableName() string {
 
 func (t PreserveDetail) CovertWebItem(item *PreserveDetail) PreserveDetailWeb {
 	webItem := PreserveDetailWeb{
-		EventTime:  item.EventTime.Format(utils.DayTime),
-		Channel:    item.Channel,
-		Uv:         fmt.Sprintf("%d", item.Uv),
-		NewUv:      fmt.Sprintf("%d", item.NewUv),
-		Day1Active: fmt.Sprintf("%d", item.Day1Active),
-		Day2Active: fmt.Sprintf("%d", item.Day2Active),
-		Day3Active: fmt.Sprintf("%d", item.Day3Active),
-		Day4Active: fmt.Sprintf("%d", item.Day4Active),
-		Day5Active: fmt.Sprintf("%d", item.Day5Active),
-		Day6Active: fmt.Sprintf("%d", item.Day6Active),
-		WeekActive: fmt.Sprintf("%d", item.WeekActive),
-		LastUpdate: item.LastUpdate.Format(utils.FullTime),
+		EventTime:        item.EventTime.Format(utils.DayTime),
+		Channel:          item.Channel,
+		Uv:               fmt.Sprintf("%d", item.Uv),
+		NewUv:            fmt.Sprintf("%d", item.NewUv),
+		PassedWeekActive: fmt.Sprintf("%d", item.PassedWeekActive),
+		Day1Active:       fmt.Sprintf("%d", item.Day1Active),
+		Day2Active:       fmt.Sprintf("%d", item.Day2Active),
+		Day3Active:       fmt.Sprintf("%d", item.Day3Active),
+		Day4Active:       fmt.Sprintf("%d", item.Day4Active),
+		Day5Active:       fmt.Sprintf("%d", item.Day5Active),
+		Day6Active:       fmt.Sprintf("%d", item.Day6Active),
+		WeekActive:       fmt.Sprintf("%d", item.WeekActive),
+		LastUpdate:       item.LastUpdate.Format(utils.FullTime),
 	}
 	return webItem
 }
@@ -74,20 +78,26 @@ func (t PreserveDetail) Cols() []map[string]string {
 	cols = append(cols, col_event_day)
 
 	col_client_channel := map[string]string{
-		"name":  "渠道名称",
+		"name":  "渠道",
 		"key":   "channel",
 		"click": "1",
 	}
 	cols = append(cols, col_client_channel)
 
+	col_passed_week := map[string]string{
+		"name": "周活跃",
+		"key":  "passed_week_active",
+	}
+	cols = append(cols, col_passed_week)
+
 	col_uv := map[string]string{
-		"name": "uv",
+		"name": "日活",
 		"key":  "uv",
 	}
 	cols = append(cols, col_uv)
 
 	col_new_uv := map[string]string{
-		"name": "新增用户",
+		"name": "日新增",
 		"key":  "new_uv",
 	}
 	cols = append(cols, col_new_uv)
