@@ -72,7 +72,7 @@ func (t PreserveDetail) CovertWebItem(item *PreserveDetail) PreserveDetailWeb {
 func (t PreserveDetail) Cols() []map[string]string {
 	var cols []map[string]string
 	col_event_day := map[string]string{
-		"name": "事件日期",
+		"name": "日期",
 		"key":  "event_time",
 	}
 	cols = append(cols, col_event_day)
