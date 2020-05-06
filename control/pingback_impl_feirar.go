@@ -59,7 +59,7 @@ func (pc *pingbackCenter) GetFeirarNewsChannel() ([]string, error) {
 
 //GetFeirarUpdateDetailItems ...获取feirar中news 接口统计数据
 func (pc *pingbackCenter) GetFeirarUpdateDetailItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.FeirarDetailWeb, int64, error) {
-	items, count, err := pc.feirarDetail.GetItemsByPage(pc.db, "/api/FeiRarNews", chn, pageID, pageCount, tsStart, tsEnd)
+	items, count, err := pc.feirarDetail.GetItemsByPage(pc.db, "/api/update", chn, pageID, pageCount, tsStart, tsEnd)
 	if err != nil {
 		return nil, 0, nil
 	}
