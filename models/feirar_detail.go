@@ -124,6 +124,7 @@ func (t FeirarDetail) GetItemsByPage(client *xorm.Engine, api, chn string, pageI
 		glog.Errorf("[mysql]Get the items for from table %s failed,err:%+v", t.TableName(), err)
 		return nil, 0, err
 	}
+
 	session = client.Where("event_day>=?", timeTS).And("event_day<=?", timeTE)
 	if chn != "" {
 		chnList := utils.ChannelList(chn)

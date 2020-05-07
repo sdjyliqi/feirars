@@ -12,14 +12,14 @@ func Test_FeirarDetailGetItemsByPage(t *testing.T) {
 	testFeirarDetail := FeirarDetail{}
 	items, count, err := testFeirarDetail.GetItemsByPage(testutil.TestMysql, "", "", 1, 100, 0, time.Now().Unix())
 	t.Log(items, count, err)
-	for _, v := range items {
-		t.Log(v.EventDay, v.Pv)
-	}
+
 	items, count, err = testFeirarDetail.GetItemsByPage(testutil.TestMysql, "/api/update", "", 1, 100, 0, time.Now().Unix())
 	t.Log(items, count, err)
-
-	items, count, err = testFeirarDetail.GetItemsByPage(testutil.TestMysql, "/api/FeiRarNews", "", 1, 100, 0, time.Now().Unix())
-	t.Log(items, count, err)
+	for _, v := range items {
+		t.Log(v.EventDay, v.EventKey, v.Pv)
+	}
+	//items, count, err = testFeirarDetail.GetItemsByPage(testutil.TestMysql, "/api/FeiRarNews", "", 1, 100, 0, time.Now().Unix())
+	//t.Log(items, count, err)
 
 }
 

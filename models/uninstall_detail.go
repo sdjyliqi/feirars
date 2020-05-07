@@ -101,16 +101,28 @@ func (t UninstallDetail) GetItemsByPage(client *xorm.Engine, chn string, pageID,
 	var items []*UninstallDetail
 	item := &UninstallDetail{}
 	timeTS, timeTE := utils.ConvertToTime(tsStart), utils.ConvertToTime(tsEnd)
-	err := client.
+	//按照页获取
+	session := client.
 		Where("event_day>=?", timeTS).And("event_day<=?", timeTE).
-		Desc("event_day").
-		Limit(pageCount, pageCount*(pageID-1)).
+		Desc("event_day")
+
+	if chn != "" {
+		chnList := utils.ChannelList(chn)
+		session = session.In("channel", chnList)
+	}
+	err := session.Limit(pageCount, pageCount*(pageID-1)).
 		Find(&items)
 	if err != nil {
 		glog.Errorf("[mysql]Get the items for from table %s failed,err:%+v", t.TableName(), err)
 		return nil, 0, err
 	}
-	cnt, err := client.Where("event_day>=?", timeTS).And("event_day<=?", timeTE).Count(item)
+	//获取总条数
+	session = client.Where("event_day>=?", timeTS).And("event_day<=?", timeTE)
+	if chn != "" {
+		chnList := utils.ChannelList(chn)
+		session = session.In("channel", chnList)
+	}
+	cnt, err := session.Count(item)
 	if err != nil {
 		glog.Errorf("[mysql]Get the count of items for from table %s failed,err:%+v", t.TableName(), err)
 		return nil, 0, err

@@ -2,6 +2,7 @@ package models
 
 import (
 	"github.com/sdjyliqi/feirars/testutil"
+	"github.com/sdjyliqi/feirars/utils"
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
@@ -12,7 +13,7 @@ func Test_PreserveDetailGetItemsByPage(t *testing.T) {
 	items, count, err := testPreserveDetail.GetItemsByPage(testutil.TestMysql, "all,BZ", 1, 10, 0, time.Now().Unix())
 	t.Log(items, count, err)
 	for _, v := range items {
-		t.Log(v.EventTime, v.Uv)
+		t.Log(v.LastUpdate.Format(utils.FullTime), v.Uv)
 	}
 }
 func Test_PreserveDetailGetAllChannels(t *testing.T) {
