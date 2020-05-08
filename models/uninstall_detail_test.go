@@ -9,9 +9,12 @@ import (
 
 func Test_UninstallDetailGetItemsByPage(t *testing.T) {
 	testUninstallDetail := UninstallDetail{}
-	items, count, err := testUninstallDetail.GetItemsByPage(testutil.TestMysql, "all,BZ", 1, 10, 0, time.Now().Unix())
+	items, count, err := testUninstallDetail.GetItemsByPage(testutil.TestMysql, "BZ", 1, 10, 0, time.Now().Unix())
 	assert.Nil(t, err)
 	t.Log(items, count, err)
+	for _, v := range items {
+		t.Log(v.Channel)
+	}
 }
 
 func Test_UninstallDetailGetAllChannels(t *testing.T) {
@@ -23,7 +26,7 @@ func Test_UninstallDetailGetAllChannels(t *testing.T) {
 
 func Test_UninstallDetailGetChartItems(t *testing.T) {
 	testUninstallDetail := UninstallDetail{}
-	items, err := testUninstallDetail.GetChartItems(testutil.TestMysql, "", 0, time.Now().Unix())
+	items, err := testUninstallDetail.GetChartItems(testutil.TestMysql, "all", 0, time.Now().Unix())
 	assert.Nil(t, err)
 	t.Log(items, err)
 }
