@@ -3,6 +3,7 @@ package control
 import (
 	"github.com/sdjyliqi/feirars/models"
 	"github.com/sdjyliqi/feirars/utils"
+	"strings"
 )
 
 //获取安装统计数据
@@ -25,8 +26,16 @@ func (pc *pingbackCenter) GetInstallDetailCols() []map[string]string {
 }
 
 //GetInstallChannel ...获取安装统计项的所有渠道列表
-func (pc *pingbackCenter) GetInstallChannel() ([]string, error) {
-	return pc.installDetail.GetAllChannels(pc.db)
+func (pc *pingbackCenter) GetInstallChannel(name string) ([]string, error) {
+	item, err := pc.userBasic.GetUserBasic(pc.db, name)
+	if err != nil {
+		return nil, err
+	}
+	if item.Chn == "" {
+		return pc.installDetail.GetAllChannels(pc.db)
+	}
+	chn_list := strings.Split(item.Chn, ",")
+	return chn_list, nil
 }
 
 //GetInstallNewsChart ...获取渠道统计安装的趋势图数据

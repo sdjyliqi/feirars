@@ -3,6 +3,7 @@ package control
 import (
 	"github.com/sdjyliqi/feirars/models"
 	"github.com/sdjyliqi/feirars/utils"
+	"strings"
 )
 
 //GetPreserveDetailItems ...获取留存统计相关数据
@@ -25,8 +26,16 @@ func (pc *pingbackCenter) GetPreserveDetailCols() []map[string]string {
 }
 
 //GetPreserveChannel ...获取留存的所有渠道
-func (pc *pingbackCenter) GetPreserveChannel() ([]string, error) {
-	return pc.preserveDetail.GetAllChannels(pc.db)
+func (pc *pingbackCenter) GetPreserveChannel(name string) ([]string, error) {
+	item, err := pc.userBasic.GetUserBasic(pc.db, name)
+	if err != nil {
+		return nil, err
+	}
+	if item.Chn == "" {
+		return pc.preserveDetail.GetAllChannels(pc.db)
+	}
+	chn_list := strings.Split(item.Chn, ",")
+	return chn_list, nil
 }
 
 //GetPreserveChart...基于渠道的留存统计图

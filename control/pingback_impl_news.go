@@ -3,6 +3,7 @@ package control
 import (
 	"github.com/sdjyliqi/feirars/models"
 	"github.com/sdjyliqi/feirars/utils"
+	"strings"
 )
 
 //GetNewsDetailItems ...获取客户端咨询弹窗相关接口
@@ -24,8 +25,17 @@ func (pc *pingbackCenter) GetNewsDetailCols() []map[string]string {
 	return pc.newsDetail.Cols()
 }
 
-func (pc *pingbackCenter) GetNewsChannel() ([]string, error) {
-	return pc.newsDetail.GetAllChannels(pc.db)
+func (pc *pingbackCenter) GetNewsChannel(name string) ([]string, error) {
+	item, err := pc.userBasic.GetUserBasic(pc.db, name)
+	if err != nil {
+		return nil, err
+	}
+	if item.Chn == "" {
+		return pc.newsDetail.GetAllChannels(pc.db)
+	}
+
+	chn_list := strings.Split(item.Chn, ",")
+	return chn_list, nil
 }
 
 //GetNewsChart ...获取渠道弹窗的趋势图数据

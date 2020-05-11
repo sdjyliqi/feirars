@@ -3,6 +3,7 @@ package control
 import (
 	"github.com/sdjyliqi/feirars/models"
 	"github.com/sdjyliqi/feirars/utils"
+	"strings"
 )
 
 func (pc *pingbackCenter) GetUninstallDetailItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.UninstallDetailWeb, int64, error) {
@@ -24,8 +25,16 @@ func (pc *pingbackCenter) GetUninstallDetailCols() []map[string]string {
 }
 
 //GetUninstallChannel...获取卸载事件的所有客户端渠道
-func (pc *pingbackCenter) GetUninstallChannel() ([]string, error) {
-	return pc.uninstallDetail.GetAllChannels(pc.db)
+func (pc *pingbackCenter) GetUninstallChannel(name string) ([]string, error) {
+	item, err := pc.userBasic.GetUserBasic(pc.db, name)
+	if err != nil {
+		return nil, err
+	}
+	if item.Chn == "" {
+		return pc.uninstallDetail.GetAllChannels(pc.db)
+	}
+	chn_list := strings.Split(item.Chn, ",")
+	return chn_list, nil
 }
 
 //GetUninstallChart ...获取卸载统计趋势图数据

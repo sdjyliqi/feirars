@@ -9,6 +9,7 @@ type UserBasic struct {
 	Id          int    `json:"id" xorm:"not null pk autoincr INT(11)"`
 	UserName    string `json:"user_name" xorm:"VARCHAR(64)"`
 	Passport    string `json:"passport" xorm:"VARCHAR(64)"`
+	Chn         string `json:"chn" xorm:"VARCHAR(128)"`
 	MobilePhone string `json:"mphone" xorm:"VARCHAR(64)"`
 }
 

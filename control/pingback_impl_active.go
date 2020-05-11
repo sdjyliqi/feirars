@@ -3,6 +3,7 @@ package control
 import (
 	"github.com/sdjyliqi/feirars/models"
 	"github.com/sdjyliqi/feirars/utils"
+	"strings"
 )
 
 //GetActiveDetailItems ...获取客户的激活方式统计数据
@@ -23,8 +24,16 @@ func (pc *pingbackCenter) GetActiveDetailCols() []map[string]string {
 	return pc.activeDetail.Cols()
 }
 
-func (pc *pingbackCenter) GetActiveChannel() ([]string, error) {
-	return pc.activeDetail.GetAllChannels(pc.db)
+func (pc *pingbackCenter) GetActiveChannel(name string) ([]string, error) {
+	item, err := pc.userBasic.GetUserBasic(pc.db, name)
+	if err != nil {
+		return nil, err
+	}
+	if item.Chn == "" {
+		return pc.activeDetail.GetAllChannels(pc.db)
+	}
+	chn_list := strings.Split(item.Chn, ",")
+	return chn_list, nil
 }
 
 func (pc *pingbackCenter) GetActiveChart(chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error) {

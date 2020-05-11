@@ -9,6 +9,7 @@ import (
 //ChannelsArgs ...ChannelsArgs统计体
 type ChannelsArgs struct {
 	ModuleName string `json:"type" form:"type" binding:"required"`
+	UserName   string `json:"type" form:"name" binding:"required"`
 }
 
 func HandleChannels(c *gin.Context) {
@@ -16,13 +17,13 @@ func HandleChannels(c *gin.Context) {
 	glog.Info(header)
 	var reqArgs ChannelsArgs
 	err := c.ShouldBind(&reqArgs)
-	if err != nil || reqArgs.ModuleName == "" {
+	if err != nil || reqArgs.ModuleName == "" || reqArgs.UserName == "" {
 		c.JSON(http.StatusOK, gin.H{"code": 400, "msg": "参数错误"})
 		return
 	}
 	switch reqArgs.ModuleName {
 	case "install":
-		items, err := PingbackCenter.GetInstallChannel()
+		items, err := PingbackCenter.GetInstallChannel(reqArgs.UserName)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -30,7 +31,7 @@ func HandleChannels(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 0, "items": items})
 		return
 	case "uninstall":
-		items, err := PingbackCenter.GetUninstallChannel()
+		items, err := PingbackCenter.GetUninstallChannel(reqArgs.UserName)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -39,7 +40,7 @@ func HandleChannels(c *gin.Context) {
 		return
 
 	case "active":
-		items, err := PingbackCenter.GetActiveChannel()
+		items, err := PingbackCenter.GetActiveChannel(reqArgs.UserName)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -47,7 +48,7 @@ func HandleChannels(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 0, "items": items})
 		return
 	case "news":
-		items, err := PingbackCenter.GetNewsChannel()
+		items, err := PingbackCenter.GetNewsChannel(reqArgs.UserName)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -56,7 +57,7 @@ func HandleChannels(c *gin.Context) {
 		return
 
 	case "preserve":
-		items, err := PingbackCenter.GetPreserveChannel()
+		items, err := PingbackCenter.GetPreserveChannel(reqArgs.UserName)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -64,7 +65,7 @@ func HandleChannels(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 0, "items": items})
 		return
 	case "feirar":
-		items, err := PingbackCenter.GetFeirarChannel()
+		items, err := PingbackCenter.GetFeirarChannel(reqArgs.UserName)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -73,7 +74,7 @@ func HandleChannels(c *gin.Context) {
 		return
 
 	case "feirar-news":
-		items, err := PingbackCenter.GetFeirarNewsChannel()
+		items, err := PingbackCenter.GetFeirarNewsChannel(reqArgs.UserName)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -82,7 +83,7 @@ func HandleChannels(c *gin.Context) {
 		return
 
 	case "feirar-update":
-		items, err := PingbackCenter.GetFeirarUpdateChannel()
+		items, err := PingbackCenter.GetFeirarUpdateChannel(reqArgs.UserName)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
