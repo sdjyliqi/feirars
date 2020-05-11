@@ -22,5 +22,15 @@ func UCLogin(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"code": "402", "msg": err.Error(), "city": cityCode})
 		return
 	}
+	cookie := &http.Cookie{
+		Name:  "name",
+		Value: reqArgs.UserName,
+	}
+	http.SetCookie(c.Writer, cookie)
+	cookie = &http.Cookie{
+		Name:  "token",
+		Value: utils.CreateToken(reqArgs.UserName, reqArgs.Passport),
+	}
+	http.SetCookie(c.Writer, cookie)
 	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "ok", "token": utils.CreateToken(reqArgs.UserName, reqArgs.Passport), "city": cityCode, "province": provinceCode})
 }
