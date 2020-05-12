@@ -25,14 +25,14 @@ func (pc *pingbackCenter) GetActiveDetailCols() []map[string]string {
 }
 
 func (pc *pingbackCenter) GetActiveChannel(name string) ([]string, error) {
-	item, err := pc.userBasic.GetUserBasic(pc.db, name)
+	chn, err := pc.UserChn(name)
 	if err != nil {
-		return nil, err
+		return []string{}, nil
 	}
-	if item.Chn == "" {
+	if chn == "" {
 		return pc.activeDetail.GetAllChannels(pc.db)
 	}
-	chn_list := strings.Split(item.Chn, ",")
+	chn_list := strings.Split(chn, ",")
 	return chn_list, nil
 }
 

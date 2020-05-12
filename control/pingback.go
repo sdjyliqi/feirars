@@ -1,10 +1,12 @@
 package control
 
 import (
+	"errors"
 	"github.com/go-xorm/xorm"
 	"github.com/sdjyliqi/feirars/conf"
 	"github.com/sdjyliqi/feirars/models"
 	"github.com/sdjyliqi/feirars/utils"
+	"strings"
 )
 
 type PingbackCenter interface {
@@ -77,4 +79,48 @@ func CreatePingbackCenter(cfg *conf.FeirarConfig) PingbackCenter {
 		preserveDetail:  models.PreserveDetail{},
 		userBasic:       models.UserBasic{},
 	}
+}
+
+func (uc *pingbackCenter) UserChn(userID string) (string, error) {
+	item, err := uc.userBasic.GetUserBasic(uc.db, userID)
+	if err != nil {
+		return "", err
+	}
+	if item == nil {
+		return "", errors.New("must-auth")
+	}
+	return item.Chn, nil
+}
+
+func (uc *pingbackCenter) UserAuthChn(userID, requestChn string) string {
+	item, err := uc.userBasic.GetUserBasic(uc.db, userID)
+	if err != nil {
+		return "XXX"
+	}
+	//如果该用户的授权渠道为空，证明全部放开
+	if item.Chn == "" {
+		return requestChn
+	}
+	//如果用户请求的渠道为空，直接返回已经授权的渠道
+	if requestChn == "" {
+		return item.Chn
+	}
+
+	chnMap := map[string]bool{}
+	chnListInDB := strings.Split(item.Chn, ",")
+	for _, v := range chnListInDB {
+		chnMap[v] = true
+	}
+	authChnList := []string{}
+	chnListRequest := strings.Split(requestChn, ",")
+	for _, v := range chnListRequest {
+		_, ok := chnMap[v]
+		if ok {
+			authChnList = append(authChnList, v)
+		}
+	}
+	if len(authChnList) == 0 {
+		return "XXX"
+	}
+	return strings.Join(authChnList, ",")
 }

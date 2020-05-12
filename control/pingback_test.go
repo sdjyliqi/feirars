@@ -17,7 +17,7 @@ func Test_GetActiveDetailItems(t *testing.T) {
 }
 
 func Test_GetActiveDetailChannels(t *testing.T) {
-	item, err := TestUtil.GetActiveChannel()
+	item, err := TestUtil.GetActiveChannel("admin")
 	assert.Nil(t, err)
 	t.Log(item)
 }
@@ -35,7 +35,7 @@ func Test_GetInstallDetailItems(t *testing.T) {
 }
 
 func Test_GetInstallDetailChannels(t *testing.T) {
-	item, err := TestUtil.GetInstallChannel()
+	item, err := TestUtil.GetInstallChannel("admin")
 	assert.Nil(t, err)
 	t.Log(item)
 }

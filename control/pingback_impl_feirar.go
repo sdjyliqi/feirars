@@ -97,5 +97,13 @@ func (pc *pingbackCenter) GetFeirarUpdateChart(chn string, tsStart, tsEnd int64)
 	return pc.feirarDetail.GetChartItems(pc.db, "/api/update", chn, tsStart, tsEnd)
 }
 func (pc *pingbackCenter) GetFeirarUpdateChannel(name string) ([]string, error) {
-	return pc.feirarDetail.GetAllChannels(pc.db, "/api/update")
+	item, err := pc.userBasic.GetUserBasic(pc.db, name)
+	if err != nil {
+		return nil, err
+	}
+	if item.Chn == "" {
+		return pc.feirarDetail.GetAllChannels(pc.db, "/api/update")
+	}
+	chn_list := strings.Split(item.Chn, ",")
+	return chn_list, nil
 }

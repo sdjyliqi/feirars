@@ -10,6 +10,8 @@ import (
 type UserCenter interface {
 	Login(userID, passport string) error //用户登录
 	Logout(userID string) error          //用户登录
+	UserAuthChn(userID, requestChn string) string
+	UserChn(userID string) ([]string, error)
 }
 
 type userCenter struct {
