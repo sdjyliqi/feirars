@@ -12,7 +12,7 @@ func Test_InstallDetailGetItemsByPage(t *testing.T) {
 	items, count, err := testInstallDetail.GetItemsByPage(testutil.TestMysql, "all,BZ", 1, 10, 0, time.Now().Unix())
 	t.Log(items, count, err)
 	for _, v := range items {
-		t.Log(v.EventDay, v.Pv)
+		t.Log(v.EventDay, v.Pv, v.Day1Active, v.Day2Active, v.Day3Active, v.WeekActive)
 	}
 }
 
