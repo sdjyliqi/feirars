@@ -15,6 +15,13 @@ type InstallDetail struct {
 	Channel    string    `json:"channel" xorm:"VARCHAR(64)"`
 	Pv         int       `json:"pv" xorm:"comment('PV用户数') INT(11)"`
 	Uv         int       `json:"uv" xorm:"comment('UV用户数') INT(11)"`
+	Day1Active int       `json:"day1_active" xorm:"INT(11)"`
+	Day2Active int       `json:"day2_active" xorm:"INT(11)"`
+	Day3Active int       `json:"day3_active" xorm:"INT(11)"`
+	Day4Active int       `json:"day4_active" xorm:"INT(11)"`
+	Day5Active int       `json:"day5_active" xorm:"INT(11)"`
+	Day6Active int       `json:"day6_active" xorm:"INT(11)"`
+	WeekActive int       `json:"week_active" xorm:"INT(11)"`
 	LastUpdate time.Time `json:"last_update" xorm:"not null comment('更新数据时间') DATETIME"`
 	Detail     string    `json:"detail" xorm:"TEXT"`
 }
@@ -25,6 +32,13 @@ type InstallDetailWeb struct {
 	Channel    string `json:"channel"`
 	Pv         string `json:"pv"`
 	Uv         string `json:"uv"`
+	Day1Active string `json:"day1_active"`
+	Day2Active string `json:"day2_active" `
+	Day3Active string `json:"day3_active" `
+	Day4Active string `json:"day4_active"`
+	Day5Active string `json:"day5_active" `
+	Day6Active string `json:"day6_active"`
+	WeekActive string `json:"week_active" `
 	LastUpdate string `json:"last_update"`
 	Detail     string `json:"detail"`
 }
@@ -39,6 +53,14 @@ func (t InstallDetail) CovertWebItem(item *InstallDetail) InstallDetailWeb {
 		Channel:    item.Channel,
 		Pv:         fmt.Sprintf("%d", item.Pv),
 		Uv:         fmt.Sprintf("%d", item.Uv),
+		Day1Active: fmt.Sprintf("%d", item.Day1Active),
+		Day2Active: fmt.Sprintf("%d", item.Day2Active),
+		Day3Active: fmt.Sprintf("%d", item.Day3Active),
+		Day4Active: fmt.Sprintf("%d", item.Day4Active),
+		Day5Active: fmt.Sprintf("%d", item.Day5Active),
+		Day6Active: fmt.Sprintf("%d", item.Day6Active),
+		WeekActive: fmt.Sprintf("%d", item.WeekActive),
+
 		LastUpdate: item.LastUpdate.Format(utils.FullTime),
 	}
 	return webItem
@@ -72,6 +94,55 @@ func (t InstallDetail) Cols() []map[string]string {
 		"key":   "uv",
 		"click": "0",
 	}
+
+	col_day1_active := map[string]string{
+		"name": "1日留存",
+		"key":  "day1_active",
+	}
+	cols = append(cols, col_day1_active)
+
+	//二日留存
+	col_day2_active := map[string]string{
+		"name": "2日留存",
+		"key":  "day2_active",
+	}
+	cols = append(cols, col_day2_active)
+
+	//三日留存
+	col_day3_active := map[string]string{
+		"name": "3日留存",
+		"key":  "day3_active",
+	}
+	cols = append(cols, col_day3_active)
+
+	//四日留存
+	col_day4_active := map[string]string{
+		"name": "4日留存",
+		"key":  "day4_active",
+	}
+	cols = append(cols, col_day4_active)
+
+	//五日留存
+	col_day5_active := map[string]string{
+		"name": "5日留存",
+		"key":  "day5_active",
+	}
+	cols = append(cols, col_day5_active)
+
+	//六日留存
+	col_day6_active := map[string]string{
+		"name": "6日留存",
+		"key":  "day6_active",
+	}
+	cols = append(cols, col_day6_active)
+
+	//周留存
+	col_week_active := map[string]string{
+		"name": "周留存",
+		"key":  "week_active",
+	}
+	cols = append(cols, col_week_active)
+
 	cols = append(cols, col_uv)
 	col_last_update := map[string]string{
 		"name":  "更新时间",
