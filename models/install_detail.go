@@ -94,6 +94,7 @@ func (t InstallDetail) Cols() []map[string]string {
 		"key":   "uv",
 		"click": "0",
 	}
+	cols = append(cols, col_uv)
 
 	col_day1_active := map[string]string{
 		"name": "1日留存",
@@ -143,7 +144,6 @@ func (t InstallDetail) Cols() []map[string]string {
 	}
 	cols = append(cols, col_week_active)
 
-	cols = append(cols, col_uv)
 	col_last_update := map[string]string{
 		"name":  "更新时间",
 		"key":   "last_update",
