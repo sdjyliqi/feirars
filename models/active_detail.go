@@ -49,44 +49,44 @@ func (t ActiveDetail) CovertWebItem(item *ActiveDetail) ActiveDetailWeb {
 //Cols ...用户web显示使用
 func (t ActiveDetail) Cols() []map[string]string {
 	var cols []map[string]string
-	col_event_day := map[string]string{
+	colEventDay := map[string]string{
 		"name":  "日期",
 		"key":   "event_day",
 		"click": "0",
 	}
-	cols = append(cols, col_event_day)
+	cols = append(cols, colEventDay)
 
-	col_client_channel := map[string]string{
+	colClientChannel := map[string]string{
 		"name":  "渠道",
 		"key":   "channel",
 		"click": "1",
 	}
-	cols = append(cols, col_client_channel)
+	cols = append(cols, colClientChannel)
 
-	col_active_mode := map[string]string{
+	colActiveMode := map[string]string{
 		"name":  "激活方式",
 		"key":   "active_mode",
 		"click": "0",
 	}
-	cols = append(cols, col_active_mode)
-	col_pv := map[string]string{
+	cols = append(cols, colActiveMode)
+	colPv := map[string]string{
 		"name":  "pv",
 		"key":   "pv",
 		"click": "0",
 	}
-	cols = append(cols, col_pv)
-	col_uv := map[string]string{
+	cols = append(cols, colPv)
+	colUv := map[string]string{
 		"name":  "uv",
 		"key":   "uv",
 		"click": "0",
 	}
-	cols = append(cols, col_uv)
-	col_last_update := map[string]string{
+	cols = append(cols, colUv)
+	colLastUpdate := map[string]string{
 		"name":  "更新时间",
 		"key":   "last_update",
 		"click": "0",
 	}
-	cols = append(cols, col_last_update)
+	cols = append(cols, colLastUpdate)
 	return cols
 }
 

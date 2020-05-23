@@ -54,53 +54,53 @@ func (t NewsDetail) CovertWebItem(item *NewsDetail) NewsDetailWeb {
 //Cols ...用户web显示使用
 func (t NewsDetail) Cols() []map[string]string {
 	var cols []map[string]string
-	col_event_day := map[string]string{
+	colEventDay := map[string]string{
 		"name": "日期",
 		"key":  "event_day",
 	}
-	cols = append(cols, col_event_day)
+	cols = append(cols, colEventDay)
 
-	col_client_channel := map[string]string{
+	colClientChannel := map[string]string{
 		"name":  "渠道",
 		"key":   "channel",
 		"click": "1",
 	}
-	cols = append(cols, col_client_channel)
+	cols = append(cols, colClientChannel)
 
-	col_show_pv := map[string]string{
+	colShowPv := map[string]string{
 		"name":  "show pv",
 		"key":   "show_pv",
 		"click": "0",
 	}
-	cols = append(cols, col_show_pv)
+	cols = append(cols, colShowPv)
 
-	col_show_uv := map[string]string{
+	colShowUv := map[string]string{
 		"name":  "show uv",
 		"key":   "show_uv",
 		"click": "0",
 	}
-	cols = append(cols, col_show_uv)
+	cols = append(cols, colShowUv)
 
-	col_click_pv := map[string]string{
+	colClickPv := map[string]string{
 		"name":  "click pv",
 		"key":   "click_pv",
 		"click": "0",
 	}
-	cols = append(cols, col_click_pv)
+	cols = append(cols, colClickPv)
 
-	col_click_uv := map[string]string{
+	colClickUv := map[string]string{
 		"name":  "click uv",
 		"key":   "click_uv",
 		"click": "0",
 	}
-	cols = append(cols, col_click_uv)
+	cols = append(cols, colClickUv)
 
-	col_last_update := map[string]string{
+	colLastUpdate := map[string]string{
 		"name":  "更新时间",
 		"key":   "last_update",
 		"click": "0",
 	}
-	cols = append(cols, col_last_update)
+	cols = append(cols, colLastUpdate)
 	return cols
 }
 

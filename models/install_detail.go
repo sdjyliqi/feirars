@@ -69,87 +69,87 @@ func (t InstallDetail) CovertWebItem(item *InstallDetail) InstallDetailWeb {
 //Cols ...用户web显示使用
 func (t InstallDetail) Cols() []map[string]string {
 	var cols []map[string]string
-	col_event_day := map[string]string{
+	colEventDay := map[string]string{
 		"name":  "日期",
 		"key":   "event_day",
 		"click": "0",
 	}
-	cols = append(cols, col_event_day)
+	cols = append(cols, colEventDay)
 
-	col_channel := map[string]string{
+	colChannel := map[string]string{
 		"name":  "渠道",
 		"key":   "channel",
 		"click": "1",
 	}
-	cols = append(cols, col_channel)
+	cols = append(cols, colChannel)
 
-	col_pv := map[string]string{
+	colPV := map[string]string{
 		"name":  "pv",
 		"key":   "pv",
 		"click": "0",
 	}
-	cols = append(cols, col_pv)
-	col_uv := map[string]string{
+	cols = append(cols, colPV)
+	colUv := map[string]string{
 		"name":  "uv",
 		"key":   "uv",
 		"click": "0",
 	}
-	cols = append(cols, col_uv)
+	cols = append(cols, colUv)
 
-	col_day1_active := map[string]string{
+	colDay1Active := map[string]string{
 		"name": "1日留存",
 		"key":  "day1_active",
 	}
-	cols = append(cols, col_day1_active)
+	cols = append(cols, colDay1Active)
 
 	//二日留存
-	col_day2_active := map[string]string{
+	colDay2Active := map[string]string{
 		"name": "2日留存",
 		"key":  "day2_active",
 	}
-	cols = append(cols, col_day2_active)
+	cols = append(cols, colDay2Active)
 
 	//三日留存
-	col_day3_active := map[string]string{
+	colDay3Active := map[string]string{
 		"name": "3日留存",
 		"key":  "day3_active",
 	}
-	cols = append(cols, col_day3_active)
+	cols = append(cols, colDay3Active)
 
 	//四日留存
-	col_day4_active := map[string]string{
+	colDay4Active := map[string]string{
 		"name": "4日留存",
 		"key":  "day4_active",
 	}
-	cols = append(cols, col_day4_active)
+	cols = append(cols, colDay4Active)
 
 	//五日留存
-	col_day5_active := map[string]string{
+	colDay5Active := map[string]string{
 		"name": "5日留存",
 		"key":  "day5_active",
 	}
-	cols = append(cols, col_day5_active)
+	cols = append(cols, colDay5Active)
 
 	//六日留存
-	col_day6_active := map[string]string{
+	colDay6Active := map[string]string{
 		"name": "6日留存",
 		"key":  "day6_active",
 	}
-	cols = append(cols, col_day6_active)
+	cols = append(cols, colDay6Active)
 
 	//周留存
-	col_week_active := map[string]string{
+	colWeekActive := map[string]string{
 		"name": "周留存",
 		"key":  "week_active",
 	}
-	cols = append(cols, col_week_active)
+	cols = append(cols, colWeekActive)
 
-	col_last_update := map[string]string{
+	colLastUpdate := map[string]string{
 		"name":  "更新时间",
 		"key":   "last_update",
 		"click": "0",
 	}
-	cols = append(cols, col_last_update)
+	cols = append(cols, colLastUpdate)
 	return cols
 }
 
