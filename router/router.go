@@ -9,14 +9,22 @@ import (
 func InitRouter(r *gin.Engine) {
 	r.Use(middleware.Cors())
 	r.Use(middleware.Logger())
+	r.Use(middleware.RequestAddIPLoc())
 	// uc先关接口
 	GroupV1 := r.Group("/admin")
 	{
 		GroupV1.GET("/pingback", handle.HandlePingbak)
+		GroupV1.GET("/excel", handle.HandleExcel)
 		GroupV1.GET("/login", handle.UCLogin)
 		GroupV1.POST("/login", handle.UCLogin)
 		GroupV1.GET("/chart", handle.HandleChart)
 		GroupV1.GET("/chn", handle.HandleChannels)
+	}
+
+	//客户端的弹窗相应
+	GroupV2 := r.Group("/api")
+	{
+		GroupV2.GET("/news", handle.HandlePopNews)
 	}
 
 }
