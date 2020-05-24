@@ -1,34 +1,42 @@
 package middleware
 
 import (
+	"fmt"
+	"github.com/gin-gonic/gin"
+	"github.com/lionsoul2014/ip2region/binding/golang/ip2region"
 	"github.com/oschwald/geoip2-golang"
+	"github.com/sdjyliqi/feirars/conf"
+	"log"
+	"sync"
 )
 
 var Reader *geoip2.Reader
 
-//
-//func init() {
-//	var err error
-//	Reader, err = geoip2.Open(conf.DefaultConfig.IPLOC)
-//	if err != nil {
-//		log.Fatalf("[init]Load GeoLite2-City.mmdb failed,err:%+v", err)
-//	}
-//}
-//
-////... RequestAddIPLoc  add request id into header
-//func RequestAddIPLoc() gin.HandlerFunc {
-//	return func(c *gin.Context) {
-//		clientIP := c.ClientIP()
-//		ip := net.ParseIP(clientIP)
-//
-//		record, err := Reader.City(ip)
-//		if err == nil && record != nil && record.City.Names != nil && len(record.City.Names) > 0 {
-//			c.Request.Header.Add("IPLOC", strings.ToUpper(record.City.Names["en"]))
-//		}
-//		if err == nil && record != nil && record.Subdivisions != nil && len(record.Subdivisions) > 0 {
-//			province := record.Subdivisions[0].Names["en"]
-//			c.Request.Header.Add("IPPROVINCE", strings.ToUpper(province))
-//		}
-//		c.Next()
-//	}
-//}
+var ip2util *ip2region.Ip2Region
+var loadIPLocOnce sync.Once
+
+func init() {
+	loadIPLocOnce.Do(func() {
+		var err error
+		ip2util, err = ip2region.New(conf.DefaultConfig.IPLOC)
+		if err != nil {
+			log.Fatalf("[init]Load GeoLite2-City.mmdb failed,err:%+v", err)
+		}
+	})
+}
+
+//... RequestAddIPLoc  add request id into header
+func RequestAddIPLoc() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		ipInfo, err := ip2util.BtreeSearch(c.ClientIP())
+		if err == nil {
+			ipCity := ipInfo.City
+			ipProvince := ipInfo.Province
+			ipCityID := ipInfo.CityId
+			c.Request.Header.Add("IPLOC", fmt.Sprintf("%d", ipCityID))
+			c.Request.Header.Add("IPCITY", ipCity)
+			c.Request.Header.Add("IPPROVINCE", ipProvince)
+		}
+		c.Next()
+	}
+}

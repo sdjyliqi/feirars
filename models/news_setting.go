@@ -12,10 +12,10 @@ type NewsSetting struct {
 	RuleOrder  int       `json:"rule_order" xorm:"comment('策略顺序，值越小，优先级越高') SMALLINT(6)"`
 	TimeStart  int       `json:"time_start" xorm:"INT(11)"`
 	TimeStop   int       `json:"time_stop" xorm:"INT(11)"`
-	ChnList    string    `json:"chn_list" xorm:"TEXT"`
+	ChnList    string    `json:"chn_list" xorm:" varchar(4096)"`
 	ChnSel     int       `json:"chn_sel" xorm:"comment('渠道是否正选或者反选') TINYINT(4)"`
 	CitySel    int       `json:"city_sel" xorm:"comment('正选是0，反选是1') TINYINT(4)"`
-	CityList   string    `json:"city_list" xorm:"comment('城市列表json marshal后的结果') TEXT"`
+	CityList   string    `json:"city_list" xorm:"comment('城市列表json marshal后的结果') varchar(4096)"`
 	HidSel     int       `json:"hid_sel" xorm:"TINYINT(4)"`
 	HidList    string    `json:"hid_list" xorm:"TEXT"`
 	VersionSel int       `json:"version_sel" xorm:"TINYINT(4)"`

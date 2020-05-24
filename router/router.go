@@ -9,6 +9,7 @@ import (
 func InitRouter(r *gin.Engine) {
 	r.Use(middleware.Cors())
 	r.Use(middleware.Logger())
+	r.Use(middleware.RequestAddIPLoc())
 	// uc先关接口
 	GroupV1 := r.Group("/admin")
 	{
@@ -17,6 +18,12 @@ func InitRouter(r *gin.Engine) {
 		GroupV1.POST("/login", handle.UCLogin)
 		GroupV1.GET("/chart", handle.HandleChart)
 		GroupV1.GET("/chn", handle.HandleChannels)
+	}
+
+	GroupV2 := r.Group("/api")
+	{
+		GroupV2.GET("/update", handle.HandleUpdate)
+		GroupV2.GET("/city", handle.HandleCity)
 	}
 
 }
