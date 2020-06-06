@@ -18,6 +18,7 @@ func InitRouter(r *gin.Engine) {
 		GroupV1.POST("/login", handle.UCLogin)
 		GroupV1.GET("/chart", handle.HandleChart)
 		GroupV1.GET("/chn", handle.HandleChannels)
+		GroupV1.GET("/export", handle.Export)
 	}
 
 	GroupV2 := r.Group("/api")

@@ -182,9 +182,11 @@ func (t PreserveDetail) GetItemsByPage(client *xorm.Engine, chn string, pageID, 
 		session = session.In("channel", chnList)
 	}
 
-	err := session.Desc("event_time").
-		Limit(pageCount, pageCount*(pageID-1)).
-		Find(&items)
+	session = session.Desc("event_time")
+	if pageCount > 0 {
+		session = session.Limit(pageCount, pageCount*(pageID-1))
+	}
+	err := session.Find(&items)
 	if err != nil {
 		glog.Errorf("[mysql]Get the items for from table %s failed,err:%+v", t.TableName(), err)
 		return nil, 0, err
