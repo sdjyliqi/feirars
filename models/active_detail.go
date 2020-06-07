@@ -53,6 +53,7 @@ func (t ActiveDetail) Cols() []map[string]string {
 		"name":  "日期",
 		"key":   "event_day",
 		"click": "0",
+		"raw":   "EventDay",
 	}
 	cols = append(cols, colEventDay)
 
@@ -60,6 +61,7 @@ func (t ActiveDetail) Cols() []map[string]string {
 		"name":  "渠道",
 		"key":   "channel",
 		"click": "1",
+		"raw":   "Channel",
 	}
 	cols = append(cols, colClientChannel)
 
@@ -67,24 +69,28 @@ func (t ActiveDetail) Cols() []map[string]string {
 		"name":  "激活方式",
 		"key":   "active_mode",
 		"click": "0",
+		"raw":   "ActiveMode",
 	}
 	cols = append(cols, colActiveMode)
 	colPv := map[string]string{
 		"name":  "pv",
 		"key":   "pv",
 		"click": "0",
+		"raw":   "Pv",
 	}
 	cols = append(cols, colPv)
 	colUv := map[string]string{
 		"name":  "uv",
 		"key":   "uv",
 		"click": "0",
+		"raw":   "Uv",
 	}
 	cols = append(cols, colUv)
 	colLastUpdate := map[string]string{
 		"name":  "更新时间",
 		"key":   "last_update",
 		"click": "0",
+		"raw":   "LastUpdate",
 	}
 	cols = append(cols, colLastUpdate)
 	return cols

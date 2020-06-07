@@ -9,7 +9,7 @@ import (
 func InitRouter(r *gin.Engine) {
 	r.Use(middleware.Cors())
 	r.Use(middleware.Logger())
-	r.Use(middleware.RequestAddIPLoc())
+	//r.Use(middleware.RequestAddIPLoc())
 	// uc先关接口
 	GroupV1 := r.Group("/admin")
 	{

@@ -11,7 +11,6 @@ import (
 )
 
 func ExportInstall(c *gin.Context, cols []map[string]string, items []models.InstallDetailWeb) {
-
 	excelTitleLine := utils.CreateExcelTitle(cols)
 	var excelItems [][]string
 	for _, v := range items {
