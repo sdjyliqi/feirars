@@ -90,6 +90,15 @@ func HandleChart(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 0, "data": items})
 		return
 
+	case "feirar-udtrst":
+		items, err := PingbackCenter.GetUdtrstChart(reqArgs.Channels, reqArgs.TimeStart, reqArgs.TimeEnd)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "data": items})
+		return
+
 	}
 	c.JSON(http.StatusOK, gin.H{"code": 400, "msg": "type参数错误"})
 }

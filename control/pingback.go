@@ -52,6 +52,12 @@ type PingbackCenter interface {
 	GetPreserveDetailCols() []map[string]string
 	GetPreserveChannel(name string) ([]string, error)
 	GetPreserveChart(chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error)
+
+	//信息点击相关统计
+	GetUdtrstDetailItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.UdtrstDetailWeb, int64, error) //获取客户端弹窗统计数据
+	GetUdtrstDetailCols() []map[string]string
+	GetUdtrstChannel(name string) ([]string, error)
+	GetUdtrstChart(chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error)
 }
 
 type pingbackCenter struct {
@@ -64,6 +70,7 @@ type pingbackCenter struct {
 	newsDetail      models.NewsDetail
 	preserveDetail  models.PreserveDetail
 	userBasic       models.UserBasic
+	udtrstDetail    models.UdtrstDetail
 }
 
 func CreatePingbackCenter(cfg *conf.FeirarConfig) PingbackCenter {
@@ -78,6 +85,7 @@ func CreatePingbackCenter(cfg *conf.FeirarConfig) PingbackCenter {
 		newsDetail:      models.NewsDetail{},
 		preserveDetail:  models.PreserveDetail{},
 		userBasic:       models.UserBasic{},
+		udtrstDetail:    models.UdtrstDetail{},
 	}
 }
 

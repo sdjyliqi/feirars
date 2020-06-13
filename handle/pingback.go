@@ -101,6 +101,17 @@ func HandlePingbak(c *gin.Context) {
 		}
 		c.JSON(http.StatusOK, gin.H{"code": 0, "cols": cols, "items": items, "total": count})
 		return
+
+	case "feirar-udtrst":
+		cols := PingbackCenter.GetUdtrstDetailCols()
+		items, count, err := PingbackCenter.GetUdtrstDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "cols": cols, "items": items, "total": count})
+		return
 	}
+
 	c.JSON(http.StatusOK, gin.H{"code": 400, "msg": "type参数错误"})
 }
