@@ -7,8 +7,8 @@ import (
 )
 
 //GetNewsDetailItems ...获取客户端咨询弹窗相关接口
-func (pc *pingbackCenter) GetNewsDetailItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.NewsDetailWeb, int64, error) {
-	items, count, err := pc.newsDetail.GetItemsByPage(pc.db, chn, pageID, pageCount, tsStart, tsEnd)
+func (pc *pingbackCenter) GetNewsDetailItems(chn string, pageID, pageCount int, tsStart, tsEnd int64, eventKey string) ([]models.NewsDetailWeb, int64, error) {
+	items, count, err := pc.newsDetail.GetItemsByPage(pc.db, chn, pageID, pageCount, tsStart, tsEnd, eventKey)
 	if err != nil {
 		return nil, 0, nil
 	}

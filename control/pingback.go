@@ -21,7 +21,7 @@ type PingbackCenter interface {
 	GetFeirarChannel(name string) ([]string, error)
 
 	//统计feirar news接口相关数据
-	GetFeirarNewsDetailItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.FeirarDetailWeb, int64, error) //获取feirar请求统计数据
+	GetFeirarNewsDetailItems(chn string, pageID, pageCount int, tsStart, tsEnd int64, eventType string) ([]models.FeirarDetailWeb, int64, error) //获取feirar请求统计数据
 	GetFeirarNewsDetailCols() []map[string]string
 	GetFeirarNewsChannel(name string) ([]string, error)
 	GetFeirarNewsChart(chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error)
@@ -43,7 +43,7 @@ type PingbackCenter interface {
 	GetUninstallChart(chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error)
 
 	//信息点击相关统计
-	GetNewsDetailItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.NewsDetailWeb, int64, error) //获取客户端弹窗统计数据
+	GetNewsDetailItems(chn string, pageID, pageCount int, tsStart, tsEnd int64, eventKey string) ([]models.NewsDetailWeb, int64, error) //获取客户端弹窗统计数据
 	GetNewsDetailCols() []map[string]string
 	GetNewsChannel(name string) ([]string, error)
 	GetNewsChart(chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error)

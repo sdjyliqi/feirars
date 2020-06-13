@@ -119,11 +119,12 @@ func (t NewsDetail) GetAllChannels(client *xorm.Engine) ([]string, error) {
 	return channels, nil
 }
 
-func (t NewsDetail) GetItemsByPage(client *xorm.Engine, chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]*NewsDetail, int64, error) {
+func (t NewsDetail) GetItemsByPage(client *xorm.Engine, chn string, pageID, pageCount int, tsStart, tsEnd int64, eventKey string) ([]*NewsDetail, int64, error) {
 	var items []*NewsDetail
 	item := &NewsDetail{}
 	timeTS, timeTE := utils.ConvertToTime(tsStart), utils.ConvertToTime(tsEnd)
-	session := client.Where("event_day>=?", timeTS).And("event_day<=?", timeTE)
+	session := client.Where("event_day>=?", timeTS).And("event_day<=?", timeTE).And(fmt.Sprintf("event_type ='%s'", eventKey))
+
 	if chn != "" {
 		chnList := utils.ChannelList(chn)
 		session = session.In("channel", chnList)

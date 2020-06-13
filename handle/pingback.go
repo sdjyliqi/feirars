@@ -85,13 +85,74 @@ func HandlePingbak(c *gin.Context) {
 		return
 	case "feirar-news":
 		cols := PingbackCenter.GetFeirarDetailCols()
-		items, count, err := PingbackCenter.GetFeirarNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
+		items, count, err := PingbackCenter.GetFeirarNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd, "newsshow")
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
 		}
 		c.JSON(http.StatusOK, gin.H{"code": 0, "cols": cols, "items": items, "total": count})
 		return
+
+	case "feirar-rightnewstipsshow":
+		cols := PingbackCenter.GetFeirarDetailCols()
+		items, count, err := PingbackCenter.GetFeirarNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd, "rightnewstipsshow")
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "cols": cols, "items": items, "total": count})
+		return
+
+	case "feirar-rightnewstipsclick":
+		cols := PingbackCenter.GetFeirarDetailCols()
+		items, count, err := PingbackCenter.GetFeirarNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd, "rightnewstipsclick")
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "cols": cols, "items": items, "total": count})
+		return
+
+	case "feirar-taskbartipsshow":
+		cols := PingbackCenter.GetFeirarDetailCols()
+		items, count, err := PingbackCenter.GetFeirarNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd, "taskbartipsshow")
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "cols": cols, "items": items, "total": count})
+		return
+
+	case "feirar-msgcentershow":
+		cols := PingbackCenter.GetFeirarDetailCols()
+		items, count, err := PingbackCenter.GetFeirarNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd, "msgcentershow")
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "cols": cols, "items": items, "total": count})
+		return
+
+	case "feirar-topcentertipsshow":
+		cols := PingbackCenter.GetFeirarDetailCols()
+		items, count, err := PingbackCenter.GetFeirarNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd, "topcentertipsshow")
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "cols": cols, "items": items, "total": count})
+		return
+
+	case "feirar-traygametipsshow":
+		cols := PingbackCenter.GetFeirarDetailCols()
+		items, count, err := PingbackCenter.GetFeirarNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd, "topcentertipsshow")
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "cols": cols, "items": items, "total": count})
+		return
+
 	case "feirar-update":
 		cols := PingbackCenter.GetFeirarDetailCols()
 		items, count, err := PingbackCenter.GetFeirarUpdateDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
