@@ -1,15 +1,15 @@
 package middleware
 
-import (
-	"github.com/lionsoul2014/ip2region/binding/golang/ip2region"
-	"github.com/oschwald/geoip2-golang"
-	"sync"
-)
-
-var Reader *geoip2.Reader
-
-var ip2util *ip2region.Ip2Region
-var loadIPLocOnce sync.Once
+//import (
+//	"github.com/lionsoul2014/ip2region/binding/golang/ip2region"
+//	"github.com/oschwald/geoip2-golang"
+//	"sync"
+//)
+//
+//var Reader *geoip2.Reader
+//
+//var ip2util *ip2region.Ip2Region
+//var loadIPLocOnce sync.Once
 
 //
 //func init() {
