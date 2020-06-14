@@ -94,28 +94,28 @@ func (t UdtrstDetail) Cols() []map[string]string {
 
 
 	colRstPv := map[string]string{
-		"name":  "pv",
+		"name":  "升级次数",
 		"key":   "pv",
 		"click": "0",
 	}
 	cols = append(cols, colRstPv)
 
 	colRstUv := map[string]string{
-		"name":  "uv",
+		"name":  "人数次数",
 		"key":   "uv",
 		"click": "0",
 	}
 	cols = append(cols, colRstPv)
 
 	colRstPv = map[string]string{
-		"name":  "rst0_pv",
+		"name":  "成功次数",
 		"key":   "rst0_pv",
 		"click": "0",
 	}
 	cols = append(cols, colRstPv)
 
 	colRstUv = map[string]string{
-		"name":  "rst0_uv",
+		"name":  "成功人数",
 		"key":   "rst0_uv",
 		"click": "0",
 	}
@@ -123,14 +123,14 @@ func (t UdtrstDetail) Cols() []map[string]string {
 
 
 	colRstPv = map[string]string{
-		"name":  "rst1_pv",
+		"name":  "网络连接失败次数",
 		"key":   "rst1_pv",
 		"click": "0",
 	}
 	cols = append(cols, colRstPv)
 
 	colRstUv = map[string]string{
-		"name":  "rst1_uv",
+		"name":  "网络失败连接人数",
 		"key":   "rst1_uv",
 		"click": "0",
 	}
@@ -138,35 +138,43 @@ func (t UdtrstDetail) Cols() []map[string]string {
 
 
 	colRstPv = map[string]string{
-		"name":  "rst3_pv",
+		"name":  "升级配置文件次数",
 		"key":   "rst3_pv",
 		"click": "0",
 	}
 	cols = append(cols, colRstPv)
 
 	colRstUv = map[string]string{
-		"name":  "rst3_uv",
+		"name":  "升级配置文件人数",
 		"key":   "rst3_uv",
 		"click": "0",
 	}
 	cols = append(cols, colRstUv)
 
 	colRstPv = map[string]string{
-		"name":  "rst4_pv",
+		"name":  "软件包下载失败次数",
 		"key":   "rst4_pv",
 		"click": "0",
 	}
 	cols = append(cols, colRstPv)
 
 	colRstUv = map[string]string{
-		"name":  "rst4_uv",
+		"name":  "软件包下载失败人数",
 		"key":   "rst4_uv",
 		"click": "0",
 	}
 	cols = append(cols, colRstUv)
 
+
 	colRstUv = map[string]string{
-		"name":  "rst7_uv",
+		"name":  "安装失败次数",
+		"key":   "rst7_pv",
+		"click": "0",
+	}
+	cols = append(cols, colRstUv)
+
+	colRstUv = map[string]string{
+		"name":  "安装失败人数",
 		"key":   "rst7_uv",
 		"click": "0",
 	}
