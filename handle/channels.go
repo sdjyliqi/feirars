@@ -102,7 +102,7 @@ func HandleChannels(c *gin.Context) {
 		return
 
 	case "feirar-righttipsshow":
-		items, err := PingbackCenter.GetNewsChannel(reqArgs.UserName,"feirar-righttipsshow")
+		items, err := PingbackCenter.GetNewsChannel(reqArgs.UserName,"righttipsshow")
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -111,7 +111,7 @@ func HandleChannels(c *gin.Context) {
 		return
 
 	case "feirar-rightnewstipsshow":
-		items, err := PingbackCenter.GetNewsChannel(reqArgs.UserName,"feirar-rightnewstipsshow")
+		items, err := PingbackCenter.GetNewsChannel(reqArgs.UserName,"rightnewstipsshow")
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -121,7 +121,7 @@ func HandleChannels(c *gin.Context) {
 
 
 	case "feirar-taskbartipsshow":
-		items, err := PingbackCenter.GetNewsChannel(reqArgs.UserName,"feirar-taskbartipsshow")
+		items, err := PingbackCenter.GetNewsChannel(reqArgs.UserName,"taskbartipsshow")
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -131,7 +131,7 @@ func HandleChannels(c *gin.Context) {
 		return
 
 	case "feirar-msgcentershow":
-		items, err := PingbackCenter.GetNewsChannel(reqArgs.UserName,"feirar-msgcentershow")
+		items, err := PingbackCenter.GetNewsChannel(reqArgs.UserName,"msgcentershow")
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -141,7 +141,7 @@ func HandleChannels(c *gin.Context) {
 		return
 
 	case "feirar-topcentertipsshow":
-		items, err := PingbackCenter.GetNewsChannel(reqArgs.UserName,"feirar-topcentertipsshow")
+		items, err := PingbackCenter.GetNewsChannel(reqArgs.UserName,"topcentertipsshow")
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -151,7 +151,7 @@ func HandleChannels(c *gin.Context) {
 		return
 
 	case "feirar-traygametipsshow":
-		items, err := PingbackCenter.GetNewsChannel(reqArgs.UserName,"feirar-traygametipsshow")
+		items, err := PingbackCenter.GetNewsChannel(reqArgs.UserName,"traygametipsshow")
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
