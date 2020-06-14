@@ -13,6 +13,8 @@ type UdtrstDetail struct {
 	Id         int       `json:"id" xorm:"not null pk autoincr INT(11)"`
 	EventDay   time.Time `json:"event_day" xorm:"not null comment('事件日期') DATETIME"`
 	Channel    string    `json:"channel" xorm:"VARCHAR(64)"`
+	Pv     int       `json:"pv" xorm:"INT(11)"`
+	Uv     int       `json:"uv" xorm:"INT(11)"`
 	Rst0Pv     int       `json:"rst0_pv" xorm:"comment('rst 0的数量') INT(11)"`
 	Rst0Uv     int       `json:"rst0_uv" xorm:"comment('rst 0的数量') INT(11)"`
 	Rst1Pv     int       `json:"rst1_pv" xorm:"INT(11)"`
@@ -21,6 +23,8 @@ type UdtrstDetail struct {
 	Rst3Uv     int       `json:"rst3_uv" xorm:"INT(11)"`
 	Rst4Pv     int       `json:"rst4_pv" xorm:"INT(11)"`
 	Rst4Uv     int       `json:"rst4_uv" xorm:"INT(11)"`
+	Rst7Pv     int       `json:"rst7_pv" xorm:"INT(11)"`
+	Rst7Uv     int       `json:"rst7_uv" xorm:"INT(11)"`
 	LastUpdate time.Time `json:"last_update" xorm:"not null comment('更新数据时间') DATETIME"`
 	Detail     string    `json:"detail" xorm:"LONGTEXT"`
 }
@@ -29,6 +33,8 @@ type UdtrstDetailWeb struct {
 	Id         int    `json:"id" `
 	EventDay   string `json:"event_day" `
 	Channel    string `json:"channel" `
+	Pv     string       `json:"pv" xorm:"INT(11)"`
+	Uv     string       `json:"uv" xorm:"INT(11)"`
 	Rst0Pv     string       `json:"rst0_pv" xorm:"comment('rst 0的数量') INT(11)"`
 	Rst0Uv     string       `json:"rst0_uv" xorm:"comment('rst 0的数量') INT(11)"`
 	Rst1Pv     string       `json:"rst1_pv" xorm:"INT(11)"`
@@ -37,6 +43,8 @@ type UdtrstDetailWeb struct {
 	Rst3Uv     string       `json:"rst3_uv" xorm:"INT(11)"`
 	Rst4Pv     string       `json:"rst4_pv" xorm:"INT(11)"`
 	Rst4Uv     string       `json:"rst4_uv" xorm:"INT(11)"`
+	Rst7Pv     string       `json:"rst7_pv" xorm:"INT(11)"`
+	Rst7Uv     string       `json:"rst7_uv" xorm:"INT(11)"`
 	LastUpdate string `json:"last_update" xorm:"not null comment('更新数据时间') DATETIME"`
 
 }
@@ -51,6 +59,8 @@ func (t UdtrstDetail) CovertWebItem(item *UdtrstDetail) UdtrstDetailWeb {
 		Id:         item.Id,
 		EventDay:   item.EventDay.Format(utils.DayTime),
 		Channel:    item.Channel,
+		Pv: fmt.Sprintf("%d",item.Pv),
+		Uv: fmt.Sprintf("%d",item.Uv),
 		Rst0Pv:     fmt.Sprintf("%d",item.Rst0Pv),
 		Rst0Uv:     fmt.Sprintf("%d",item.Rst0Uv),
 		Rst1Pv:     fmt.Sprintf("%d",item.Rst1Pv),
@@ -59,6 +69,8 @@ func (t UdtrstDetail) CovertWebItem(item *UdtrstDetail) UdtrstDetailWeb {
 		Rst3Uv:     fmt.Sprintf("%d",item.Rst3Uv),
 		Rst4Pv:     fmt.Sprintf("%d",item.Rst4Pv),
 		Rst4Uv:     fmt.Sprintf("%d",item.Rst4Uv),
+		Rst7Pv:     fmt.Sprintf("%d",item.Rst7Pv),
+		Rst7Uv:     fmt.Sprintf("%d",item.Rst7Uv),
 		LastUpdate: item.LastUpdate.Format(utils.FullTime),
 	}
 	return webItem
@@ -80,14 +92,29 @@ func (t UdtrstDetail) Cols() []map[string]string {
 	}
 	cols = append(cols, colClientChannel)
 
+
 	colRstPv := map[string]string{
+		"name":  "pv",
+		"key":   "pv",
+		"click": "0",
+	}
+	cols = append(cols, colRstPv)
+
+	colRstUv := map[string]string{
+		"name":  "uv",
+		"key":   "uv",
+		"click": "0",
+	}
+	cols = append(cols, colRstPv)
+
+	colRstPv = map[string]string{
 		"name":  "rst0_pv",
 		"key":   "rst0_pv",
 		"click": "0",
 	}
 	cols = append(cols, colRstPv)
 
-	colRstUv := map[string]string{
+	colRstUv = map[string]string{
 		"name":  "rst0_uv",
 		"key":   "rst0_uv",
 		"click": "0",
@@ -134,6 +161,13 @@ func (t UdtrstDetail) Cols() []map[string]string {
 	colRstUv = map[string]string{
 		"name":  "rst4_uv",
 		"key":   "rst4_uv",
+		"click": "0",
+	}
+	cols = append(cols, colRstUv)
+
+	colRstUv = map[string]string{
+		"name":  "rst7_uv",
+		"key":   "rst7_uv",
 		"click": "0",
 	}
 	cols = append(cols, colRstUv)
@@ -210,8 +244,8 @@ func (t UdtrstDetail) GetChartItems(client *xorm.Engine, chn string, tsStart, ts
 		return nil, err
 	}
 
-	chartRST0PVValue := map[string]utils.ChartLineSeries{}
-	chartRST0UVValue := map[string]utils.ChartLineSeries{}
+	chartPVValue := map[string]utils.ChartLineSeries{}
+	chartUVValue := map[string]utils.ChartLineSeries{}
 
 	for _, v := range items {
 		//时间正序计算x轴的日期
@@ -224,25 +258,25 @@ func (t UdtrstDetail) GetChartItems(client *xorm.Engine, chn string, tsStart, ts
 
 		idx := fmt.Sprintf("%s%s%s", v.Channel, utils.SepChar, "-")
 		//计算rst0 PV chart数据
-		val, ok := chartRST0PVValue[idx]
+		val, ok := chartPVValue[idx]
 		if ok {
-			val.Data = append(val.Data, float64(v.Rst0Uv))
+			val.Data = append(val.Data, float64(v.Pv))
 			val.EventTime = append(val.EventTime, xValue)
-			chartRST0PVValue[idx] = val
+			chartPVValue[idx] = val
 		} else {
-			chartRST0PVValue[idx] = utils.ChartLineSeries{
-				Data:      []float64{float64(v.Rst0Uv)},
+			chartPVValue[idx] = utils.ChartLineSeries{
+				Data:      []float64{float64(v.Pv)},
 				EventTime: []string{xValue},
 			}
 		}
 		//计算RST0 UV chart
-		val, ok = chartRST0UVValue[idx]
+		val, ok = chartUVValue[idx]
 		if ok {
 			val.Data = append(val.Data, float64(v.Rst0Uv))
 			val.EventTime = append(val.EventTime, xValue)
-			chartRST0UVValue[idx] = val
+			chartUVValue[idx] = val
 		} else {
-			chartRST0UVValue[idx] = utils.ChartLineSeries{
+			chartUVValue[idx] = utils.ChartLineSeries{
 				Data:      []float64{float64(v.Rst0Uv)},
 				EventTime: []string{xValue},
 			}
@@ -250,7 +284,7 @@ func (t UdtrstDetail) GetChartItems(client *xorm.Engine, chn string, tsStart, ts
 	}
 	var chartYlines []utils.ChartSeriesYValue
 	//添加第一条线
-	for k, v := range chartRST0PVValue {
+	for k, v := range chartPVValue {
 		infos := strings.Split(k, utils.SepChar)
 		lineTitle := fmt.Sprintf("%s渠道rst0_pv趋势图", infos[0])
 		chartYLine := utils.ChartSeriesYValue{
@@ -262,7 +296,7 @@ func (t UdtrstDetail) GetChartItems(client *xorm.Engine, chn string, tsStart, ts
 		chartYlines = append(chartYlines, chartYLine)
 	}
 	//添加第二条线
-	for k, v := range chartRST0UVValue {
+	for k, v := range chartUVValue {
 		infos := strings.Split(k, utils.SepChar)
 		//chan_
 		lineTitle := fmt.Sprintf("%s渠道rst0_UV趋势图", infos[0])
