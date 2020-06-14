@@ -39,6 +39,6 @@ func (pc *pingbackCenter) GetNewsChannel(name string,eventKey string) ([]string,
 }
 
 //GetNewsChart ...获取渠道弹窗的趋势图数据
-func (pc *pingbackCenter) GetNewsChart(chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error) {
-	return pc.installDetail.GetChartItems(pc.db, chn, tsStart, tsEnd)
+func (pc *pingbackCenter) GetNewsChart(chn string, tsStart, tsEnd int64,eventKey string) (*utils.ChartDetail, error) {
+	return pc.newsDetail.GetChartItems(pc.db, chn, tsStart, tsEnd,eventKey)
 }

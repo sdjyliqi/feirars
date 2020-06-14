@@ -151,12 +151,12 @@ func (t NewsDetail) GetItemsByPage(client *xorm.Engine, chn string, pageID, page
 	return items, cnt, nil
 }
 
-func (t NewsDetail) GetChartItems(client *xorm.Engine, chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error) {
+func (t NewsDetail) GetChartItems(client *xorm.Engine, chn string, tsStart, tsEnd int64,eventKey string) (*utils.ChartDetail, error) {
 	chartXvalue := []string{}
 	chartXDic := map[string]bool{}
 	timeTS, timeTE := utils.ConvertToTime(tsStart), utils.ConvertToTime(tsEnd)
 	var items []*NewsDetail
-	session := client.Where("event_day>=?", timeTS).And("event_day<=?", timeTE)
+	session := client.Where("event_day>=?", timeTS).And("event_day<=?", timeTE).And(fmt.Sprintf("event_type ='%s'", eventKey))
 	if chn != "" {
 		chnList := utils.ChannelList(chn)
 		session = session.In("channel", chnList)
