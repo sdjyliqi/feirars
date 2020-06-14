@@ -286,7 +286,7 @@ func (t UdtrstDetail) GetChartItems(client *xorm.Engine, chn string, tsStart, ts
 	//添加第一条线
 	for k, v := range chartPVValue {
 		infos := strings.Split(k, utils.SepChar)
-		lineTitle := fmt.Sprintf("%s渠道rst0_pv趋势图", infos[0])
+		lineTitle := fmt.Sprintf("%s渠道pv趋势图", infos[0])
 		chartYLine := utils.ChartSeriesYValue{
 			Name:      lineTitle,
 			ChartType: "line",
@@ -299,7 +299,7 @@ func (t UdtrstDetail) GetChartItems(client *xorm.Engine, chn string, tsStart, ts
 	for k, v := range chartUVValue {
 		infos := strings.Split(k, utils.SepChar)
 		//chan_
-		lineTitle := fmt.Sprintf("%s渠道rst0_UV趋势图", infos[0])
+		lineTitle := fmt.Sprintf("%s渠道uv趋势图", infos[0])
 		chartYLine := utils.ChartSeriesYValue{
 			Name:      lineTitle,
 			ChartType: "line",
