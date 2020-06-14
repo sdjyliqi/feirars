@@ -154,7 +154,7 @@ func HandlePingbak(c *gin.Context) {
 		return
 
 	case "feirar-update":
-		cols := PingbackCenter.GetNewsDetailCols()
+		cols := PingbackCenter.GetFeirarUpdateDetailCols()
 		items, count, err := PingbackCenter.GetFeirarUpdateDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
