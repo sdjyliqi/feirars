@@ -25,13 +25,13 @@ func (pc *pingbackCenter) GetNewsDetailCols() []map[string]string {
 	return pc.newsDetail.Cols()
 }
 
-func (pc *pingbackCenter) GetNewsChannel(name string) ([]string, error) {
+func (pc *pingbackCenter) GetNewsChannel(name string,eventKey string) ([]string, error) {
 	item, err := pc.userBasic.GetUserBasic(pc.db, name)
 	if err != nil {
 		return nil, err
 	}
 	if item.Chn == "" {
-		return pc.newsDetail.GetAllChannels(pc.db)
+		return pc.newsDetail.GetAllChannels(pc.db,eventKey)
 	}
 
 	chn_list := strings.Split(item.Chn, ",")

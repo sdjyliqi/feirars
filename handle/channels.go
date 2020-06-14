@@ -48,7 +48,7 @@ func HandleChannels(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 0, "items": items})
 		return
 	case "news":
-		items, err := PingbackCenter.GetNewsChannel(reqArgs.UserName)
+		items, err := PingbackCenter.GetNewsChannel(reqArgs.UserName,"righttipsshow")
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -90,6 +90,77 @@ func HandleChannels(c *gin.Context) {
 		}
 		c.JSON(http.StatusOK, gin.H{"code": 0, "items": items})
 		return
+
+     //s升级
+	case "feirar-udtrst":
+		items, err := PingbackCenter.GetUdtrstChannel(reqArgs.UserName)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "items": items})
+		return
+
+	case "feirar-righttipsshow":
+		items, err := PingbackCenter.GetNewsChannel(reqArgs.UserName,"feirar-righttipsshow")
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "items": items})
+		return
+
+	case "feirar-rightnewstipsshow":
+		items, err := PingbackCenter.GetNewsChannel(reqArgs.UserName,"feirar-rightnewstipsshow")
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "items": items})
+		return
+
+
+	case "feirar-taskbartipsshow":
+		items, err := PingbackCenter.GetNewsChannel(reqArgs.UserName,"feirar-taskbartipsshow")
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "items": items})
+
+		return
+
+	case "feirar-msgcentershow":
+		items, err := PingbackCenter.GetNewsChannel(reqArgs.UserName,"feirar-msgcentershow")
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "items": items})
+
+		return
+
+	case "feirar-topcentertipsshow":
+		items, err := PingbackCenter.GetNewsChannel(reqArgs.UserName,"feirar-topcentertipsshow")
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "items": items})
+
+		return
+
+	case "feirar-traygametipsshow":
+		items, err := PingbackCenter.GetNewsChannel(reqArgs.UserName,"feirar-traygametipsshow")
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "items": items})
+		return
 	}
+
+
+
 	c.JSON(http.StatusOK, gin.H{"code": 400, "msg": "type参数错误"})
 }

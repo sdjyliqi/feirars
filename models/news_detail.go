@@ -105,10 +105,10 @@ func (t NewsDetail) Cols() []map[string]string {
 }
 
 //GetAllChannels ...获取所有渠道
-func (t NewsDetail) GetAllChannels(client *xorm.Engine) ([]string, error) {
+func (t NewsDetail) GetAllChannels(client *xorm.Engine,eventKey string) ([]string, error) {
 	var items []*NewsDetail
 	var channels []string
-	err := client.Distinct("channel").OrderBy("channel").Find(&items)
+	err := client.Distinct("channel").And(fmt.Sprintf("event_type ='%s'", eventKey)).OrderBy("channel").Find(&items)
 	if err != nil {
 		glog.Errorf("[mysql]Get the channel  from table %s failed,err:%+v", t.TableName(), err)
 		return nil, err
