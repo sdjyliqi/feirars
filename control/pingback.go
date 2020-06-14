@@ -21,7 +21,7 @@ type PingbackCenter interface {
 	GetFeirarChannel(name string) ([]string, error)
 
 	//统计feirar news接口相关数据
-	GetFeirarNewsDetailItems(chn string, pageID, pageCount int, tsStart, tsEnd int64, eventType string) ([]models.FeirarDetailWeb, int64, error) //获取feirar请求统计数据
+	GetFeirarNewsDetailItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.FeirarDetailWeb, int64, error) //获取feirar请求统计数据
 	GetFeirarNewsDetailCols() []map[string]string
 	GetFeirarNewsChannel(name string) ([]string, error)
 	GetFeirarNewsChart(chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error)
