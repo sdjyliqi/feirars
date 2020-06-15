@@ -106,6 +106,26 @@ func ExportPreserveDetail(c *gin.Context, cols []map[string]string, items []mode
 	c.File(filePath)
 }
 
+func ExportudtrstDetail(c *gin.Context, cols []map[string]string, items []models.UdtrstDetailWeb) {
+	excelTitleLine := utils.CreateExcelTitle(cols)
+	var excelItems [][]string
+	for _, v := range items {
+		oneLine := []string{v.EventDay, v.Channel, v.Pv,v.Uv,v.Rst0Pv,v.Rst0Uv,v.Rst1Pv,v.Rst1Uv,v.Rst3Pv,v.Rst3Uv,v.Rst4Pv,v.Rst4Uv,v.Rst7Pv,v.Rst7Uv,v.LastUpdate}
+		excelItems = append(excelItems, oneLine)
+	}
+	filePath, err := utils.CreateExcelFile(excelTitleLine, excelItems)
+	if err != nil {
+		c.Error(errors.New("暂时无法导出excel，请稍后重新"))
+		return
+	}
+	time.Sleep(1 * time.Second)
+	c.Header("Content-Type", "application/octet-stream")
+	c.Header("Content-Disposition", "attachment; filename="+filePath)
+	c.Header("Content-Transfer-Encoding", "binary")
+	c.File(filePath)
+}
+
+
 func ExportFeirarDetail(c *gin.Context, cols []map[string]string, items []models.FeirarDetailWeb) {
 	excelTitleLine := utils.CreateExcelTitle(cols)
 	var excelItems [][]string
@@ -124,6 +144,8 @@ func ExportFeirarDetail(c *gin.Context, cols []map[string]string, items []models
 	c.Header("Content-Transfer-Encoding", "binary")
 	c.File(filePath)
 }
+
+
 
 type ExportArgs struct {
 	ModuleName string `json:"type" form:"type" binding:"required"`
@@ -184,6 +206,68 @@ func Export(c *gin.Context) {
 		ExportNewsDetail(c, cols, items)
 		return
 
+	case "feirar-righttipsshow":
+		cols := PingbackCenter.GetNewsDetailCols()
+		items, _, err := PingbackCenter.GetNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd,"righttipsshow")
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		ExportNewsDetail(c, cols, items)
+		return
+
+
+	case "feirar-rightnewstipsshow":
+		cols := PingbackCenter.GetNewsDetailCols()
+		items, _, err := PingbackCenter.GetNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd,"rightnewstipsshow")
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		ExportNewsDetail(c, cols, items)
+		return
+
+	case "feirar-taskbartipsshow":
+		cols := PingbackCenter.GetNewsDetailCols()
+		items, _, err := PingbackCenter.GetNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd,"taskbartipsshow")
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		ExportNewsDetail(c, cols, items)
+		return
+
+
+	case "feirar-msgcentershow":
+		cols := PingbackCenter.GetNewsDetailCols()
+		items, _, err := PingbackCenter.GetNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd,"msgcentershow")
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		ExportNewsDetail(c, cols, items)
+		return
+
+	case "feirar-topcentertipsshow":
+		cols := PingbackCenter.GetNewsDetailCols()
+		items, _, err := PingbackCenter.GetNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd,"topcentertipsshow")
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		ExportNewsDetail(c, cols, items)
+		return
+
+	case "feirar-traygametipsshow":
+		cols := PingbackCenter.GetNewsDetailCols()
+		items, _, err := PingbackCenter.GetNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd,"traygametipsshow")
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		ExportNewsDetail(c, cols, items)
+		return
+
 	case "preserve":
 		cols := PingbackCenter.GetPreserveDetailCols()
 		items, _, err := PingbackCenter.GetPreserveDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
@@ -193,6 +277,7 @@ func Export(c *gin.Context) {
 		}
 		ExportPreserveDetail(c, cols, items)
 		return
+
 	case "feirar":
 		cols := PingbackCenter.GetFeirarDetailCols()
 		items, _, err := PingbackCenter.GetFeirarDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
@@ -202,6 +287,7 @@ func Export(c *gin.Context) {
 		}
 		ExportFeirarDetail(c, cols, items)
 		return
+
 	case "feirar-news":
 		cols := PingbackCenter.GetFeirarDetailCols()
 		items, _, err := PingbackCenter.GetFeirarNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
@@ -211,6 +297,7 @@ func Export(c *gin.Context) {
 		}
 		ExportFeirarDetail(c, cols, items)
 		return
+
 	case "feirar-update":
 		cols := PingbackCenter.GetFeirarDetailCols()
 		items, _, err := PingbackCenter.GetFeirarUpdateDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
@@ -220,5 +307,16 @@ func Export(c *gin.Context) {
 		}
 		ExportFeirarDetail(c, cols, items)
 		return
+	case "feirar-udtrst":
+		cols := PingbackCenter.GetUdtrstDetailCols()
+		items, _, err := PingbackCenter.GetUdtrstDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		ExportudtrstDetail(c, cols, items)
+		return
 	}
+
+
 }
