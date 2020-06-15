@@ -130,7 +130,7 @@ func ExportFeirarDetail(c *gin.Context, cols []map[string]string, items []models
 	excelTitleLine := utils.CreateExcelTitle(cols)
 	var excelItems [][]string
 	for _, v := range items {
-		oneLine := []string{v.EventDay, v.Channel, v.EventKey, v.LastUpdate}
+		oneLine := []string{v.EventDay, v.Channel, v.EventKey,v.Pv,v.Uv, v.LastUpdate}
 		excelItems = append(excelItems, oneLine)
 	}
 	filePath, err := utils.CreateExcelFile(excelTitleLine, excelItems)
@@ -289,13 +289,13 @@ func Export(c *gin.Context) {
 		return
 
 	case "feirar-news":
-		cols := PingbackCenter.GetFeirarDetailCols()
-		items, _, err := PingbackCenter.GetFeirarNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
+		cols := PingbackCenter.GetNewsDetailCols()
+		items, _, err := PingbackCenter.GetNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd,"newsshow")
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
 		}
-		ExportFeirarDetail(c, cols, items)
+		ExportNewsDetail(c, cols, items)
 		return
 
 	case "feirar-update":
