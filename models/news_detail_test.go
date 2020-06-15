@@ -28,4 +28,8 @@ func Test_NewsDetailGetChartItems(t *testing.T) {
 	items, err := testNewsDetail.GetChartItems(testutil.TestMysql, "", 0, time.Now().Unix(),"newsshow")
 	assert.Nil(t, err)
 	t.Log(items, err)
+
+	items, err = testNewsDetail.GetChartItems(testutil.TestMysql, "", 0, time.Now().Unix(),"traygametipsshow")
+	assert.Nil(t, err)
+	t.Log(items, err)
 }
