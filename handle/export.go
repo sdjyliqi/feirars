@@ -88,11 +88,12 @@ func ExportActiveDetail(c *gin.Context, cols []map[string]string, items []models
 }
 
 
+
 func ExportPreserveDetail(c *gin.Context, cols []map[string]string, items []models.PreserveDetailWeb) {
 	excelTitleLine := utils.CreateExcelTitle(cols)
 	var excelItems [][]string
 	for _, v := range items {
-		oneLine := []string{v.EventTime, v.Channel,v.Uv,v.NewUv, v.PassedWeekActive, v.Day1Active, v.Day2Active, v.Day3Active, v.Day4Active, v.Day5Active, v.Day6Active,v.WeekActive, v.LastUpdate}
+		oneLine := []string{v.EventTime, v.Channel,v.PassedWeekActive,v.Uv,v.NewUv, v.Day1Active, v.Day2Active, v.Day3Active, v.Day4Active, v.Day5Active, v.Day6Active,v.WeekActive, v.LastUpdate}
 		excelItems = append(excelItems, oneLine)
 	}
 	filePath, err := utils.CreateExcelFile(excelTitleLine, excelItems)
