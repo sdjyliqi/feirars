@@ -1,6 +1,7 @@
 package control
 
 import (
+	"encoding/json"
 	"github.com/sdjyliqi/feirars/models"
 	"github.com/sdjyliqi/feirars/utils"
 	"strings"
@@ -41,4 +42,39 @@ func (pc *pingbackCenter) GetInstallChannel(name string) ([]string, error) {
 //GetInstallNewsChart ...获取渠道统计安装的趋势图数据
 func (pc *pingbackCenter) GetInstallChart(chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error) {
 	return pc.installDetail.GetChartItems(pc.db, chn, tsStart, tsEnd)
+}
+
+//	items, err := testActiveDetail.GetItemsForHistory(testutil.TestMysql, "all",day.Unix(),5)
+
+//GetHistoryCalculator ...基于历史留存数据
+func (pc *pingbackCenter) GetHistoryCalculator(chn string, tsStart int64, days int) ([]*utils.HistoryDetail, error) {
+	eventDayUserIDs := make([]string, 0)
+	var historyItems []*utils.HistoryDetail
+	items, err := pc.installDetail.GetItemsForHistory(pc.db, chn, tsStart, days)
+	if err != nil {
+		return nil, err
+	}
+	if len(items) == 0 {
+		return nil, nil
+	}
+	if items[0].Detail != "" {
+		err = json.Unmarshal([]byte(items[0].Detail), &eventDayUserIDs)
+		if err != nil {
+			return nil, err
+		}
+	}
+	for _, v := range items {
+		var uvList []string
+		if v.Detail != "" {
+			json.Unmarshal([]byte(v.Detail), &uvList)
+		}
+		historyItems = append(historyItems, &utils.HistoryDetail{
+			EventDay:  v.EventDay.Format(utils.DayTime),
+			Uv:        v.Uv,
+			HistoryUv: len(utils.TwoSliceIntersect(eventDayUserIDs, uvList)),
+			UserIDs:   eventDayUserIDs,
+			Detail:    uvList,
+		})
+	}
+	return historyItems, nil
 }

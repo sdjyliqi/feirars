@@ -19,6 +19,7 @@ func InitRouter(r *gin.Engine) {
 		GroupV1.GET("/chart", handle.HandleChart)
 		GroupV1.GET("/chn", handle.HandleChannels)
 		GroupV1.GET("/export", handle.Export)
+		GroupV1.GET("/history", handle.HistoryCalculator)
 	}
 
 	GroupV2 := r.Group("/api")

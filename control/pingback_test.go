@@ -46,11 +46,11 @@ func Test_GetUninstallDetailItems(t *testing.T) {
 	t.Log(items, count)
 }
 
-func Test_GetNewsDetailItems(t *testing.T) {
-	items, count, err := TestUtil.GetNewsDetailItems("", 1, 10, 0, time.Now().Unix())
-	assert.Nil(t, err)
-	t.Log(items, count)
-}
+//func Test_GetNewsDetailItems(t *testing.T) {
+//	items, count, err := TestUtil.GetNewsDetailItems("", 1, 10, 0, time.Now().Unix())
+//	assert.Nil(t, err)
+//	t.Log(items, count)
+//}
 
 func Test_GetPreserveDetailItems(t *testing.T) {
 	items, count, err := TestUtil.GetPreserveDetailItems("", 1, 10, 0, time.Now().Unix())
