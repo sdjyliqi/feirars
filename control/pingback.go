@@ -36,7 +36,7 @@ type PingbackCenter interface {
 	GetInstallDetailCols() []map[string]string
 	GetInstallChannel(name string) ([]string, error)
 	GetInstallChart(chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error)
-	GetHistoryCalculator(chn string, tsStart int64, days int) ([]*utils.HistoryDetail, error)
+	GetInstallHistoryCalculator(chn string, tsStart int64, days int) ([]*utils.HistoryDetail, error)
 
 	GetUninstallDetailItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.UninstallDetailWeb, int64, error) //获取卸载统计数据
 	GetUninstallDetailCols() []map[string]string
@@ -53,6 +53,7 @@ type PingbackCenter interface {
 	GetPreserveDetailCols() []map[string]string
 	GetPreserveChannel(name string) ([]string, error)
 	GetPreserveChart(chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error)
+	GetPreserveHistoryCalculator(chn string, tsStart int64, days int) ([]*utils.HistoryDetail, error)
 
 	//信息点击相关统计
 	GetUdtrstDetailItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.UdtrstDetailWeb, int64, error) //获取客户端弹窗统计数据

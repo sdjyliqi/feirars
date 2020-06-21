@@ -290,3 +290,21 @@ func (t PreserveDetail) GetChartItems(client *xorm.Engine, chn string, tsStart, 
 	}
 	return utils.ChartItemsMend(chartItems), err
 }
+
+//GetItemsHistory
+func (t PreserveDetail) GetItemsForHistory(client *xorm.Engine, chn string, tsStart int64, days int) ([]*PreserveDetail, error) {
+	var items []*PreserveDetail
+	timeTS := utils.ConvertToTime(tsStart)
+	session := client.Where("event_time>=?", timeTS).And("channel =?", chn)
+
+	session = session.Desc("event_time")
+	if days >= 0 {
+		session = session.Limit(days, 0)
+	}
+	err := session.Find(&items)
+	if err != nil {
+		glog.Errorf("[mysql]Get the items for from table %s failed,err:%+v", t.TableName(), err)
+		return nil, err
+	}
+	return items, nil
+}

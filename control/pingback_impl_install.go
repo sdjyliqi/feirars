@@ -47,7 +47,7 @@ func (pc *pingbackCenter) GetInstallChart(chn string, tsStart, tsEnd int64) (*ut
 //	items, err := testActiveDetail.GetItemsForHistory(testutil.TestMysql, "all",day.Unix(),5)
 
 //GetHistoryCalculator ...基于历史留存数据
-func (pc *pingbackCenter) GetHistoryCalculator(chn string, tsStart int64, days int) ([]*utils.HistoryDetail, error) {
+func (pc *pingbackCenter) GetInstallHistoryCalculator(chn string, tsStart int64, days int) ([]*utils.HistoryDetail, error) {
 	eventDayUserIDs := make([]string, 0)
 	var historyItems []*utils.HistoryDetail
 	items, err := pc.installDetail.GetItemsForHistory(pc.db, chn, tsStart, days)
