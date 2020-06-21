@@ -10,7 +10,7 @@ import (
 type HistoryArgs struct {
 	ModuleName string `json:"type" form:"type" binding:"required"`
 	TimeStart  int64  `json:"ts"   form:"ts" `
-	days       int    `json:"days" form:"days"`
+	Days       int    `json:"days" form:"days"`
 	Channel    string `json:"chn"  form:"chn"`
 	Name       string `json:"name" form:"name"`
 }
@@ -27,7 +27,7 @@ func HistoryCalculator(c *gin.Context) {
 	switch reqArgs.ModuleName {
 	case "install":
 		cols := utils.HistoryCalculatorCols
-		items, err := PingbackCenter.GetInstallHistoryCalculator(reqArgs.Channel, reqArgs.TimeStart, reqArgs.days)
+		items, err := PingbackCenter.GetInstallHistoryCalculator(reqArgs.Channel, reqArgs.TimeStart, reqArgs.Days)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -37,7 +37,7 @@ func HistoryCalculator(c *gin.Context) {
 
 	case "preserve":
 		cols := utils.HistoryCalculatorCols
-		items, err := PingbackCenter.GetPreserveHistoryCalculator(reqArgs.Channel, reqArgs.TimeStart, reqArgs.days)
+		items, err := PingbackCenter.GetPreserveHistoryCalculator(reqArgs.Channel, reqArgs.TimeStart, reqArgs.Days)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return

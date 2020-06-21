@@ -35,7 +35,7 @@ func Test_GetItemsForHistory(t *testing.T) {
 	day := time.Now().Add(time.Duration(-1*7*24) * time.Hour)
 	fmt.Println(day)
 	testActiveDetail := InstallDetail{}
-	items, err := testActiveDetail.GetItemsForHistory(testutil.TestMysql, "all", day.Unix(), 5)
+	items, err := testActiveDetail.GetItemsForHistory(testutil.TestMysql, "all", day.Unix(), 3)
 	assert.Nil(t, err)
 	t.Log(items, err)
 }

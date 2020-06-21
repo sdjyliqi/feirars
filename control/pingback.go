@@ -76,7 +76,7 @@ type pingbackCenter struct {
 }
 
 func CreatePingbackCenter(cfg *conf.FeirarConfig) PingbackCenter {
-	utils.InitMySQL(cfg.DBMysql, false)
+	utils.InitMySQL(cfg.DBMysql, true)
 	return &pingbackCenter{
 		db:              utils.GetMysqlClient(),
 		cfg:             cfg,
