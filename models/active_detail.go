@@ -5,7 +5,6 @@ import (
 	"github.com/go-xorm/xorm"
 	"github.com/golang/glog"
 	"github.com/sdjyliqi/feirars/utils"
-	"strings"
 	"time"
 )
 
@@ -147,7 +146,7 @@ func (t ActiveDetail) GetChartItems(client *xorm.Engine, chn string, tsStart, ts
 	chartXvalue := []string{}
 	chartXDic := map[string]bool{}
 	timeTS, timeTE := utils.ConvertToTime(tsStart), utils.ConvertToTime(tsEnd)
-	var items []*FeirarDetail
+	var items []*ActiveDetail
 	session := client.Where("event_day>=?", timeTS).And("event_day<=?", timeTE)
 	if chn != "" {
 		chnList := utils.ChannelList(chn)
@@ -171,7 +170,7 @@ func (t ActiveDetail) GetChartItems(client *xorm.Engine, chn string, tsStart, ts
 			chartXvalue = append(chartXvalue, xValue)
 		}
 		//计算pv chart数据
-		idx := fmt.Sprintf("%s%s%s", v.Channel, utils.SepChar, v.EventKey)
+		idx := fmt.Sprintf("%s", v.Channel)
 		val, ok := chartPVValue[idx]
 		//pv chart
 		if ok {
@@ -201,8 +200,7 @@ func (t ActiveDetail) GetChartItems(client *xorm.Engine, chn string, tsStart, ts
 
 	var chartYlines []utils.ChartSeriesYValue
 	for k, v := range chartPVValue {
-		infos := strings.Split(k, utils.SepChar)
-		lineTitle := fmt.Sprintf("渠道%s激活%sPV趋势图", infos[0], infos[1])
+		lineTitle := fmt.Sprintf("渠道%s PV趋势图", k)
 		chartYLine := utils.ChartSeriesYValue{
 			Name:      lineTitle,
 			ChartType: "line",
@@ -212,9 +210,7 @@ func (t ActiveDetail) GetChartItems(client *xorm.Engine, chn string, tsStart, ts
 		chartYlines = append(chartYlines, chartYLine)
 	}
 	for k, v := range chartUVValue {
-		infos := strings.Split(k, utils.SepChar)
-		//chan_
-		lineTitle := fmt.Sprintf("渠道%s激活%sUV趋势图", infos[0], infos[1])
+		lineTitle := fmt.Sprintf("渠道%sUV趋势图", k)
 		chartYLine := utils.ChartSeriesYValue{
 			Name:      lineTitle,
 			ChartType: "line",
