@@ -292,7 +292,7 @@ func (t InstallDetail) GetItemsForHistory(client *xorm.Engine, chn string, tsSta
 	timeTS := utils.ConvertToTime(tsStart)
 	session := client.Where("event_day>=?", timeTS).And("channel =?", chn)
 
-	session = session.Desc("event_day")
+	session = session.OrderBy("event_day")
 	if days >= 0 {
 		session = session.Limit(days, 0)
 	}

@@ -297,7 +297,7 @@ func (t PreserveDetail) GetItemsForHistory(client *xorm.Engine, chn string, tsSt
 	timeTS := utils.ConvertToTime(tsStart)
 	session := client.Where("event_time>=?", timeTS).And("channel =?", chn)
 
-	session = session.Desc("event_time")
+	session = session.OrderBy("event_time")
 	if days >= 0 {
 		session = session.Limit(days, 0)
 	}
