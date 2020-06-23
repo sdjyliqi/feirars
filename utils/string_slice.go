@@ -14,3 +14,16 @@ func TwoSliceIntersect(s1, s2 []string) []string {
 	}
 	return dest
 }
+
+func SliceUnique(s []string) []string {
+	dest := make([]string, 0)
+	m := map[string]bool{}
+	for _, v := range s {
+		m[v] = true
+	}
+
+	for k := range m {
+		dest = append(dest, k)
+	}
+	return dest
+}

@@ -57,20 +57,21 @@ func (pc *pingbackCenter) GetInstallHistoryCalculator(chn string, tsStart int64,
 	if len(items) == 0 {
 		return nil, nil
 	}
-	if items[0].Detail != "" {
-		err = json.Unmarshal([]byte(items[0].Detail), &eventDayUserIDs)
+	if items[0].PreserveDetail.Detail != "" {
+		err = json.Unmarshal([]byte(items[0].InstallDetail.Detail), &eventDayUserIDs)
 		if err != nil {
 			return nil, err
 		}
 	}
 	for _, v := range items {
 		var uvList []string
-		if v.Detail != "" {
-			json.Unmarshal([]byte(v.Detail), &uvList)
+		if v.PreserveDetail.Detail != "" {
+			json.Unmarshal([]byte(v.PreserveDetail.Detail), &uvList)
 		}
+		uvList = utils.SliceUnique(uvList)
 		historyItems = append(historyItems, &utils.HistoryDetail{
-			EventDay:  v.EventDay.Format(utils.DayTime),
-			Uv:        v.Uv,
+			EventDay:  v.InstallDetail.EventDay.Format(utils.DayTime),
+			Uv:        v.InstallDetail.Uv,
 			HistoryUv: len(utils.TwoSliceIntersect(eventDayUserIDs, uvList)),
 			UserIDs:   eventDayUserIDs,
 			Detail:    uvList,

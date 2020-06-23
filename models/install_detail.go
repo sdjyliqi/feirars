@@ -286,13 +286,20 @@ func (t InstallDetail) GetChartItems(client *xorm.Engine, chn string, tsStart, t
 	return utils.ChartItemsMend(chartItems), err
 }
 
-//GetItemsHistory
-func (t InstallDetail) GetItemsForHistory(client *xorm.Engine, chn string, tsStart int64, days int) ([]*InstallDetail, error) {
-	var items []*InstallDetail
-	timeTS := utils.ConvertToTime(tsStart)
-	session := client.Where("event_day>=?", timeTS).And("channel =?", chn)
+type InstallDetailWithPreserve struct {
+	InstallDetail  *InstallDetail  `xorm:"extends"`
+	PreserveDetail *PreserveDetail `xorm:"extends"`
+}
 
-	session = session.OrderBy("event_day")
+//GetItemsHistory
+func (t InstallDetail) GetItemsForHistory(client *xorm.Engine, chn string, tsStart int64, days int) ([]*InstallDetailWithPreserve, error) {
+	var items []*InstallDetailWithPreserve
+	timeTS := utils.ConvertToTime(tsStart)
+	session := client.Table(t.TableName()).Join("LEFT", "preserve_detail", "preserve_detail.event_time=install_detail.event_day").
+		Where("install_detail.event_day>=?", timeTS).
+		And("install_detail.channel =?", chn).
+		And("preserve_detail.channel ='all'")
+	session = session.OrderBy("install_detail.event_day")
 	if days >= 0 {
 		session = session.Limit(days, 0)
 	}
