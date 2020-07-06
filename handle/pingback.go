@@ -83,9 +83,10 @@ func HandlePingbak(c *gin.Context) {
 		}
 		c.JSON(http.StatusOK, gin.H{"code": 0, "cols": cols, "items": items, "total": count})
 		return
+	//api 统计
 	case "feirar-news":
-		cols := PingbackCenter.GetNewsDetailCols()
-		items, count, err := PingbackCenter.GetNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd, "newsshow")
+		cols := PingbackCenter.GetFeirarNewsDetailCols()
+		items, count, err := PingbackCenter.GetFeirarNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return

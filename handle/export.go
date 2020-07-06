@@ -87,13 +87,11 @@ func ExportActiveDetail(c *gin.Context, cols []map[string]string, items []models
 	c.File(filePath)
 }
 
-
-
 func ExportPreserveDetail(c *gin.Context, cols []map[string]string, items []models.PreserveDetailWeb) {
 	excelTitleLine := utils.CreateExcelTitle(cols)
 	var excelItems [][]string
 	for _, v := range items {
-		oneLine := []string{v.EventTime, v.Channel,v.PassedWeekActive,v.Uv,v.NewUv, v.Day1Active, v.Day2Active, v.Day3Active, v.Day4Active, v.Day5Active, v.Day6Active,v.WeekActive, v.LastUpdate}
+		oneLine := []string{v.EventTime, v.Channel, v.PassedWeekActive, v.Uv, v.NewUv, v.Day1Active, v.Day2Active, v.Day3Active, v.Day4Active, v.Day5Active, v.Day6Active, v.WeekActive, v.LastUpdate}
 		excelItems = append(excelItems, oneLine)
 	}
 	filePath, err := utils.CreateExcelFile(excelTitleLine, excelItems)
@@ -112,7 +110,7 @@ func ExportudtrstDetail(c *gin.Context, cols []map[string]string, items []models
 	excelTitleLine := utils.CreateExcelTitle(cols)
 	var excelItems [][]string
 	for _, v := range items {
-		oneLine := []string{v.EventDay, v.Channel, v.Pv,v.Uv,v.Rst0Pv,v.Rst0Uv,v.Rst1Pv,v.Rst1Uv,v.Rst3Pv,v.Rst3Uv,v.Rst4Pv,v.Rst4Uv,v.Rst7Pv,v.Rst7Uv,v.LastUpdate}
+		oneLine := []string{v.EventDay, v.Channel, v.Pv, v.Uv, v.Rst0Pv, v.Rst0Uv, v.Rst1Pv, v.Rst1Uv, v.Rst3Pv, v.Rst3Uv, v.Rst4Pv, v.Rst4Uv, v.Rst7Pv, v.Rst7Uv, v.LastUpdate}
 		excelItems = append(excelItems, oneLine)
 	}
 	filePath, err := utils.CreateExcelFile(excelTitleLine, excelItems)
@@ -126,13 +124,12 @@ func ExportudtrstDetail(c *gin.Context, cols []map[string]string, items []models
 	c.Header("Content-Transfer-Encoding", "binary")
 	c.File(filePath)
 }
-
 
 func ExportFeirarDetail(c *gin.Context, cols []map[string]string, items []models.FeirarDetailWeb) {
 	excelTitleLine := utils.CreateExcelTitle(cols)
 	var excelItems [][]string
 	for _, v := range items {
-		oneLine := []string{v.EventDay, v.Channel, v.EventKey,v.Pv,v.Uv, v.LastUpdate}
+		oneLine := []string{v.EventDay, v.Channel, v.EventKey, v.Pv, v.Uv, v.LastUpdate}
 		excelItems = append(excelItems, oneLine)
 	}
 	filePath, err := utils.CreateExcelFile(excelTitleLine, excelItems)
@@ -146,8 +143,6 @@ func ExportFeirarDetail(c *gin.Context, cols []map[string]string, items []models
 	c.Header("Content-Transfer-Encoding", "binary")
 	c.File(filePath)
 }
-
-
 
 type ExportArgs struct {
 	ModuleName string `json:"type" form:"type" binding:"required"`
@@ -200,7 +195,7 @@ func Export(c *gin.Context) {
 
 	case "news":
 		cols := PingbackCenter.GetNewsDetailCols()
-		items, _, err := PingbackCenter.GetNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd,"newsshow")
+		items, _, err := PingbackCenter.GetNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd, "newsshow")
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -210,7 +205,7 @@ func Export(c *gin.Context) {
 
 	case "feirar-righttipsshow":
 		cols := PingbackCenter.GetNewsDetailCols()
-		items, _, err := PingbackCenter.GetNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd,"righttipsshow")
+		items, _, err := PingbackCenter.GetNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd, "righttipsshow")
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -218,10 +213,9 @@ func Export(c *gin.Context) {
 		ExportNewsDetail(c, cols, items)
 		return
 
-
 	case "feirar-rightnewstipsshow":
 		cols := PingbackCenter.GetNewsDetailCols()
-		items, _, err := PingbackCenter.GetNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd,"rightnewstipsshow")
+		items, _, err := PingbackCenter.GetNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd, "rightnewstipsshow")
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -231,7 +225,7 @@ func Export(c *gin.Context) {
 
 	case "feirar-taskbartipsshow":
 		cols := PingbackCenter.GetNewsDetailCols()
-		items, _, err := PingbackCenter.GetNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd,"taskbartipsshow")
+		items, _, err := PingbackCenter.GetNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd, "taskbartipsshow")
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -239,10 +233,9 @@ func Export(c *gin.Context) {
 		ExportNewsDetail(c, cols, items)
 		return
 
-
 	case "feirar-msgcentershow":
 		cols := PingbackCenter.GetNewsDetailCols()
-		items, _, err := PingbackCenter.GetNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd,"msgcentershow")
+		items, _, err := PingbackCenter.GetNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd, "msgcentershow")
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -252,7 +245,7 @@ func Export(c *gin.Context) {
 
 	case "feirar-topcentertipsshow":
 		cols := PingbackCenter.GetNewsDetailCols()
-		items, _, err := PingbackCenter.GetNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd,"topcentertipsshow")
+		items, _, err := PingbackCenter.GetNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd, "topcentertipsshow")
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -262,7 +255,7 @@ func Export(c *gin.Context) {
 
 	case "feirar-traygametipsshow":
 		cols := PingbackCenter.GetNewsDetailCols()
-		items, _, err := PingbackCenter.GetNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd,"traygametipsshow")
+		items, _, err := PingbackCenter.GetNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd, "traygametipsshow")
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -291,13 +284,13 @@ func Export(c *gin.Context) {
 		return
 
 	case "feirar-news":
-		cols := PingbackCenter.GetNewsDetailCols()
-		items, _, err := PingbackCenter.GetNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd,"newsshow")
+		cols := PingbackCenter.GetFeirarNewsDetailCols()
+		items, _, err := PingbackCenter.GetFeirarNewsDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
 		}
-		ExportNewsDetail(c, cols, items)
+		ExportFeirarDetail(c, cols, items)
 		return
 
 	case "feirar-update":
@@ -319,6 +312,5 @@ func Export(c *gin.Context) {
 		ExportudtrstDetail(c, cols, items)
 		return
 	}
-
 
 }

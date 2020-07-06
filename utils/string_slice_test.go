@@ -11,3 +11,9 @@ func Test_TwoSliceIntersect(t *testing.T) {
 	s := TwoSliceIntersect(s1, s2)
 	t.Log(s)
 }
+
+func Test_SliceUnique(t *testing.T) {
+	s := []string{"1", "2", "3", "4", "1"}
+	dest := SliceUnique(s)
+	t.Log(dest)
+}
