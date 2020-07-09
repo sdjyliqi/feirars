@@ -105,7 +105,7 @@ func (t NewsDetail) Cols() []map[string]string {
 }
 
 //GetAllChannels ...获取所有渠道
-func (t NewsDetail) GetAllChannels(client *xorm.Engine,eventKey string) ([]string, error) {
+func (t NewsDetail) GetAllChannels(client *xorm.Engine, eventKey string) ([]string, error) {
 	var items []*NewsDetail
 	var channels []string
 	err := client.Distinct("channel").And(fmt.Sprintf("event_type ='%s'", eventKey)).OrderBy("channel").Find(&items)
@@ -138,7 +138,8 @@ func (t NewsDetail) GetItemsByPage(client *xorm.Engine, chn string, pageID, page
 		glog.Errorf("[mysql]Get the items for from table %s failed,err:%+v", t.TableName(), err)
 		return nil, 0, err
 	}
-	session = client.Where("event_day>=?", timeTS).And("event_day<=?", timeTE)
+
+	session = client.Where("event_day>=?", timeTS).And("event_day<=?", timeTE).And(fmt.Sprintf("event_type ='%s'", eventKey))
 	if chn != "" {
 		chnList := utils.ChannelList(chn)
 		session = session.In("channel", chnList)
@@ -151,8 +152,8 @@ func (t NewsDetail) GetItemsByPage(client *xorm.Engine, chn string, pageID, page
 	return items, cnt, nil
 }
 
-func (t NewsDetail) GetChartItems(client *xorm.Engine, chn string, tsStart, tsEnd int64,eventKey string) (*utils.ChartDetail, error) {
-	chartXvalue := []string{}
+func (t NewsDetail) GetChartItems(client *xorm.Engine, chn string, tsStart, tsEnd int64, eventKey string) (*utils.ChartDetail, error) {
+	chartXvalue := make([]string, 0)
 	chartXDic := map[string]bool{}
 	timeTS, timeTE := utils.ConvertToTime(tsStart), utils.ConvertToTime(tsEnd)
 	var items []*NewsDetail
