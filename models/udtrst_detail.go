@@ -13,8 +13,8 @@ type UdtrstDetail struct {
 	Id         int       `json:"id" xorm:"not null pk autoincr INT(11)"`
 	EventDay   time.Time `json:"event_day" xorm:"not null comment('事件日期') DATETIME"`
 	Channel    string    `json:"channel" xorm:"VARCHAR(64)"`
-	Pv     int       `json:"pv" xorm:"INT(11)"`
-	Uv     int       `json:"uv" xorm:"INT(11)"`
+	Pv         int       `json:"pv" xorm:"INT(11)"`
+	Uv         int       `json:"uv" xorm:"INT(11)"`
 	Rst0Pv     int       `json:"rst0_pv" xorm:"comment('rst 0的数量') INT(11)"`
 	Rst0Uv     int       `json:"rst0_uv" xorm:"comment('rst 0的数量') INT(11)"`
 	Rst1Pv     int       `json:"rst1_pv" xorm:"INT(11)"`
@@ -33,44 +33,42 @@ type UdtrstDetailWeb struct {
 	Id         int    `json:"id" `
 	EventDay   string `json:"event_day" `
 	Channel    string `json:"channel" `
-	Pv     string       `json:"pv" xorm:"INT(11)"`
-	Uv     string       `json:"uv" xorm:"INT(11)"`
-	Rst0Pv     string       `json:"rst0_pv" xorm:"comment('rst 0的数量') INT(11)"`
-	Rst0Uv     string       `json:"rst0_uv" xorm:"comment('rst 0的数量') INT(11)"`
-	Rst1Pv     string       `json:"rst1_pv" xorm:"INT(11)"`
-	Rst1Uv     string       `json:"rst1_uv" xorm:"INT(11)"`
-	Rst3Pv     string       `json:"rst3_pv" xorm:"INT(11)"`
-	Rst3Uv     string       `json:"rst3_uv" xorm:"INT(11)"`
-	Rst4Pv     string       `json:"rst4_pv" xorm:"INT(11)"`
-	Rst4Uv     string       `json:"rst4_uv" xorm:"INT(11)"`
-	Rst7Pv     string       `json:"rst7_pv" xorm:"INT(11)"`
-	Rst7Uv     string       `json:"rst7_uv" xorm:"INT(11)"`
+	Pv         string `json:"pv" xorm:"INT(11)"`
+	Uv         string `json:"uv" xorm:"INT(11)"`
+	Rst0Pv     string `json:"rst0_pv" xorm:"comment('rst 0的数量') INT(11)"`
+	Rst0Uv     string `json:"rst0_uv" xorm:"comment('rst 0的数量') INT(11)"`
+	Rst1Pv     string `json:"rst1_pv" xorm:"INT(11)"`
+	Rst1Uv     string `json:"rst1_uv" xorm:"INT(11)"`
+	Rst3Pv     string `json:"rst3_pv" xorm:"INT(11)"`
+	Rst3Uv     string `json:"rst3_uv" xorm:"INT(11)"`
+	Rst4Pv     string `json:"rst4_pv" xorm:"INT(11)"`
+	Rst4Uv     string `json:"rst4_uv" xorm:"INT(11)"`
+	Rst7Pv     string `json:"rst7_pv" xorm:"INT(11)"`
+	Rst7Uv     string `json:"rst7_uv" xorm:"INT(11)"`
 	LastUpdate string `json:"last_update" xorm:"not null comment('更新数据时间') DATETIME"`
-
 }
 
 func (t UdtrstDetail) TableName() string {
 	return "udtrst_detail"
 }
 
-
 func (t UdtrstDetail) CovertWebItem(item *UdtrstDetail) UdtrstDetailWeb {
 	webItem := UdtrstDetailWeb{
 		Id:         item.Id,
 		EventDay:   item.EventDay.Format(utils.DayTime),
 		Channel:    item.Channel,
-		Pv: fmt.Sprintf("%d",item.Pv),
-		Uv: fmt.Sprintf("%d",item.Uv),
-		Rst0Pv:     fmt.Sprintf("%d",item.Rst0Pv),
-		Rst0Uv:     fmt.Sprintf("%d",item.Rst0Uv),
-		Rst1Pv:     fmt.Sprintf("%d",item.Rst1Pv),
-		Rst1Uv:     fmt.Sprintf("%d",item.Rst1Uv),
-		Rst3Pv:     fmt.Sprintf("%d",item.Rst3Pv),
-		Rst3Uv:     fmt.Sprintf("%d",item.Rst3Uv),
-		Rst4Pv:     fmt.Sprintf("%d",item.Rst4Pv),
-		Rst4Uv:     fmt.Sprintf("%d",item.Rst4Uv),
-		Rst7Pv:     fmt.Sprintf("%d",item.Rst7Pv),
-		Rst7Uv:     fmt.Sprintf("%d",item.Rst7Uv),
+		Pv:         fmt.Sprintf("%d", item.Pv),
+		Uv:         fmt.Sprintf("%d", item.Uv),
+		Rst0Pv:     fmt.Sprintf("%d", item.Rst0Pv),
+		Rst0Uv:     fmt.Sprintf("%d", item.Rst0Uv),
+		Rst1Pv:     fmt.Sprintf("%d", item.Rst1Pv),
+		Rst1Uv:     fmt.Sprintf("%d", item.Rst1Uv),
+		Rst3Pv:     fmt.Sprintf("%d", item.Rst3Pv),
+		Rst3Uv:     fmt.Sprintf("%d", item.Rst3Uv),
+		Rst4Pv:     fmt.Sprintf("%d", item.Rst4Pv),
+		Rst4Uv:     fmt.Sprintf("%d", item.Rst4Uv),
+		Rst7Pv:     fmt.Sprintf("%d", item.Rst7Pv),
+		Rst7Uv:     fmt.Sprintf("%d", item.Rst7Uv),
 		LastUpdate: item.LastUpdate.Format(utils.FullTime),
 	}
 	return webItem
@@ -92,7 +90,6 @@ func (t UdtrstDetail) Cols() []map[string]string {
 	}
 	cols = append(cols, colClientChannel)
 
-
 	colRstPv := map[string]string{
 		"name":  "升级次数",
 		"key":   "pv",
@@ -105,80 +102,77 @@ func (t UdtrstDetail) Cols() []map[string]string {
 		"key":   "uv",
 		"click": "0",
 	}
-	cols = append(cols, colRstPv)
+	cols = append(cols, colRstUv)
 
-	colRstPv = map[string]string{
+	colRst0Pv := map[string]string{
 		"name":  "成功次数",
 		"key":   "rst0_pv",
 		"click": "0",
 	}
-	cols = append(cols, colRstPv)
+	cols = append(cols, colRst0Pv)
 
-	colRstUv = map[string]string{
+	colRstUvSucc := map[string]string{
 		"name":  "成功人数",
 		"key":   "rst0_uv",
 		"click": "0",
 	}
-	cols = append(cols, colRstUv)
+	cols = append(cols, colRstUvSucc)
 
-
-	colRstPv = map[string]string{
+	colRstPvFail := map[string]string{
 		"name":  "网络连接失败次数",
 		"key":   "rst1_pv",
 		"click": "0",
 	}
-	cols = append(cols, colRstPv)
+	cols = append(cols, colRstPvFail)
 
-	colRstUv = map[string]string{
+	colRstUvConnFail := map[string]string{
 		"name":  "网络失败连接人数",
 		"key":   "rst1_uv",
 		"click": "0",
 	}
-	cols = append(cols, colRstUv)
+	cols = append(cols, colRstUvConnFail)
 
-
-	colRstPv = map[string]string{
+	colRstPvUpdateSetting := map[string]string{
 		"name":  "升级配置文件次数",
 		"key":   "rst3_pv",
 		"click": "0",
 	}
-	cols = append(cols, colRstPv)
+	cols = append(cols, colRstPvUpdateSetting)
 
-	colRstUv = map[string]string{
+	colRst3Uv := map[string]string{
 		"name":  "升级配置文件人数",
 		"key":   "rst3_uv",
 		"click": "0",
 	}
-	cols = append(cols, colRstUv)
+	cols = append(cols, colRst3Uv)
 
-	colRstPv = map[string]string{
+	colRst4Pv := map[string]string{
 		"name":  "软件包下载失败次数",
 		"key":   "rst4_pv",
 		"click": "0",
 	}
-	cols = append(cols, colRstPv)
+	cols = append(cols, colRst4Pv)
 
-	colRstUv = map[string]string{
+	colRst4Uv := map[string]string{
 		"name":  "软件包下载失败人数",
 		"key":   "rst4_uv",
 		"click": "0",
 	}
-	cols = append(cols, colRstUv)
+	cols = append(cols, colRst4Uv)
 
-
-	colRstUv = map[string]string{
+	colRst7Pv := map[string]string{
 		"name":  "安装失败次数",
 		"key":   "rst7_pv",
 		"click": "0",
 	}
-	cols = append(cols, colRstUv)
+	cols = append(cols, colRst7Pv)
 
-	colRstUv = map[string]string{
+	colRst7Uv := map[string]string{
 		"name":  "安装失败人数",
 		"key":   "rst7_uv",
 		"click": "0",
 	}
-	cols = append(cols, colRstUv)
+	cols = append(cols, colRst7Uv)
 
 	colLastUpdate := map[string]string{
 		"name":  "更新时间",
@@ -316,12 +310,10 @@ func (t UdtrstDetail) GetChartItems(client *xorm.Engine, chn string, tsStart, ts
 		}
 		chartYlines = append(chartYlines, chartYLine)
 	}
-	
+
 	chartItems := &utils.ChartDetail{
 		XAxis:  chartXvalue,
 		Series: chartYlines,
 	}
 	return utils.ChartItemsMend(chartItems), err
 }
-
-
