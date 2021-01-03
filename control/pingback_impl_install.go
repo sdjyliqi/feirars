@@ -65,8 +65,13 @@ func (pc *pingbackCenter) GetInstallHistoryCalculator(chn string, tsStart int64,
 	}
 	for _, v := range items {
 		var uvList []string
-		if v.PreserveDetail.Detail != "" {
+		if v.PreserveDetail.Detail != "" && v.PreserveDetail.Mode == "" {
 			json.Unmarshal([]byte(v.PreserveDetail.Detail), &uvList)
+		} else {
+			uvList, err = utils.GetUIDsFromFile(v.PreserveDetail.Detail)
+			if err != nil {
+				return nil, err
+			}
 		}
 		uvList = utils.SliceUnique(uvList)
 		historyItems = append(historyItems, &utils.HistoryDetail{
