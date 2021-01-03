@@ -10,11 +10,10 @@ import (
 )
 
 type PreserveDetail struct {
-	Id        int       `json:"id" xorm:"not null pk autoincr INT(11)"`
-	EventTime time.Time `json:"event_time" xorm:"not null DATETIME"`
-	Channel   string    `json:"channel" xorm:"VARCHAR(64)"`
-
-	Mode             string    `json:"mode" xorm:"VARCHAR(64)"`
+	Id               int       `json:"id" xorm:"not null pk autoincr INT(11)"`
+	EventTime        time.Time `json:"event_time" xorm:"not null DATETIME"`
+	Channel          string    `json:"channel" xorm:"VARCHAR(64)"`
+	Mode             string    `json:"mode" xorm:"VARCHAR(255)"`
 	Uv               int       `json:"uv" xorm:"INT(11)"`
 	NewUv            int       `json:"new_uv" xorm:"INT(11)"`
 	PassedWeekActive int       `json:"passed_week_active" xorm:"INT(11)"`
