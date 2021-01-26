@@ -35,8 +35,8 @@ func (pc *pingbackCenter) GetInstallChannel(name string) ([]string, error) {
 	if item.Chn == "" {
 		return pc.installDetail.GetAllChannels(pc.db)
 	}
-	chn_list := strings.Split(item.Chn, ",")
-	return chn_list, nil
+	chnList := strings.Split(item.Chn, ",")
+	return chnList, nil
 }
 
 //GetInstallNewsChart ...获取渠道统计安装的趋势图数据

@@ -48,7 +48,7 @@ func HandleChart(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 0, "data": items})
 		return
 	case "news":
-		items, err := PingbackCenter.GetNewsChart(reqArgs.Channels, reqArgs.TimeStart, reqArgs.TimeEnd,"newsshow")
+		items, err := PingbackCenter.GetNewsChart(reqArgs.Channels, reqArgs.TimeStart, reqArgs.TimeEnd, "newsshow")
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -100,9 +100,8 @@ func HandleChart(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 0, "data": items})
 		return
 
-
 	case "feirar-righttipsshow":
-		items, err := PingbackCenter.GetNewsChart(reqArgs.Channels, reqArgs.TimeStart, reqArgs.TimeEnd,"righttipsshow")
+		items, err := PingbackCenter.GetNewsChart(reqArgs.Channels, reqArgs.TimeStart, reqArgs.TimeEnd, "righttipsshow")
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -110,7 +109,7 @@ func HandleChart(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 0, "data": items})
 		return
 	case "feirar-rightnewstipsshow":
-		items, err := PingbackCenter.GetNewsChart(reqArgs.Channels, reqArgs.TimeStart, reqArgs.TimeEnd,"rightnewstipsshow")
+		items, err := PingbackCenter.GetNewsChart(reqArgs.Channels, reqArgs.TimeStart, reqArgs.TimeEnd, "rightnewstipsshow")
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -119,7 +118,7 @@ func HandleChart(c *gin.Context) {
 		return
 
 	case "feirar-taskbartipsshow":
-		items, err := PingbackCenter.GetNewsChart(reqArgs.Channels, reqArgs.TimeStart, reqArgs.TimeEnd,"taskbartipsshow")
+		items, err := PingbackCenter.GetNewsChart(reqArgs.Channels, reqArgs.TimeStart, reqArgs.TimeEnd, "taskbartipsshow")
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -127,7 +126,7 @@ func HandleChart(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 0, "data": items})
 		return
 	case "feirar-msgcentershow":
-		items, err := PingbackCenter.GetNewsChart(reqArgs.Channels, reqArgs.TimeStart, reqArgs.TimeEnd,"msgcentershow")
+		items, err := PingbackCenter.GetNewsChart(reqArgs.Channels, reqArgs.TimeStart, reqArgs.TimeEnd, "msgcentershow")
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -135,7 +134,7 @@ func HandleChart(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 0, "data": items})
 		return
 	case "feirar-topcentertipsshow":
-		items, err := PingbackCenter.GetNewsChart(reqArgs.Channels, reqArgs.TimeStart, reqArgs.TimeEnd,"topcentertipsshow")
+		items, err := PingbackCenter.GetNewsChart(reqArgs.Channels, reqArgs.TimeStart, reqArgs.TimeEnd, "topcentertipsshow")
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -143,7 +142,7 @@ func HandleChart(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 0, "data": items})
 		return
 	case "feirar-traygametipsshow":
-		items, err := PingbackCenter.GetNewsChart(reqArgs.Channels, reqArgs.TimeStart, reqArgs.TimeEnd,"traygametipsshow")
+		items, err := PingbackCenter.GetNewsChart(reqArgs.Channels, reqArgs.TimeStart, reqArgs.TimeEnd, "traygametipsshow")
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
 			return
@@ -151,7 +150,6 @@ func HandleChart(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 0, "data": items})
 		return
 	}
-
 
 	c.JSON(http.StatusOK, gin.H{"code": 400, "msg": "type参数错误"})
 }
