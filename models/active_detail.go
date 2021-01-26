@@ -109,6 +109,7 @@ func (t ActiveDetail) GetAllChannels(client *xorm.Engine) ([]string, error) {
 	}
 	return channels, nil
 }
+
 func (t ActiveDetail) GetItemsByPage(client *xorm.Engine, chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]*ActiveDetail, int64, error) {
 	timeTS, timeTE := utils.ConvertToTime(tsStart), utils.ConvertToTime(tsEnd)
 	var items []*ActiveDetail
