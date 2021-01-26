@@ -73,6 +73,7 @@ type pingbackCenter struct {
 	preserveDetail  models.PreserveDetail
 	userBasic       models.UserBasic
 	udtrstDetail    models.UdtrstDetail
+	sjtbFull        models.SjtbFull
 }
 
 func CreatePingbackCenter(cfg *conf.FeirarConfig) PingbackCenter {
@@ -91,8 +92,8 @@ func CreatePingbackCenter(cfg *conf.FeirarConfig) PingbackCenter {
 	}
 }
 
-func (uc *pingbackCenter) UserChn(userID string) (string, error) {
-	item, err := uc.userBasic.GetUserBasic(uc.db, userID)
+func (pc *pingbackCenter) UserChn(userID string) (string, error) {
+	item, err := pc.userBasic.GetUserBasic(pc.db, userID)
 	if err != nil {
 		return "", err
 	}
@@ -102,8 +103,8 @@ func (uc *pingbackCenter) UserChn(userID string) (string, error) {
 	return item.Chn, nil
 }
 
-func (uc *pingbackCenter) UserAuthChn(userID, requestChn string) string {
-	item, err := uc.userBasic.GetUserBasic(uc.db, userID)
+func (pc *pingbackCenter) UserAuthChn(userID, requestChn string) string {
+	item, err := pc.userBasic.GetUserBasic(pc.db, userID)
 	if err != nil {
 		return "XXX"
 	}

@@ -25,20 +25,20 @@ func (pc *pingbackCenter) GetNewsDetailCols() []map[string]string {
 	return pc.newsDetail.Cols()
 }
 
-func (pc *pingbackCenter) GetNewsChannel(name string,eventKey string) ([]string, error) {
+func (pc *pingbackCenter) GetNewsChannel(name string, eventKey string) ([]string, error) {
 	item, err := pc.userBasic.GetUserBasic(pc.db, name)
 	if err != nil {
 		return nil, err
 	}
 	if item.Chn == "" {
-		return pc.newsDetail.GetAllChannels(pc.db,eventKey)
+		return pc.newsDetail.GetAllChannels(pc.db, eventKey)
 	}
 
-	chn_list := strings.Split(item.Chn, ",")
-	return chn_list, nil
+	chnList := strings.Split(item.Chn, ",")
+	return chnList, nil
 }
 
 //GetNewsChart ...获取渠道弹窗的趋势图数据
-func (pc *pingbackCenter) GetNewsChart(chn string, tsStart, tsEnd int64,eventKey string) (*utils.ChartDetail, error) {
-	return pc.newsDetail.GetChartItems(pc.db, chn, tsStart, tsEnd,eventKey)
+func (pc *pingbackCenter) GetNewsChart(chn string, tsStart, tsEnd int64, eventKey string) (*utils.ChartDetail, error) {
+	return pc.newsDetail.GetChartItems(pc.db, chn, tsStart, tsEnd, eventKey)
 }
