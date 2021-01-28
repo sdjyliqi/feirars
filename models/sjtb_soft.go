@@ -1,9 +1,11 @@
 package models
 
 import (
+	"fmt"
 	"github.com/go-xorm/xorm"
 	"github.com/golang/glog"
 	"github.com/sdjyliqi/feirars/utils"
+	"strings"
 	"time"
 )
 
@@ -177,4 +179,92 @@ func (t SjtbSoft) GetItemsByPage(client *xorm.Engine, chn string, pageID, pageCo
 		return nil, 0, err
 	}
 	return items, cnt, nil
+}
+
+func (t SjtbSoft) GetChartItems(client *xorm.Engine, chn string, tsStart, tsEnd int64, eventKey string) (*utils.ChartDetail, error) {
+	chartXvalue := make([]string, 0)
+	chartXDic := map[string]bool{}
+	timeTS, timeTE := utils.ConvertToTime(tsStart), utils.ConvertToTime(tsEnd)
+	var items []*SjtbSoft
+	session := client.Where("event_day>=?", timeTS).And("event_day<=?", timeTE).And(fmt.Sprintf("event_type ='%s'", eventKey))
+	if chn != "" {
+		chnList := utils.ChannelList(chn)
+		session = session.In("channel", chnList)
+	}
+	err := session.OrderBy("event_day,channel").
+		Find(&items)
+	if err != nil {
+		glog.Errorf("[mysql]Get the items for from table %s failed,err:%+v", t.TableName(), err)
+		return nil, err
+	}
+	chartApplistshowPVValue := map[string]utils.ChartLineSeries{}
+	chartApplistshowUVValue := map[string]utils.ChartLineSeries{}
+
+	for _, v := range items {
+		//时间正序计算x轴的日期
+		xValue := v.EventDay.Format(utils.DayTime)
+		_, ok := chartXDic[xValue]
+		if !ok {
+			chartXDic[xValue] = true
+			chartXvalue = append(chartXvalue, xValue)
+		}
+
+		idx := fmt.Sprintf("%s%s%s", v.Channel, utils.SepChar, "-")
+		//计算chartApplistokPVValue数据
+		val, ok := chartApplistshowPVValue[idx]
+		if ok {
+			val.Data = append(val.Data, float64(v.ApplistshowPv))
+			val.EventTime = append(val.EventTime, xValue)
+			chartApplistshowPVValue[idx] = val
+		} else {
+			chartApplistshowPVValue[idx] = utils.ChartLineSeries{
+				Data:      []float64{float64(v.ApplistshowPv)},
+				EventTime: []string{xValue},
+			}
+		}
+		//计算chartApplistokUVValue chart
+		val, ok = chartApplistshowUVValue[idx]
+		if ok {
+			val.Data = append(val.Data, float64(v.ApplistshowUv))
+			val.EventTime = append(val.EventTime, xValue)
+			chartApplistshowUVValue[idx] = val
+		} else {
+			chartApplistshowUVValue[idx] = utils.ChartLineSeries{
+				Data:      []float64{float64(v.ApplistshowUv)},
+				EventTime: []string{xValue},
+			}
+		}
+	}
+	var chartYlines []utils.ChartSeriesYValue
+	//添加第一条线
+	for k, v := range chartApplistshowPVValue {
+		infos := strings.Split(k, utils.SepChar)
+		lineTitle := fmt.Sprintf("%s渠道ApplistshowPV趋势图", infos[0])
+		chartYLine := utils.ChartSeriesYValue{
+			Name:      lineTitle,
+			ChartType: "line",
+			Data:      v.Data,
+			EventTime: v.EventTime,
+		}
+		chartYlines = append(chartYlines, chartYLine)
+	}
+
+	//添加第二条线
+	for k, v := range chartApplistshowUVValue {
+		infos := strings.Split(k, utils.SepChar)
+		lineTitle := fmt.Sprintf("%s渠道ApplistshowUv趋势图", infos[0])
+		chartYLine := utils.ChartSeriesYValue{
+			Name:      lineTitle,
+			ChartType: "line",
+			Data:      v.Data,
+			EventTime: v.EventTime,
+		}
+		chartYlines = append(chartYlines, chartYLine)
+	}
+
+	chartItems := &utils.ChartDetail{
+		XAxis:  chartXvalue,
+		Series: chartYlines,
+	}
+	return utils.ChartItemsMend(chartItems), err
 }

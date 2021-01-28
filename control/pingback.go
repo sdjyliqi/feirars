@@ -60,6 +60,18 @@ type PingbackCenter interface {
 	GetUdtrstDetailCols() []map[string]string
 	GetUdtrstChannel(name string) ([]string, error)
 	GetUdtrstChart(chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error)
+
+	//升级拖包-full
+	GetSjtbFullItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.SjtbFullWeb, int64, error) //获取客户端弹窗统计数据
+	GetSjtbFullCols() []map[string]string
+	GetSjtbFullChannel(name string) ([]string, error)
+	GetSjtbFullChart(chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error)
+
+	//升级拖包-full
+	GetSjtbSoftItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.SjtbSoftWeb, int64, error) //获取客户端弹窗统计数据
+	GetSjtbSoftCols() []map[string]string
+	GetSjtbSoftChannel(name string) ([]string, error)
+	GetSjtbSoftChart(chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error)
 }
 
 type pingbackCenter struct {
@@ -74,6 +86,7 @@ type pingbackCenter struct {
 	userBasic       models.UserBasic
 	udtrstDetail    models.UdtrstDetail
 	sjtbFull        models.SjtbFull
+	sjtbSoft        models.SjtbSoft
 }
 
 func CreatePingbackCenter(cfg *conf.FeirarConfig) PingbackCenter {
@@ -89,6 +102,8 @@ func CreatePingbackCenter(cfg *conf.FeirarConfig) PingbackCenter {
 		preserveDetail:  models.PreserveDetail{},
 		userBasic:       models.UserBasic{},
 		udtrstDetail:    models.UdtrstDetail{},
+		sjtbFull:        models.SjtbFull{},
+		sjtbSoft:        models.SjtbSoft{},
 	}
 }
 

@@ -30,7 +30,7 @@ func (pc *pingbackCenter) GetSjtbFullChannel(name string) ([]string, error) {
 		return nil, err
 	}
 	if item.Chn == "" {
-		return pc.udtrstDetail.GetAllChannels(pc.db)
+		return pc.sjtbFull.GetAllChannels(pc.db)
 	}
 	chnList := strings.Split(item.Chn, ",")
 	return chnList, nil
