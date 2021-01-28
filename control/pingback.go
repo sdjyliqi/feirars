@@ -72,6 +72,12 @@ type PingbackCenter interface {
 	GetSjtbSoftCols() []map[string]string
 	GetSjtbSoftChannel(name string) ([]string, error)
 	GetSjtbSoftChart(chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error)
+
+	//ssxf
+	GetSSXFItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.SsxfDetailWeb, int64, error) //获取客户端弹窗统计数据
+	GetSSXFCols() []map[string]string
+	GetSSXFChannel(name string) ([]string, error)
+	GetSSXFChart(chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error)
 }
 
 type pingbackCenter struct {
@@ -87,6 +93,7 @@ type pingbackCenter struct {
 	udtrstDetail    models.UdtrstDetail
 	sjtbFull        models.SjtbFull
 	sjtbSoft        models.SjtbSoft
+	ssxfDetail      models.SsxfDetail
 }
 
 func CreatePingbackCenter(cfg *conf.FeirarConfig) PingbackCenter {
@@ -104,6 +111,7 @@ func CreatePingbackCenter(cfg *conf.FeirarConfig) PingbackCenter {
 		udtrstDetail:    models.UdtrstDetail{},
 		sjtbFull:        models.SjtbFull{},
 		sjtbSoft:        models.SjtbSoft{},
+		ssxfDetail:      models.SsxfDetail{},
 	}
 }
 
