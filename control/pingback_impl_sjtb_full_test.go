@@ -26,4 +26,7 @@ func Test_GetSjtbFullItems(t *testing.T) {
 	chns, err := util.GetSjtbFullChannel("admin")
 	assert.Nil(t, err)
 	t.Log(chns)
+
+	chart, err := util.GetSjtbFullChart("all", ctime.Unix()-3600*24*10, time.Now().Unix())
+	t.Log(chart)
 }

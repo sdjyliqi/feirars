@@ -181,7 +181,7 @@ func (t SjtbSoft) GetItemsByPage(client *xorm.Engine, chn string, pageID, pageCo
 	return items, cnt, nil
 }
 
-func (t SjtbSoft) GetChartItems(client *xorm.Engine, chn string, tsStart, tsEnd int64, eventKey string) (*utils.ChartDetail, error) {
+func (t SjtbSoft) GetChartItems(client *xorm.Engine, chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error) {
 	chartXvalue := make([]string, 0)
 	chartXDic := map[string]bool{}
 	timeTS, timeTE := utils.ConvertToTime(tsStart), utils.ConvertToTime(tsEnd)
