@@ -2,6 +2,7 @@ package control
 
 import (
 	"github.com/sdjyliqi/feirars/models"
+	"github.com/sdjyliqi/feirars/utils"
 	"strings"
 )
 
@@ -34,4 +35,8 @@ func (pc *pingbackCenter) GetSjtbFullChannel(name string) ([]string, error) {
 	}
 	chnList := strings.Split(item.Chn, ",")
 	return chnList, nil
+}
+
+func (pc *pingbackCenter) GetSjtbFullChart(chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error) {
+	return pc.sjtbFull.GetChartItems(pc.db, chn, tsStart, tsEnd)
 }

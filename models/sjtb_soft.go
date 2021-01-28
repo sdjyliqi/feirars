@@ -186,7 +186,7 @@ func (t SjtbSoft) GetChartItems(client *xorm.Engine, chn string, tsStart, tsEnd 
 	chartXDic := map[string]bool{}
 	timeTS, timeTE := utils.ConvertToTime(tsStart), utils.ConvertToTime(tsEnd)
 	var items []*SjtbSoft
-	session := client.Where("event_day>=?", timeTS).And("event_day<=?", timeTE).And(fmt.Sprintf("event_type ='%s'", eventKey))
+	session := client.Where("event_day>=?", timeTS).And("event_day<=?", timeTE) //.And(fmt.Sprintf("event_type ='%s'", eventKey))
 	if chn != "" {
 		chnList := utils.ChannelList(chn)
 		session = session.In("channel", chnList)
@@ -208,7 +208,6 @@ func (t SjtbSoft) GetChartItems(client *xorm.Engine, chn string, tsStart, tsEnd 
 			chartXDic[xValue] = true
 			chartXvalue = append(chartXvalue, xValue)
 		}
-
 		idx := fmt.Sprintf("%s%s%s", v.Channel, utils.SepChar, "-")
 		//计算chartApplistokPVValue数据
 		val, ok := chartApplistshowPVValue[idx]
@@ -248,7 +247,6 @@ func (t SjtbSoft) GetChartItems(client *xorm.Engine, chn string, tsStart, tsEnd 
 		}
 		chartYlines = append(chartYlines, chartYLine)
 	}
-
 	//添加第二条线
 	for k, v := range chartApplistshowUVValue {
 		infos := strings.Split(k, utils.SepChar)
