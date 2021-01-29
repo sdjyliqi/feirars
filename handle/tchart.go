@@ -156,6 +156,7 @@ func HandleChart(c *gin.Context) {
 			return
 		}
 		c.JSON(http.StatusOK, gin.H{"code": 0, "data": items})
+		return
 
 	case "sjtb-soft":
 		items, err := PingbackCenter.GetSjtbSoftChart(reqArgs.Channels, reqArgs.TimeStart, reqArgs.TimeEnd)
@@ -164,6 +165,7 @@ func HandleChart(c *gin.Context) {
 			return
 		}
 		c.JSON(http.StatusOK, gin.H{"code": 0, "data": items})
+		return
 
 	case "ssxf":
 		items, err := PingbackCenter.GetSSXFChart(reqArgs.Channels, reqArgs.TimeStart, reqArgs.TimeEnd)
@@ -172,7 +174,7 @@ func HandleChart(c *gin.Context) {
 			return
 		}
 		c.JSON(http.StatusOK, gin.H{"code": 0, "data": items})
-
+		return
 	}
 	//2021
 	c.JSON(http.StatusOK, gin.H{"code": 400, "msg": "type参数错误"})
