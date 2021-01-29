@@ -1,5 +1,11 @@
 package utils
 
+import "fmt"
+
+func ConvertToString(v int) string {
+	return fmt.Sprintf("%d", v)
+}
+
 func TwoSliceIntersect(s1, s2 []string) []string {
 	dest := make([]string, 0)
 	m := map[string]bool{}

@@ -48,7 +48,7 @@ func (t SjtbSoft) CovertWebItem(item *SjtbSoft) SjtbSoftWeb {
 		ApplistshowPv: item.ApplistshowPv,
 		ApplistshowUv: item.ApplistshowUv,
 		ApplistokPv:   item.ApplistokPv,
-		ApplistokUv:   item.ApplistshowUv,
+		ApplistokUv:   item.ApplistokUv,
 		Apprun1Pv:     item.Apprun1Pv,
 		Apprun1Uv:     item.Apprun1Uv,
 		LastUpdate:    item.LastUpdate.Format(utils.FullTime),

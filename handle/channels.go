@@ -146,7 +146,6 @@ func HandleChannels(c *gin.Context) {
 			return
 		}
 		c.JSON(http.StatusOK, gin.H{"code": 0, "items": items})
-
 		return
 
 	case "feirar-traygametipsshow":
@@ -157,7 +156,32 @@ func HandleChannels(c *gin.Context) {
 		}
 		c.JSON(http.StatusOK, gin.H{"code": 0, "items": items})
 		return
-	}
+	//2021
+	case "sjtb-full":
+		items, err := PingbackCenter.GetSjtbFullChannel(reqArgs.UserName)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "items": items})
+		return
 
+	case "sjtb-soft":
+		items, err := PingbackCenter.GetSjtbSoftChannel(reqArgs.UserName)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "items": items})
+		return
+	case "ssxf":
+		items, err := PingbackCenter.GetSSXFChannel(reqArgs.UserName)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "items": items})
+		return
+	}
 	c.JSON(http.StatusOK, gin.H{"code": 400, "msg": "type参数错误"})
 }

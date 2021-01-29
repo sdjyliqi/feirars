@@ -144,6 +144,13 @@ func (t SjtbFull) Cols() []map[string]string {
 		"raw":   "ApplistcloseUv",
 	}
 	cols = append(cols, col)
+	col = map[string]string{
+		"name":  "Appdown1Pv",
+		"key":   "appdown1_pv",
+		"click": "0",
+		"raw":   "Appdown1Pv",
+	}
+	cols = append(cols, col)
 
 	col = map[string]string{
 		"name":  "Appdown1Uv",
@@ -152,13 +159,6 @@ func (t SjtbFull) Cols() []map[string]string {
 		"raw":   "Appdown1Uv",
 	}
 
-	cols = append(cols, col)
-	col = map[string]string{
-		"name":  "Appdown1Pv",
-		"key":   "appdown1_pv",
-		"click": "0",
-		"raw":   "Appdown1Pv",
-	}
 	cols = append(cols, col)
 
 	col = map[string]string{

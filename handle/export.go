@@ -144,6 +144,79 @@ func ExportFeirarDetail(c *gin.Context, cols []map[string]string, items []models
 	c.File(filePath)
 }
 
+func ExportSJTBFullDetail(c *gin.Context, cols []map[string]string, items []models.SjtbFullWeb) {
+	excelTitleLine := utils.CreateExcelTitle(cols)
+	var excelItems [][]string
+	for _, v := range items {
+		oneLine := []string{v.EventDay, v.Channel,
+			utils.ConvertToString(v.ApplistokPv), utils.ConvertToString(v.ApplistokUv),
+			utils.ConvertToString(v.ApplistshowPv), utils.ConvertToString(v.ApplistshowUv),
+			utils.ConvertToString(v.ApplistclosePv), utils.ConvertToString(v.ApplistcloseUv),
+			utils.ConvertToString(v.Appdown1Pv), utils.ConvertToString(v.Appdown1Uv),
+			utils.ConvertToString(v.Appdown0Pv), utils.ConvertToString(v.Appdown0Uv),
+			utils.ConvertToString(v.Apprun0Pv), utils.ConvertToString(v.Apprun0Uv),
+			utils.ConvertToString(v.Apprun1Pv), utils.ConvertToString(v.Apprun1Uv),
+			v.LastUpdate}
+		excelItems = append(excelItems, oneLine)
+	}
+	filePath, err := utils.CreateExcelFile(excelTitleLine, excelItems)
+	if err != nil {
+		c.Error(errors.New("暂时无法导出excel，请稍后重新"))
+		return
+	}
+	time.Sleep(1 * time.Second)
+	c.Header("Content-Type", "application/octet-stream")
+	c.Header("Content-Disposition", "attachment; filename="+filePath)
+	c.Header("Content-Transfer-Encoding", "binary")
+	c.File(filePath)
+}
+
+func ExportSJTBSoftDetail(c *gin.Context, cols []map[string]string, items []models.SjtbSoftWeb) {
+	excelTitleLine := utils.CreateExcelTitle(cols)
+	var excelItems [][]string
+	for _, v := range items {
+		oneLine := []string{v.EventDay, v.Channel,
+			utils.ConvertToString(v.ApplistshowPv), utils.ConvertToString(v.ApplistshowUv),
+			utils.ConvertToString(v.ApplistokPv), utils.ConvertToString(v.ApplistokUv),
+			utils.ConvertToString(v.Apprun1Pv), utils.ConvertToString(v.Apprun1Uv),
+			v.LastUpdate}
+		excelItems = append(excelItems, oneLine)
+	}
+	filePath, err := utils.CreateExcelFile(excelTitleLine, excelItems)
+	if err != nil {
+		c.Error(errors.New("暂时无法导出excel，请稍后重新"))
+		return
+	}
+	time.Sleep(1 * time.Second)
+	c.Header("Content-Type", "application/octet-stream")
+	c.Header("Content-Disposition", "attachment; filename="+filePath)
+	c.Header("Content-Transfer-Encoding", "binary")
+	c.File(filePath)
+}
+
+func ExportSSXFDetail(c *gin.Context, cols []map[string]string, items []models.SsxfDetailWeb) {
+	excelTitleLine := utils.CreateExcelTitle(cols)
+	var excelItems [][]string
+	for _, v := range items {
+		oneLine := []string{v.EventDay, v.Channel,
+			utils.ConvertToString(v.SetuserdataPv), utils.ConvertToString(v.SetuserdataUv),
+			utils.ConvertToString(v.AdvanceuserPv), utils.ConvertToString(v.AdvanceuserUv),
+			utils.ConvertToString(v.RefectivePv), utils.ConvertToString(v.RefectiveUv),
+			v.LastUpdate}
+		excelItems = append(excelItems, oneLine)
+	}
+	filePath, err := utils.CreateExcelFile(excelTitleLine, excelItems)
+	if err != nil {
+		c.Error(errors.New("暂时无法导出excel，请稍后重新"))
+		return
+	}
+	time.Sleep(1 * time.Second)
+	c.Header("Content-Type", "application/octet-stream")
+	c.Header("Content-Disposition", "attachment; filename="+filePath)
+	c.Header("Content-Transfer-Encoding", "binary")
+	c.File(filePath)
+}
+
 type ExportArgs struct {
 	ModuleName string `json:"type" form:"type" binding:"required"`
 	PageID     int    `json:"page" form:"page" `
@@ -311,6 +384,31 @@ func Export(c *gin.Context) {
 		}
 		ExportudtrstDetail(c, cols, items)
 		return
-	}
 
+	case "sjtb-full":
+		cols := PingbackCenter.GetSjtbFullCols()
+		items, _, err := PingbackCenter.GetSjtbFullItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		ExportSJTBFullDetail(c, cols, items)
+	case "sjtb-soft":
+		cols := PingbackCenter.GetSjtbSoftCols()
+		items, _, err := PingbackCenter.GetSjtbSoftItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		ExportSJTBSoftDetail(c, cols, items)
+	case "ssxf":
+
+		cols := PingbackCenter.GetSSXFCols()
+		items, _, err := PingbackCenter.GetSSXFItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		ExportSSXFDetail(c, cols, items)
+	}
 }

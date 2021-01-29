@@ -175,7 +175,7 @@ func HandlePingbak(c *gin.Context) {
 		return
 
 	case "sjtb-full":
-		cols := PingbackCenter.GetUdtrstDetailCols()
+		cols := PingbackCenter.GetSjtbFullCols()
 		items, count, err := PingbackCenter.GetSjtbFullItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
@@ -185,7 +185,7 @@ func HandlePingbak(c *gin.Context) {
 		return
 
 	case "sjtb-soft":
-		cols := PingbackCenter.GetUdtrstDetailCols()
+		cols := PingbackCenter.GetSjtbSoftCols()
 		items, count, err := PingbackCenter.GetSjtbSoftItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
@@ -195,7 +195,7 @@ func HandlePingbak(c *gin.Context) {
 		return
 
 	case "ssxf":
-		cols := PingbackCenter.GetUdtrstDetailCols()
+		cols := PingbackCenter.GetSSXFCols()
 		items, count, err := PingbackCenter.GetSSXFItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
