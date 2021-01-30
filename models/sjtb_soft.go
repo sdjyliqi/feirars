@@ -30,6 +30,7 @@ func (t SjtbSoft) TableName() string {
 type SjtbSoftWeb struct {
 	Id            string `json:"id"`
 	EventDay      string `json:"event_day"`
+	SoftName      string `json:"soft_name" `
 	Channel       string `json:"channel" `
 	ApplistshowPv int    `json:"applistshow_pv" xorm:"INT(11)"`
 	ApplistshowUv int    `json:"applistshow_uv" xorm:"INT(11)"`
@@ -44,6 +45,7 @@ func (t SjtbSoft) CovertWebItem(item *SjtbSoft) SjtbSoftWeb {
 	webItem := SjtbSoftWeb{
 		Id:            "",
 		EventDay:      item.EventDay.Format(utils.DayTime),
+		SoftName:      item.SoftName,
 		Channel:       item.Channel,
 		ApplistshowPv: item.ApplistshowPv,
 		ApplistshowUv: item.ApplistshowUv,
@@ -64,6 +66,14 @@ func (t SjtbSoft) Cols() []map[string]string {
 		"key":   "event_day",
 		"click": "0",
 		"raw":   "EventDay",
+	}
+	cols = append(cols, col)
+
+	col = map[string]string{
+		"name":  "软件名",
+		"key":   "soft_name",
+		"click": "1",
+		"raw":   "SoftName",
 	}
 	cols = append(cols, col)
 

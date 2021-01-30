@@ -175,7 +175,7 @@ func ExportSJTBSoftDetail(c *gin.Context, cols []map[string]string, items []mode
 	excelTitleLine := utils.CreateExcelTitle(cols)
 	var excelItems [][]string
 	for _, v := range items {
-		oneLine := []string{v.EventDay, v.Channel,
+		oneLine := []string{v.EventDay, v.SoftName, v.Channel,
 			utils.ConvertToString(v.ApplistshowPv), utils.ConvertToString(v.ApplistshowUv),
 			utils.ConvertToString(v.ApplistokPv), utils.ConvertToString(v.ApplistokUv),
 			utils.ConvertToString(v.Apprun1Pv), utils.ConvertToString(v.Apprun1Uv),
