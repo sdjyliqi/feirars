@@ -52,28 +52,45 @@ type SjtbFullWeb struct {
 	Apprun0Uv      int    `json:"apprun0_uv"`
 	Apprun1Pv      int    `json:"apprun1_pv"`
 	Apprun1Uv      int    `json:"apprun1_uv"`
-	LastUpdate     string `json:"last_update" `
+
+	SelPercent      string `json:"sel_percent" `
+	DownloadPercent string `json:"download_percent" `
+	ActivePercent   string `json:"active_percent" `
+	LastUpdate      string `json:"last_update" `
 }
 
 func (t SjtbFull) CovertWebItem(item *SjtbFull) SjtbFullWeb {
+	selPercent, downloadPercent, activePercent := 0.0, 0.0, 0.0
+	if item.ApplistshowUv > 0 {
+		selPercent = float64(item.ApplistokUv) / float64(item.ApplistshowUv)
+		downloadPercent = float64(item.Appdown1Uv) / float64(item.ApplistshowUv)
+	}
+
+	if item.ApplistokUv > 0 {
+		activePercent = float64(item.Apprun1Uv) / float64(item.ApplistokUv)
+	}
 	webItem := SjtbFullWeb{
-		EventDay:       item.EventDay.Format(utils.DayTime),
-		Channel:        item.Channel,
-		ApplistokPv:    item.ApplistokPv,
-		ApplistokUv:    item.ApplistokUv,
-		ApplistshowPv:  item.ApplistshowPv,
-		ApplistshowUv:  item.ApplistshowUv,
-		ApplistcloseUv: item.ApplistcloseUv,
-		ApplistclosePv: item.ApplistclosePv,
-		Appdown1Uv:     item.Appdown1Uv,
-		Appdown1Pv:     item.Appdown1Pv,
-		Appdown0Pv:     item.Appdown0Pv,
-		Appdown0Uv:     item.Appdown0Uv,
-		Apprun0Pv:      item.Apprun0Pv,
-		Apprun0Uv:      item.Apprun0Uv,
-		Apprun1Pv:      item.Apprun1Pv,
-		Apprun1Uv:      item.Apprun1Uv,
-		LastUpdate:     item.LastUpdate.Format(utils.FullTime),
+		Id:              "",
+		EventDay:        item.EventDay.Format(utils.DayTime),
+		Channel:         item.Channel,
+		ApplistokPv:     item.ApplistokPv,
+		ApplistokUv:     item.ApplistokUv,
+		ApplistshowPv:   item.ApplistshowPv,
+		ApplistshowUv:   item.ApplistshowUv,
+		ApplistcloseUv:  item.ApplistcloseUv,
+		ApplistclosePv:  item.ApplistclosePv,
+		Appdown1Uv:      item.Appdown1Uv,
+		Appdown1Pv:      item.Appdown1Pv,
+		Appdown0Pv:      item.Appdown0Pv,
+		Appdown0Uv:      item.Appdown0Uv,
+		Apprun0Pv:       item.Apprun0Pv,
+		Apprun0Uv:       item.Apprun0Uv,
+		Apprun1Pv:       item.Apprun1Pv,
+		Apprun1Uv:       item.Apprun1Uv,
+		SelPercent:      utils.ConvertToPercent(selPercent),
+		DownloadPercent: utils.ConvertToPercent(downloadPercent),
+		ActivePercent:   utils.ConvertToPercent(activePercent),
+		LastUpdate:      item.LastUpdate.Format(utils.FullTime),
 	}
 	return webItem
 }
@@ -206,6 +223,29 @@ func (t SjtbFull) Cols() []map[string]string {
 		"key":   "apprun1_uv",
 		"click": "0",
 		"raw":   "Apprun1Uv",
+	}
+	cols = append(cols, col)
+	//勾选率
+	col = map[string]string{
+		"name":  "勾选率",
+		"key":   "sel_percent",
+		"click": "0",
+		"raw":   "SelPercent",
+	}
+	cols = append(cols, col)
+
+	col = map[string]string{
+		"name":  "下载成功率",
+		"key":   "download_percent",
+		"click": "0",
+		"raw":   "DownloadPercent",
+	}
+	cols = append(cols, col)
+	col = map[string]string{
+		"name":  "拉起成功率",
+		"key":   "active_percent",
+		"click": "0",
+		"raw":   "ActivePercent",
 	}
 	cols = append(cols, col)
 

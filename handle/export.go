@@ -156,6 +156,7 @@ func ExportSJTBFullDetail(c *gin.Context, cols []map[string]string, items []mode
 			utils.ConvertToString(v.Appdown0Pv), utils.ConvertToString(v.Appdown0Uv),
 			utils.ConvertToString(v.Apprun0Pv), utils.ConvertToString(v.Apprun0Uv),
 			utils.ConvertToString(v.Apprun1Pv), utils.ConvertToString(v.Apprun1Uv),
+			v.SelPercent, v.DownloadPercent, v.ActivePercent,
 			v.LastUpdate}
 		excelItems = append(excelItems, oneLine)
 	}

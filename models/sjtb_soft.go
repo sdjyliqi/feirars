@@ -156,7 +156,7 @@ func (t SjtbSoft) Cols() []map[string]string {
 	cols = append(cols, col)
 
 	col = map[string]string{
-		"name":  "勾选率",
+		"name":  "拉起成功率",
 		"key":   "active_percent",
 		"click": "0",
 		"raw":   "ActivePercent",
