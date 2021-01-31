@@ -38,10 +38,22 @@ type SjtbSoftWeb struct {
 	ApplistokUv   int    `json:"applistok_uv" xorm:"INT(11)"`
 	Apprun1Pv     int    `json:"apprun1_pv" xorm:"INT(11)"`
 	Apprun1Uv     int    `json:"apprun1_uv" xorm:"INT(11)"`
+	SelPercent    string `json:"sel_percent" `
+	ActivePercent string `json:"active_percent" `
 	LastUpdate    string `json:"last_update" `
 }
 
 func (t SjtbSoft) CovertWebItem(item *SjtbSoft) SjtbSoftWeb {
+	selPercent, activePercent := 0.0, 0.0
+
+	if item.ApplistshowPv > 0 {
+		selPercent = float64(item.ApplistokPv) / float64(item.ApplistshowPv)
+	}
+
+	if item.ApplistokPv > 0 {
+		activePercent = float64(item.Apprun1Pv) / float64(item.ApplistokPv)
+	}
+
 	webItem := SjtbSoftWeb{
 		Id:            "",
 		EventDay:      item.EventDay.Format(utils.DayTime),
@@ -53,6 +65,8 @@ func (t SjtbSoft) CovertWebItem(item *SjtbSoft) SjtbSoftWeb {
 		ApplistokUv:   item.ApplistokUv,
 		Apprun1Pv:     item.Apprun1Pv,
 		Apprun1Uv:     item.Apprun1Uv,
+		SelPercent:    utils.ConvertToPercent(selPercent),
+		ActivePercent: utils.ConvertToPercent(activePercent),
 		LastUpdate:    item.LastUpdate.Format(utils.FullTime),
 	}
 	return webItem
@@ -130,6 +144,22 @@ func (t SjtbSoft) Cols() []map[string]string {
 		"key":   "apprun1_uv",
 		"click": "0",
 		"raw":   "Apprun1Uv",
+	}
+	cols = append(cols, col)
+
+	col = map[string]string{
+		"name":  "勾选率",
+		"key":   "sel_percent",
+		"click": "0",
+		"raw":   "SelPercent",
+	}
+	cols = append(cols, col)
+
+	col = map[string]string{
+		"name":  "勾选率",
+		"key":   "active_percent",
+		"click": "0",
+		"raw":   "ActivePercent",
 	}
 	cols = append(cols, col)
 

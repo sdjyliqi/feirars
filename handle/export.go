@@ -179,6 +179,7 @@ func ExportSJTBSoftDetail(c *gin.Context, cols []map[string]string, items []mode
 			utils.ConvertToString(v.ApplistshowPv), utils.ConvertToString(v.ApplistshowUv),
 			utils.ConvertToString(v.ApplistokPv), utils.ConvertToString(v.ApplistokUv),
 			utils.ConvertToString(v.Apprun1Pv), utils.ConvertToString(v.Apprun1Uv),
+			v.SelPercent, v.ActivePercent,
 			v.LastUpdate}
 		excelItems = append(excelItems, oneLine)
 	}
@@ -202,6 +203,7 @@ func ExportSSXFDetail(c *gin.Context, cols []map[string]string, items []models.S
 			utils.ConvertToString(v.SetuserdataPv), utils.ConvertToString(v.SetuserdataUv),
 			utils.ConvertToString(v.AdvanceuserPv), utils.ConvertToString(v.AdvanceuserUv),
 			utils.ConvertToString(v.RefectivePv), utils.ConvertToString(v.RefectiveUv),
+			v.ActtionPercent,
 			v.LastUpdate}
 		excelItems = append(excelItems, oneLine)
 	}
