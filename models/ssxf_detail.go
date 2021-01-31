@@ -27,30 +27,37 @@ func (t SsxfDetail) TableName() string {
 }
 
 type SsxfDetailWeb struct {
-	Id            string `json:"id"`
-	EventDay      string `json:"event_day"`
-	Channel       string `json:"channel" `
-	SetuserdataPv int    `json:"SetUserData_pv" xorm:"INT(11)"`
-	SetuserdataUv int    `json:"SetUserData_uv" xorm:"INT(11)"`
-	AdvanceuserPv int    `json:"AdvanceUser_pv" xorm:"INT(11)"`
-	AdvanceuserUv int    `json:"AdvanceUser_uv" xorm:"INT(11)"`
-	RefectivePv   int    `json:"refective_pv" xorm:"INT(11)"`
-	RefectiveUv   int    `json:"refective_uv" xorm:"INT(11)"`
-	LastUpdate    string `json:"last_update" `
+	Id             string `json:"id"`
+	EventDay       string `json:"event_day"`
+	Channel        string `json:"channel" `
+	SetuserdataPv  int    `json:"SetUserData_pv" xorm:"INT(11)"`
+	SetuserdataUv  int    `json:"SetUserData_uv" xorm:"INT(11)"`
+	AdvanceuserPv  int    `json:"AdvanceUser_pv" xorm:"INT(11)"`
+	AdvanceuserUv  int    `json:"AdvanceUser_uv" xorm:"INT(11)"`
+	RefectivePv    int    `json:"refective_pv" xorm:"INT(11)"`
+	RefectiveUv    int    `json:"refective_uv" xorm:"INT(11)"`
+	ActtionPercent string `json:"acttion_percent"`
+	LastUpdate     string `json:"last_update" `
 }
 
 func (t SsxfDetail) CovertWebItem(item *SsxfDetail) SsxfDetailWeb {
+	actionPercent := 0.0
+	if item.RefectiveUv > 0 {
+		actionPercent = float64(item.SetuserdataUv) / float64(item.RefectiveUv)
+	}
+
 	webItem := SsxfDetailWeb{
-		Id:            "",
-		EventDay:      item.EventDay.Format(utils.DayTime),
-		Channel:       item.Channel,
-		SetuserdataPv: item.SetuserdataPv,
-		SetuserdataUv: item.SetuserdataUv,
-		AdvanceuserPv: item.AdvanceuserPv,
-		AdvanceuserUv: item.AdvanceuserUv,
-		RefectivePv:   item.RefectivePv,
-		RefectiveUv:   item.RefectiveUv,
-		LastUpdate:    item.LastUpdate.Format(utils.FullTime),
+		Id:             "",
+		EventDay:       item.EventDay.Format(utils.DayTime),
+		Channel:        item.Channel,
+		SetuserdataPv:  item.SetuserdataPv,
+		SetuserdataUv:  item.SetuserdataUv,
+		AdvanceuserPv:  item.AdvanceuserPv,
+		AdvanceuserUv:  item.AdvanceuserUv,
+		RefectivePv:    item.RefectivePv,
+		RefectiveUv:    item.RefectiveUv,
+		ActtionPercent: utils.ConvertToPercent(actionPercent),
+		LastUpdate:     item.LastUpdate.Format(utils.FullTime),
 	}
 	return webItem
 }
@@ -119,6 +126,14 @@ func (t SsxfDetail) Cols() []map[string]string {
 		"key":   "refective_uv",
 		"click": "0",
 		"raw":   "RefectiveUv",
+	}
+	cols = append(cols, col)
+
+	col = map[string]string{
+		"name":  "下发执行率",
+		"key":   "acttion_percent",
+		"click": "0",
+		"raw":   "ActtionPercent",
 	}
 	cols = append(cols, col)
 

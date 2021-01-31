@@ -17,3 +17,13 @@ func Test_SliceUnique(t *testing.T) {
 	dest := SliceUnique(s)
 	t.Log(dest)
 }
+
+func Test_ConvertToPercent(t *testing.T) {
+	a, b := int(5), int(12)
+
+	t.Log(float64(a) / float64(b))
+
+	v := float64(0.1234)
+	res := ConvertToPercent(v)
+	t.Log(res)
+}
