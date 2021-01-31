@@ -269,7 +269,6 @@ func (t SjtbSoft) GetChartItems(client *xorm.Engine, chn string, tsStart, tsEnd 
 		}
 		chartYlines = append(chartYlines, chartYLine)
 	}
-
 	chartItems := &utils.ChartDetail{
 		XAxis:  chartXvalue,
 		Series: chartYlines,

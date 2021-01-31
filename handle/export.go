@@ -401,8 +401,8 @@ func Export(c *gin.Context) {
 			return
 		}
 		ExportSJTBSoftDetail(c, cols, items)
+		return
 	case "ssxf":
-
 		cols := PingbackCenter.GetSSXFCols()
 		items, _, err := PingbackCenter.GetSSXFItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
 		if err != nil {
@@ -410,5 +410,6 @@ func Export(c *gin.Context) {
 			return
 		}
 		ExportSSXFDetail(c, cols, items)
+		return
 	}
 }
