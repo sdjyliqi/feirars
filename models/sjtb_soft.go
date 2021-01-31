@@ -221,15 +221,16 @@ func (t SjtbSoft) GetItemsByPage(client *xorm.Engine, chn string, pageID, pageCo
 	return items, cnt, nil
 }
 
+//GetChartItems  ...绘图
 func (t SjtbSoft) GetChartItems(client *xorm.Engine, chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error) {
 	chartXvalue := make([]string, 0)
 	chartXDic := map[string]bool{}
 	timeTS, timeTE := utils.ConvertToTime(tsStart), utils.ConvertToTime(tsEnd)
 	var items []*SjtbSoft
-	session := client.Where("event_day>=?", timeTS).And("event_day<=?", timeTE) //.And(fmt.Sprintf("event_type ='%s'", eventKey))
+	session := client.Where("event_day>=?", timeTS).And("event_day<=?", timeTE)
 	if chn != "" {
-		chnList := utils.ChannelList(chn)
-		session = session.In("channel", chnList)
+		//chnList := utils.ChannelList(chn)
+		session = session.In("channel", []string{"all"})
 	}
 	err := session.OrderBy("event_day,channel").
 		Find(&items)
@@ -248,7 +249,7 @@ func (t SjtbSoft) GetChartItems(client *xorm.Engine, chn string, tsStart, tsEnd 
 			chartXDic[xValue] = true
 			chartXvalue = append(chartXvalue, xValue)
 		}
-		idx := fmt.Sprintf("%s%s%s", v.Channel, utils.SepChar, "-")
+		idx := fmt.Sprintf("%s%s%s%s", v.SoftName, utils.SepChar, v.Channel, utils.SepChar)
 		//计算chartApplistokPVValue数据
 		val, ok := chartApplistshowPVValue[idx]
 		if ok {
@@ -278,7 +279,7 @@ func (t SjtbSoft) GetChartItems(client *xorm.Engine, chn string, tsStart, tsEnd 
 	//添加第一条线
 	for k, v := range chartApplistshowPVValue {
 		infos := strings.Split(k, utils.SepChar)
-		lineTitle := fmt.Sprintf("%s渠道ApplistshowPV趋势图", infos[0])
+		lineTitle := fmt.Sprintf("%s%s渠道ApplistshowPV趋势图", infos[0], infos[1])
 		chartYLine := utils.ChartSeriesYValue{
 			Name:      lineTitle,
 			ChartType: "line",
@@ -290,7 +291,7 @@ func (t SjtbSoft) GetChartItems(client *xorm.Engine, chn string, tsStart, tsEnd 
 	//添加第二条线
 	for k, v := range chartApplistshowUVValue {
 		infos := strings.Split(k, utils.SepChar)
-		lineTitle := fmt.Sprintf("%s渠道ApplistshowUv趋势图", infos[0])
+		lineTitle := fmt.Sprintf("%s%s渠道ApplistshowUv趋势图", infos[0], infos[1])
 		chartYLine := utils.ChartSeriesYValue{
 			Name:      lineTitle,
 			ChartType: "line",
