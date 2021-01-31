@@ -327,7 +327,7 @@ func (t SjtbFull) GetChartItems(client *xorm.Engine, chn string, tsStart, tsEnd 
 	//添加第一条线
 	for k, v := range chartApplistokPVValue {
 		infos := strings.Split(k, utils.SepChar)
-		lineTitle := fmt.Sprintf("%s渠道ApplistokUV趋势图", infos[0])
+		lineTitle := fmt.Sprintf("%s渠道ApplistokPV趋势图", infos[0])
 		chartYLine := utils.ChartSeriesYValue{
 			Name:      lineTitle,
 			ChartType: "line",
