@@ -182,6 +182,32 @@ func HandleChannels(c *gin.Context) {
 		}
 		c.JSON(http.StatusOK, gin.H{"code": 0, "items": items})
 		return
+
+	case "md5chk":
+		items, err := PingbackCenter.GetMd5ChkChannel(reqArgs.UserName)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "items": items})
+		return
+	case "update-ssxf":
+		items, err := PingbackCenter.GetUpdateSsxfChannel(reqArgs.UserName)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "items": items})
+		return
+	case "explorer":
+		items, err := PingbackCenter.GetExplorerDetailChannel(reqArgs.UserName)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "items": items})
+		return
+
 	}
 	c.JSON(http.StatusOK, gin.H{"code": 400, "msg": "type参数错误"})
 }

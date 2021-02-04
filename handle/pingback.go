@@ -203,6 +203,37 @@ func HandlePingbak(c *gin.Context) {
 		}
 		c.JSON(http.StatusOK, gin.H{"code": 0, "cols": cols, "items": items, "total": count})
 		return
+
+	case "md5chk":
+		cols := PingbackCenter.GetMd5ChkCols()
+		items, count, err := PingbackCenter.GetMd5ChkItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "cols": cols, "items": items, "total": count})
+		return
+
+	case "update-ssxf":
+		cols := PingbackCenter.GetUpdateSsxfCols()
+		items, count, err := PingbackCenter.GetUpdateSsxfItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "cols": cols, "items": items, "total": count})
+		return
+
+	case "explorer":
+		cols := PingbackCenter.GetExplorerDetailCols()
+		items, count, err := PingbackCenter.GetExplorerDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "cols": cols, "items": items, "total": count})
+		return
 	}
+
 	c.JSON(http.StatusOK, gin.H{"code": 400, "msg": "type参数错误"})
 }

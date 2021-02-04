@@ -44,6 +44,7 @@ func HistoryCalculator(c *gin.Context) {
 		}
 		c.JSON(http.StatusOK, gin.H{"code": 0, "cols": cols, "items": items})
 		return
+
 	}
 	c.JSON(http.StatusOK, gin.H{"code": 400, "msg": "参数错误"})
 }
