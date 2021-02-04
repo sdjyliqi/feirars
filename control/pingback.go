@@ -78,6 +78,24 @@ type PingbackCenter interface {
 	GetSSXFCols() []map[string]string
 	GetSSXFChannel(name string) ([]string, error)
 	GetSSXFChart(chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error)
+
+	//md5chk
+	GetMd5ChkItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.Md5CheckWeb, int64, error) //获取客户端弹窗统计数据
+	GetMd5ChkCols() []map[string]string
+	GetMd5ChkChannel(name string) ([]string, error)
+	GetMd5ChkChart(chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error)
+
+	//update ssxf
+	GetUpdateSsxfItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.UpdateSsxfWeb, int64, error) //获取客户端弹窗统计数据
+	GetUpdateSsxfCols() []map[string]string
+	GetUpdateSsxfChannel(name string) ([]string, error)
+	GetUpdateSsxfChart(chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error)
+
+	//ExplorerDetail
+	GetExplorerDetailItems(chn string, pageID, pageCount int, tsStart, tsEnd int64) ([]models.ExplorerDetailWeb, int64, error) //获取客户端弹窗统计数据
+	GetExplorerDetailCols() []map[string]string
+	GetExplorerDetailChannel(name string) ([]string, error)
+	GetExplorerDetailChart(chn string, tsStart, tsEnd int64) (*utils.ChartDetail, error)
 }
 
 type pingbackCenter struct {
@@ -94,6 +112,9 @@ type pingbackCenter struct {
 	sjtbFull        models.SjtbFull
 	sjtbSoft        models.SjtbSoft
 	ssxfDetail      models.SsxfDetail
+	md5chk          models.Md5Check
+	updateSSXF      models.UpdateSsxf
+	explorer        models.ExplorerDetail
 }
 
 func CreatePingbackCenter(cfg *conf.FeirarConfig) PingbackCenter {
