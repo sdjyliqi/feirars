@@ -220,6 +220,80 @@ func ExportSSXFDetail(c *gin.Context, cols []map[string]string, items []models.S
 	c.File(filePath)
 }
 
+func ExportMD5CheckDetail(c *gin.Context, cols []map[string]string, items []models.Md5CheckWeb) {
+	excelTitleLine := utils.CreateExcelTitle(cols)
+	var excelItems [][]string
+	for _, v := range items {
+		oneLine := []string{v.EventDay, v.SoftName, v.Channel,
+			utils.ConvertToString(v.Mdcheck1Pv), utils.ConvertToString(v.Mdcheck1Uv),
+			utils.ConvertToString(v.Mdcheck0Pv), utils.ConvertToString(v.Mdcheck0Uv),
+			utils.ConvertToString(v.Appdown1Pv), utils.ConvertToString(v.Appdown1Uv),
+			v.LastUpdate}
+		excelItems = append(excelItems, oneLine)
+	}
+
+	filePath, err := utils.CreateExcelFile(excelTitleLine, excelItems)
+	if err != nil {
+		c.Error(errors.New("暂时无法导出excel，请稍后重新"))
+		return
+	}
+	time.Sleep(1 * time.Second)
+	c.Header("Content-Type", "application/octet-stream")
+	c.Header("Content-Disposition", "attachment; filename="+filePath)
+	c.Header("Content-Transfer-Encoding", "binary")
+	c.File(filePath)
+}
+
+func ExportExplorerDetail(c *gin.Context, cols []map[string]string, items []models.ExplorerDetailWeb) {
+	excelTitleLine := utils.CreateExcelTitle(cols)
+	var excelItems [][]string
+	for _, v := range items {
+		oneLine := []string{v.EventDay, v.Channel,
+			utils.ConvertToString(v.ShellconfigThreadPv), utils.ConvertToString(v.ShellconfigThreadUv),
+			utils.ConvertToString(v.HelpconfigOpenfilePv), utils.ConvertToString(v.HelpconfigOpenfileUv),
+			utils.ConvertToString(v.HelpconfigThreadPv), utils.ConvertToString(v.HelpconfigThreadUv),
+			utils.ConvertToString(v.KeepalivePv), utils.ConvertToString(v.KeepaliveUv),
+			v.LastUpdate}
+		excelItems = append(excelItems, oneLine)
+	}
+
+	filePath, err := utils.CreateExcelFile(excelTitleLine, excelItems)
+	if err != nil {
+		c.Error(errors.New("暂时无法导出excel，请稍后重新"))
+		return
+	}
+	time.Sleep(1 * time.Second)
+	c.Header("Content-Type", "application/octet-stream")
+	c.Header("Content-Disposition", "attachment; filename="+filePath)
+	c.Header("Content-Transfer-Encoding", "binary")
+	c.File(filePath)
+}
+
+func ExportUpdateSSXFDetail(c *gin.Context, cols []map[string]string, items []models.UpdateSsxfWeb) {
+	excelTitleLine := utils.CreateExcelTitle(cols)
+	var excelItems [][]string
+	for _, v := range items {
+		oneLine := []string{v.EventDay, v.Channel,
+			utils.ConvertToString(v.RefectivePv), utils.ConvertToString(v.RefectiveUv),
+			utils.ConvertToString(v.GetupdaterecommPv), utils.ConvertToString(v.GetupdaterecommUv),
+			utils.ConvertToString(v.UpdatePv), utils.ConvertToString(v.UpdateUv),
+			utils.ConvertToString(v.ReportconfigPv), utils.ConvertToString(v.ReportconfigUv),
+			v.LastUpdate}
+		excelItems = append(excelItems, oneLine)
+	}
+
+	filePath, err := utils.CreateExcelFile(excelTitleLine, excelItems)
+	if err != nil {
+		c.Error(errors.New("暂时无法导出excel，请稍后重新"))
+		return
+	}
+	time.Sleep(1 * time.Second)
+	c.Header("Content-Type", "application/octet-stream")
+	c.Header("Content-Disposition", "attachment; filename="+filePath)
+	c.Header("Content-Transfer-Encoding", "binary")
+	c.File(filePath)
+}
+
 type ExportArgs struct {
 	ModuleName string `json:"type" form:"type" binding:"required"`
 	PageID     int    `json:"page" form:"page" `
@@ -414,5 +488,35 @@ func Export(c *gin.Context) {
 		}
 		ExportSSXFDetail(c, cols, items)
 		return
+	case "md5chk":
+		cols := PingbackCenter.GetMd5ChkCols()
+		items, _, err := PingbackCenter.GetMd5ChkItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		ExportMD5CheckDetail(c, cols, items)
+		return
+
+	case "update-ssxf":
+		cols := PingbackCenter.GetUpdateSsxfCols()
+		items, _, err := PingbackCenter.GetUpdateSsxfItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		ExportUpdateSSXFDetail(c, cols, items)
+		return
+
+	case "explorer":
+		cols := PingbackCenter.GetExplorerDetailCols()
+		items, _, err := PingbackCenter.GetExplorerDetailItems(reqArgs.Channels, reqArgs.PageID, reqArgs.PageCount, reqArgs.TimeStart, reqArgs.TimeEnd)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		ExportExplorerDetail(c, cols, items)
+		return
+
 	}
 }

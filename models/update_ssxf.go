@@ -41,8 +41,7 @@ type UpdateSsxfWeb struct {
 	UpdateUv          int    `json:"update_uv" `
 	ReportconfigPv    int    `json:"reportconfig_pv" `
 	ReportconfigUv    int    `json:"reportconfig_uv"`
-
-	LastUpdate string `json:"last_update" `
+	LastUpdate        string `json:"last_update" `
 }
 
 func (t UpdateSsxf) CovertWebItem(item *UpdateSsxf) UpdateSsxfWeb {
