@@ -55,10 +55,9 @@ func (t UpdateSsxf) CovertWebItem(item *UpdateSsxf) UpdateSsxfWeb {
 		GetupdaterecommUv: item.GetupdaterecommUv,
 		UpdatePv:          item.UpdatePv,
 		UpdateUv:          item.UpdateUv,
-		ReportconfigPv:    item.ReportconfigUv,
-		ReportconfigUv:    item.ReportconfigPv,
-
-		LastUpdate: item.LastUpdate.Format(utils.FullTime),
+		ReportconfigPv:    item.ReportconfigPv,
+		ReportconfigUv:    item.ReportconfigUv,
+		LastUpdate:        item.LastUpdate.Format(utils.FullTime),
 	}
 	return webItem
 }
