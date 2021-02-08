@@ -137,14 +137,6 @@ func (t ExplorerDetail) Cols() []map[string]string {
 	cols = append(cols, col)
 
 	col = map[string]string{
-		"name":  "HelpconfigThreadUv",
-		"key":   "helpconfig_thread_uv",
-		"click": "0",
-		"raw":   "HelpconfigThreadUv",
-	}
-	cols = append(cols, col)
-
-	col = map[string]string{
 		"name":  "KeepalivePv",
 		"key":   "keepalive_pv",
 		"click": "0",
