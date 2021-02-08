@@ -89,14 +89,6 @@ func (t ExplorerDetail) Cols() []map[string]string {
 	cols = append(cols, col)
 
 	col = map[string]string{
-		"name":  "SetuserdataUv",
-		"key":   "SetUserData_uv",
-		"click": "0",
-		"raw":   "SetuserdataUv",
-	}
-	cols = append(cols, col)
-
-	col = map[string]string{
 		"name":  "ShellconfigThreadUv",
 		"key":   "shellconfig_thread_uv",
 		"click": "0",
