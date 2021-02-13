@@ -211,8 +211,8 @@ func (t UpdateSsxf) GetChartItems(client *xorm.Engine, chn string, tsStart, tsEn
 	var items []*UpdateSsxf
 	session := client.Where("event_day>=?", timeTS).And("event_day<=?", timeTE) //.And(fmt.Sprintf("event_type ='%s'", eventKey))
 	if chn != "" {
-		chnList := utils.ChannelList(chn)
-		session = session.In("channel", chnList)
+		//chnList := utils.ChannelList(chn)
+		session = session.In("channel", []string{"all"})
 	}
 	err := session.OrderBy("event_day,channel").
 		Find(&items)

@@ -280,8 +280,8 @@ func (t SjtbFull) GetItemsByPage(client *xorm.Engine, chn string, pageID, pageCo
 	item := &SjtbFull{}
 	session := client.Where("event_day>=?", timeTS).And("event_day<=?", timeTE)
 	if chn != "" {
-		chnList := utils.ChannelList(chn)
-		session = session.In("channel", chnList)
+		//chnList := utils.ChannelList(chn)
+		session = session.In("channel", []string{"all"})
 	}
 	session = session.Desc("event_day")
 	if pageCount > 0 {
