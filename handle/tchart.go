@@ -175,6 +175,33 @@ func HandleChart(c *gin.Context) {
 		}
 		c.JSON(http.StatusOK, gin.H{"code": 0, "data": items})
 		return
+
+	case "md5chk":
+		items, err := PingbackCenter.GetMd5ChkChart(reqArgs.Channels, reqArgs.TimeStart, reqArgs.TimeEnd)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "data": items})
+		return
+
+	case "update-ssxf":
+		items, err := PingbackCenter.GetUpdateSsxfChart(reqArgs.Channels, reqArgs.TimeStart, reqArgs.TimeEnd)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "data": items})
+		return
+
+	case "explorer":
+		items, err := PingbackCenter.GetExplorerDetailChart(reqArgs.Channels, reqArgs.TimeStart, reqArgs.TimeEnd)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": 500, "msg": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "data": items})
+		return
 	}
 	//2021
 	c.JSON(http.StatusOK, gin.H{"code": 400, "msg": "type参数错误"})
