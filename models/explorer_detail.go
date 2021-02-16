@@ -272,7 +272,7 @@ func (t ExplorerDetail) GetChartItems(client *xorm.Engine, chn string, tsStart, 
 	//添加第二条线
 	for k, v := range chartUVValue {
 		infos := strings.Split(k, utils.SepChar)
-		lineTitle := fmt.Sprintf("%s渠道shellconfig_thread_pvUv趋势图", infos[0])
+		lineTitle := fmt.Sprintf("%s渠道shellconfig_thread_Uv趋势图", infos[0])
 		chartYLine := utils.ChartSeriesYValue{
 			Name:      lineTitle,
 			ChartType: "line",
