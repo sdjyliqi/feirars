@@ -280,8 +280,8 @@ func (t SjtbFull) GetItemsByPage(client *xorm.Engine, chn string, pageID, pageCo
 	item := &SjtbFull{}
 	session := client.Where("event_day>=?", timeTS).And("event_day<=?", timeTE)
 	if chn != "" {
-		//chnList := utils.ChannelList(chn)
-		session = session.In("channel", []string{"all"})
+		chnList := utils.ChannelList(chn)
+		session = session.In("channel", chnList)
 	}
 	session = session.Desc("event_day")
 	if pageCount > 0 {
@@ -314,7 +314,8 @@ func (t SjtbFull) GetChartItems(client *xorm.Engine, chn string, tsStart, tsEnd 
 	var items []*SjtbFull
 	session := client.Where("event_day>=?", timeTS).And("event_day<=?", timeTE) //.And(fmt.Sprintf("event_type ='%s'", eventKey))
 	if chn != "" {
-		chnList := utils.ChannelList(chn)
+		//chnList := utils.ChannelList(chn)
+		chnList := []string{"all"}
 		session = session.In("channel", chnList)
 	}
 	err := session.OrderBy("event_day,channel").
